@@ -9,4 +9,10 @@ import org.springframework.context.annotation.Configuration;
 @AllArgsConstructor
 @Configuration
 public class AppConfig {
+    private final UserRepository userRepository;
+
+    @Bean
+    public UserService userService(){
+        return new UserService(userRepository);
+    }
 }
