@@ -2,11 +2,11 @@ package com.bbogle.yanu.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Builder
 @Getter
+@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity (name = "users")
 public class UserEntity {
@@ -38,4 +38,5 @@ public class UserEntity {
 
     @Column
     private Boolean is_farmer;
+
 }
