@@ -5,6 +5,7 @@ import com.bbogle.yanu.dto.user.RegisterRequestDto;
 import com.bbogle.yanu.entity.UserEntity;
 import com.bbogle.yanu.exception.EmailDuplicateException;
 import com.bbogle.yanu.exception.PasswordNotFoundException;
+import com.bbogle.yanu.exception.UserNotFoundException;
 import com.bbogle.yanu.exception.error.ErrorCode;
 import com.bbogle.yanu.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -50,5 +51,10 @@ public class UserService {
         if(!passwordEncoder.matches(password, hashedPassword)){
             throw new PasswordNotFoundException("password not found", ErrorCode.PASSWORD_NOTFOUND);
         }
+    }
+
+    public UserEntity findByUser(Long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
     }
 }
