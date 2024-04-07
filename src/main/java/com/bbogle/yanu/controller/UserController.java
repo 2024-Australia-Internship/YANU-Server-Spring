@@ -1,6 +1,8 @@
 package com.bbogle.yanu.controller;
 
+import com.bbogle.yanu.dto.user.LoginRequestDto;
 import com.bbogle.yanu.dto.user.RegisterRequestDto;
+import com.bbogle.yanu.dto.user.UserIdResponseDto;
 import com.bbogle.yanu.entity.UserEntity;
 import com.bbogle.yanu.service.UserService;
 import lombok.AllArgsConstructor;
@@ -23,5 +25,11 @@ public class UserController {
     public ResponseEntity<String> registerUser(@RequestBody RegisterRequestDto request) {
         userService.registerUser(request);
         return ResponseEntity.status(HttpStatus.CREATED).body("회원가입에 성공했습니다");
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<UserIdResponseDto> loginUser (@RequestBody LoginRequestDto request){
+        Long id = userService.loginUser(request);
+        return ResponseEntity.ok().body(new UserIdResponseDto(id));
     }
 }
