@@ -3,6 +3,7 @@ package com.bbogle.yanu.exception.error;
 import com.bbogle.yanu.exception.EmailDuplicateException;
 import com.bbogle.yanu.exception.EmailNotFoundException;
 import com.bbogle.yanu.exception.PasswordNotFoundException;
+import com.bbogle.yanu.exception.UserNotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +37,13 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(PasswordNotFoundException.class)
     public ResponseEntity<ErrorResponse> handlePasswordNotFoundException(PasswordNotFoundException ex){
         log.error("handlePasswordNotFoundException",ex);
+        ErrorResponse response = new ErrorResponse(ex.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
+    }
+
+    @ExceptionHandler(UserNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleUserNotFoundException(PasswordNotFoundException ex){
+        log.error("handleUserNotFoundException", ex);
         ErrorResponse response = new ErrorResponse(ex.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
     }
