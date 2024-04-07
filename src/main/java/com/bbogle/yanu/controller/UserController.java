@@ -42,4 +42,10 @@ public class UserController {
         return ResponseEntity.ok().body(new UserIdResponseDto(user));
     }
 
+    @PostMapping("/duplication/{email}")
+    public ResponseEntity<String> duplicateEmail (@PathVariable("email") String email){
+        userService.duplicateEmail(email);
+        return ResponseEntity.ok().body("사용 가능한 이메일 입니다.");
+    }
+
 }
