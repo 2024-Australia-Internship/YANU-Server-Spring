@@ -2,10 +2,8 @@ package com.bbogle.yanu.controller;
 
 import com.bbogle.yanu.dto.user.LoginRequestDto;
 import com.bbogle.yanu.dto.user.RegisterRequestDto;
-import com.bbogle.yanu.dto.user.UserIdResponseDto;
-import com.bbogle.yanu.entity.UserEntity;
+import com.bbogle.yanu.dto.user.LoginResponseDto;
 import com.bbogle.yanu.service.UserService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +26,10 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<UserIdResponseDto> loginUser (@RequestBody LoginRequestDto request){
+    public ResponseEntity<LoginResponseDto> loginUser (@RequestBody LoginRequestDto request){
         Long id = userService.loginUser(request);
-        return ResponseEntity.ok().body(new UserIdResponseDto(id));
+        return ResponseEntity.ok().body(new LoginResponseDto(id));
     }
+
+
 }
