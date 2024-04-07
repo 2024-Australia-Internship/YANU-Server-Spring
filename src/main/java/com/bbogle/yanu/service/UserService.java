@@ -26,7 +26,7 @@ public class UserService {
 
         userRepository.save(request.toEntity(password));
     }
-    void duplicateEmail(String email){
+    public void duplicateEmail(String email){
         if(userRepository.existsByEmail(email)){
             throw new EmailDuplicateException("email duplicated", ErrorCode.EMAIL_DUPLICATION);
         }
@@ -57,4 +57,5 @@ public class UserService {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
     }
+
 }
