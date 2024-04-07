@@ -1,9 +1,6 @@
 package com.bbogle.yanu.controller;
 
-import com.bbogle.yanu.dto.user.LoginRequestDto;
-import com.bbogle.yanu.dto.user.RegisterRequestDto;
-import com.bbogle.yanu.dto.user.LoginResponseDto;
-import com.bbogle.yanu.dto.user.UserIdResponseDto;
+import com.bbogle.yanu.dto.user.*;
 import com.bbogle.yanu.entity.UserEntity;
 import com.bbogle.yanu.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,4 +45,9 @@ public class UserController {
         return ResponseEntity.ok().body("사용 가능한 이메일 입니다.");
     }
 
+    @PutMapping("/password")
+    public ResponseEntity<String> updatePassword (@RequestBody PasswordUpdateRequestDto request) {
+        userService.updatePassword(request);
+        return ResponseEntity.ok().body("비밀번호 변경에 성공하였습니다.");
+    }
 }
