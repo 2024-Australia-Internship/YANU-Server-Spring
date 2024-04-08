@@ -1,4 +1,7 @@
 package com.bbogle.yanu.repository;
 
-public interface FarmRepository {
+import com.bbogle.yanu.entity.FarmEntity;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface FarmRepository extends JpaRepository<FarmEntity, Long> {
 }
