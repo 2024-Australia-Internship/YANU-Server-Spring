@@ -14,6 +14,8 @@ public class RegisterRequestDto {
                 .email(email)
                 .password(password)
                 .phonenumber(phonenumber)
+                .is_farmer(false)
+                .ugly_percent((byte) 0)
                 .build();
     }
 }
