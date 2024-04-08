@@ -6,6 +6,7 @@ import com.bbogle.yanu.dto.user.RegisterRequestDto;
 import com.bbogle.yanu.entity.UserEntity;
 import com.bbogle.yanu.exception.EmailDuplicateException;
 import com.bbogle.yanu.exception.PasswordNotFoundException;
+import com.bbogle.yanu.exception.PhoneNumberDuplicateException;
 import com.bbogle.yanu.exception.UserNotFoundException;
 import com.bbogle.yanu.exception.error.ErrorCode;
 import com.bbogle.yanu.repository.UserRepository;
@@ -23,9 +24,11 @@ public class UserService {
 
     public void registerUser(RegisterRequestDto request){
         String email = request.getEmail();
+        String phonenumber = request.getPhonenumber();
         String password = passwordEncoder.encode(request.getPassword());
 
         duplicateEmail(email);
+        duplicatePhonenumber(phonenumber);
 
         userRepository.save(request.toEntity(password));
     }
@@ -34,6 +37,13 @@ public class UserService {
             throw new EmailDuplicateException("email duplicated", ErrorCode.EMAIL_DUPLICATION);
         }
     }
+
+    public void duplicatePhonenumber(String phonenumber){
+        if(userRepository.existsByPhonenumber(phonenumber)){
+            throw new PhoneNumberDuplicateException("phone duplicated", ErrorCode.PHONENUMBER_DUPLICATION);
+        }
+    }
+
     public Long loginUser(LoginRequestDto request){
         String email = request.getEmail();
         String password = request.getPassword();
