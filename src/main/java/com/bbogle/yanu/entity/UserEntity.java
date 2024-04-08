@@ -39,4 +39,7 @@ public class UserEntity {
     @Column
     private Boolean is_farmer;
 
+    @JsonIgnore
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private FarmEntity farmEntity;
 }
