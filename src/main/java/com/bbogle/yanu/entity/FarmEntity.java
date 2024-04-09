@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Builder
 @Getter
 @AllArgsConstructor
@@ -34,4 +36,7 @@ public class FarmEntity {
     @Column
     private String address;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "farm", cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<ProductsEntity> productsEntity;
 }
