@@ -3,6 +3,7 @@ package com.bbogle.yanu.controller;
 import com.bbogle.yanu.dto.user.*;
 import com.bbogle.yanu.entity.UserEntity;
 import com.bbogle.yanu.service.UserService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,14 +13,10 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
-
-    @Autowired
-    public UserController(UserService userService){
-        this.userService = userService;
-    }
 
     @PostMapping
     public ResponseEntity<String> registerUser(@RequestBody RegisterRequestDto request) {
