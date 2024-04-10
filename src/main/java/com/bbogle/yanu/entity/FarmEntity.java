@@ -1,7 +1,10 @@
 package com.bbogle.yanu.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.util.List;
 
 @Builder
 @Getter
@@ -13,6 +16,7 @@ public class FarmEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @JsonIgnore
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private UserEntity user;
@@ -31,4 +35,8 @@ public class FarmEntity {
 
     @Column
     private String address;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "farm", cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<ProductsEntity> productsEntity;
 }
