@@ -12,7 +12,8 @@ public enum ErrorCode {
     PHONENUMBER_DUPLICATION(400, "USER-ERROR-400", "이미 가입된 전화번호 입니다"),
     EMAIL_NOTFOUND(404, "USER-ERROR-404", "등록된 이메일이 아닙니다"),
     PASSWORD_NOTFOUND(404, "USER-ERROR-404", "비밀번호가 일치하지 않습니다"),
-    USER_NOTFOUND(404,"USER-ERROR-404", "해당 사용자를 찾을 수 없습니다");
+    USER_NOTFOUND(404,"USER-ERROR-404", "해당 사용자를 찾을 수 없습니다"),
+    PRODUCT_NOTFOUND(404, "PRODUCT-ERROR-404", "해당 상품을 찾을 수 없습니다");
 
     private int status;
     private String errorCode;
