@@ -35,7 +35,7 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{farm_id}")
+    @GetMapping("farm/{farm_id}")
     public List<ProductFarmResponseDto> findAllFarm(@PathVariable ("farm_id") Long id){
         List<ProductEntity> products = productService.findAllFarm(id);
         return products.stream()
@@ -43,7 +43,7 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{product_id}")
+    @GetMapping("product/{product_id}")
     public ResponseEntity<ProductResponseDto> findByProduct(@PathVariable ("product_id") Long id){
         ProductEntity product = productService.findByProduct(id);
         return ResponseEntity.ok().body(new ProductResponseDto(product));
