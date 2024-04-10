@@ -38,5 +38,5 @@ public class FarmEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "farm", cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
-    private List<ProductsEntity> productsEntity;
+    private List<ProductEntity> productEntity;
 }

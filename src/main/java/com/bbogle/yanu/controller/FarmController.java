@@ -4,20 +4,17 @@ import com.bbogle.yanu.dto.farm.FarmUserResponseDto;
 import com.bbogle.yanu.dto.farm.RegisterFarmRequestDto;
 import com.bbogle.yanu.entity.FarmEntity;
 import com.bbogle.yanu.service.FarmService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequiredArgsConstructor
 @RequestMapping("/farms")
 public class FarmController {
     private final FarmService farmService;
-
-    @Autowired
-    public FarmController(FarmService farmService){
-        this.farmService = farmService;
-    }
 
     @PostMapping()
     public ResponseEntity<String> registerFarm(@RequestBody RegisterFarmRequestDto request){
