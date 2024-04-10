@@ -1,5 +1,6 @@
 package com.bbogle.yanu.service;
 
+import com.bbogle.yanu.controller.ProductController;
 import com.bbogle.yanu.dto.product.RegisterProductRequestDto;
 import com.bbogle.yanu.entity.ProductEntity;
 import com.bbogle.yanu.repository.ProductRepository;
@@ -19,5 +20,9 @@ public class ProductService {
 
     public List<ProductEntity> findAllProduct(){
         return productRepository.findAll();
+    }
+
+    public List<ProductEntity> findAllFarm(Long id){
+        return productRepository.findAllByFarmId(id);
     }
 }
