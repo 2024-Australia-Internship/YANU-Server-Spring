@@ -1,7 +1,7 @@
 package com.bbogle.yanu.controller;
 
 import com.bbogle.yanu.dto.product.ProductFarmResponseDto;
-import com.bbogle.yanu.dto.product.ProductResponseDto;
+import com.bbogle.yanu.dto.product.ProductAllResponseDto;
 import com.bbogle.yanu.dto.product.RegisterProductRequestDto;
 import com.bbogle.yanu.entity.ProductEntity;
 import com.bbogle.yanu.service.ProductService;
@@ -26,10 +26,10 @@ public class ProductController {
     }
 
     @GetMapping
-    public List<ProductResponseDto> findAllProduct(){
+    public List<ProductAllResponseDto> findAllProduct(){
         List<ProductEntity> prodcts = productService.findAllProduct();
         return prodcts.stream()
-                .map(ProductResponseDto::new)
+                .map(ProductAllResponseDto::new)
                 .collect(Collectors.toList());
     }
 
@@ -40,4 +40,6 @@ public class ProductController {
                 .map(ProductFarmResponseDto::new)
                 .collect(Collectors.toList());
     }
+
+
 }
