@@ -2,6 +2,7 @@ package com.bbogle.yanu.controller;
 
 import com.bbogle.yanu.dto.product.ProductFarmResponseDto;
 import com.bbogle.yanu.dto.product.ProductAllResponseDto;
+import com.bbogle.yanu.dto.product.ProductResponseDto;
 import com.bbogle.yanu.dto.product.RegisterProductRequestDto;
 import com.bbogle.yanu.entity.ProductEntity;
 import com.bbogle.yanu.service.ProductService;
@@ -11,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -41,5 +43,10 @@ public class ProductController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/{product_id}")
+    public ResponseEntity<ProductResponseDto> findByProduct(@PathVariable ("product_id") Long id){
+        ProductEntity product = productService.findByProduct(id);
+        return ResponseEntity.ok().body(new ProductResponseDto(product));
+    }
 
 }
