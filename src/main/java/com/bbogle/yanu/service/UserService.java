@@ -10,6 +10,8 @@ import com.bbogle.yanu.exception.PhoneNumberDuplicateException;
 import com.bbogle.yanu.exception.UserNotFoundException;
 import com.bbogle.yanu.exception.error.ErrorCode;
 import com.bbogle.yanu.repository.UserRepository;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -44,7 +46,7 @@ public class UserService {
         }
     }
 
-    public Long loginUser(LoginRequestDto request){
+    public Long loginUser(LoginRequestDto request, HttpServletRequest httpRequest){
         String email = request.getEmail();
         String password = request.getPassword();
 
@@ -52,6 +54,10 @@ public class UserService {
 
         UserEntity userEntity = userRepository.findByEmail(email);
         checkPassword(password, userEntity.getPassword());
+
+        HttpSession session = httpRequest.getSession(true);
+        session.setAttribute("userId", userEntity.getId());
+        session.setMaxInactiveInterval(1800);
 
         return userEntity.getId();
     }

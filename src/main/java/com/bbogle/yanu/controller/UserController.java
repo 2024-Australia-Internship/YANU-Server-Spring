@@ -3,6 +3,7 @@ package com.bbogle.yanu.controller;
 import com.bbogle.yanu.dto.user.*;
 import com.bbogle.yanu.entity.UserEntity;
 import com.bbogle.yanu.service.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +18,7 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final HttpServletRequest httpServletRequest;
 
     @PostMapping
     public ResponseEntity<String> registerUser(@RequestBody RegisterRequestDto request) {
@@ -26,8 +28,9 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> loginUser (@RequestBody LoginRequestDto request){
-        Long id = userService.loginUser(request);
-        return ResponseEntity.ok().body(new LoginResponseDto(id));
+        Long id = userService.loginUser(request, httpServletRequest);
+        return ResponseEntity.ok()
+                .body(new LoginResponseDto(id));
     }
 
     @GetMapping("/{user_id}")
