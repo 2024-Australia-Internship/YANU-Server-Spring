@@ -58,4 +58,18 @@ public class GlobalExceptionHandler {
         ErrorResponse response = new ErrorResponse(ex.getErrorCode());
         return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
     }
+
+    @ExceptionHandler(HeartDuplicateException.class)
+    public ResponseEntity<ErrorResponse> handleHeartDuplicateException(HeartDuplicateException ex){
+        log.error("handleHeartDuplicateException", ex);
+        ErrorResponse response = new ErrorResponse(ex.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
+    }
+    @ExceptionHandler(HeartNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleHeartNotFoundException(HeartNotFoundException ex){
+        log.error("handleHeartNotFoundException", ex);
+        ErrorResponse response = new ErrorResponse(ex.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
+    }
+
 }

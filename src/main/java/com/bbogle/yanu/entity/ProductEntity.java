@@ -1,7 +1,11 @@
 package com.bbogle.yanu.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+
+import javax.swing.*;
+import java.util.List;
 
 @Builder
 @Getter
@@ -34,5 +38,9 @@ public class ProductEntity {
 
     @Column(columnDefinition = "TEXT")
     private String description;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "product",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<FavoriteEntity> favoriteEntity;
 
 }
