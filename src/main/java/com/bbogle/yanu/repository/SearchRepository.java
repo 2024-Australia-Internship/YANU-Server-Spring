@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface ServiceRepository extends JpaRepository<ProductEntity, Long> {
+public interface SearchRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findAllByTitleContaining(String keyword);
 
 }
