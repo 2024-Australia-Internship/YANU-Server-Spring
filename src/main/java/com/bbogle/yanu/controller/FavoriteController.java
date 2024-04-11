@@ -1,12 +1,17 @@
 package com.bbogle.yanu.controller;
 
 import com.bbogle.yanu.dto.favorite.DeleteHeartRequestDto;
+import com.bbogle.yanu.dto.favorite.FindHeartResponseDto;
 import com.bbogle.yanu.dto.favorite.RegisterHeartRequestDto;
+import com.bbogle.yanu.entity.FavoriteEntity;
 import com.bbogle.yanu.service.FavoriteService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,5 +30,14 @@ public class FavoriteController {
         favoriteService.deleteHeart(request);
         return ResponseEntity.ok().body("하트 삭제 성공했습니다.");
     }
+
+    @GetMapping("/{type}/{user_id}")
+    public List<FindHeartResponseDto> findHeart(@PathVariable("type") String type, @PathVariable("user_id") Long id){
+        List<FavoriteEntity> hearts = favoriteService.findHeart(type, id);
+        return hearts.stream()
+                .map(FindHeartResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
 
 }
