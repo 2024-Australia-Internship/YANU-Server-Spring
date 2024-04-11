@@ -3,10 +3,8 @@ package com.bbogle.yanu.dto.product;
 import com.bbogle.yanu.entity.ProductEntity;
 import lombok.Getter;
 
-import java.util.Optional;
-
 @Getter
-public class ProductResponseDto {
+public class ProductAllResponseDto {
     private Long farmId;
     private String title;
     private String category;
@@ -15,7 +13,7 @@ public class ProductResponseDto {
     private String unit;
     private String description;
 
-    public ProductResponseDto(ProductEntity productEntity) {
+    public ProductAllResponseDto(ProductEntity productEntity) {
         this.farmId = productEntity.getFarm().getId();
         this.title = productEntity.getTitle();
         this.category = productEntity.getCategory();
