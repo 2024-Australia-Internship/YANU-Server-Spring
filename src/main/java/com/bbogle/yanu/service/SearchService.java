@@ -21,4 +21,12 @@ public class SearchService {
         }
         return searchResult;
     }
+
+    public List<ProductEntity> searchTypeProduct(String keyword, String type){
+        List<ProductEntity> searchResult = serviceRepository.findAllByTitleContainingAndCategory(keyword, type);
+        if (searchResult.isEmpty()) {
+            throw new ProductNotFoundException("product not found", ErrorCode.PRODUCT_NOTFOUND);
+        }
+        return searchResult;
+    }
 }
