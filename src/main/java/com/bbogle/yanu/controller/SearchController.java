@@ -1,6 +1,7 @@
 package com.bbogle.yanu.controller;
 
 import com.bbogle.yanu.dto.search.SearchResponseDto;
+import com.bbogle.yanu.dto.search.SearchTypeResponseDto;
 import com.bbogle.yanu.entity.ProductEntity;
 import com.bbogle.yanu.service.SearchService;
 import lombok.RequiredArgsConstructor;
@@ -23,6 +24,14 @@ public class SearchController {
         List<ProductEntity> products = searchService.searchProduct(keyword);
         return products.stream()
                 .map(SearchResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/{keyword}/{type}")
+    public List<SearchTypeResponseDto> searchTypeProduct(@PathVariable ("keyword") String keyword, @PathVariable("type") String type){
+        List<ProductEntity> products = searchService.searchTypeProduct(keyword, type);
+        return products.stream()
+                .map(SearchTypeResponseDto::new)
                 .collect(Collectors.toList());
     }
 }
