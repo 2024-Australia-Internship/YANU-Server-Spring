@@ -8,5 +8,6 @@ import java.util.List;
 
 public interface SearchRepository extends JpaRepository<ProductEntity, Long> {
     List<ProductEntity> findAllByTitleContaining(String keyword);
+    List<ProductEntity> findAllByTitleContainingAndCategory(String keyword, String type);
 
 }
