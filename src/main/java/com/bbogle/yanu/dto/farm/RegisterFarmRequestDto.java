@@ -3,8 +3,9 @@ package com.bbogle.yanu.dto.farm;
 import com.bbogle.yanu.entity.FarmEntity;
 import com.bbogle.yanu.entity.UserEntity;
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 public class RegisterFarmRequestDto {
     private UserEntity userId;
     private String business_name;

@@ -2,12 +2,15 @@ package com.bbogle.yanu.service;
 
 import com.bbogle.yanu.dto.favorite.DeleteHeartRequestDto;
 import com.bbogle.yanu.dto.favorite.RegisterHeartRequestDto;
+import com.bbogle.yanu.entity.FavoriteEntity;
 import com.bbogle.yanu.exception.HeartDuplicateException;
 import com.bbogle.yanu.exception.error.ErrorCode;
 import com.bbogle.yanu.repository.FavoriteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -38,5 +41,9 @@ public class FavoriteService {
         }
 
         favoriteRepository.deleteByUserIdAndProductIdAndType(userId, productId, type);
+    }
+
+    public List<FavoriteEntity> findHeart(String type, Long id){
+        return favoriteRepository.findAllByTypeAndUserId(type, id);
     }
 }
