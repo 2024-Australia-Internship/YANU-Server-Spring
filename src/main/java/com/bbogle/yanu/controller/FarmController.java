@@ -17,10 +17,16 @@ import org.springframework.web.bind.annotation.*;
 public class FarmController {
     private final FarmService farmService;
 
-    @PostMapping()
+    @PostMapping
     public ResponseEntity<String> registerFarm(@RequestBody RegisterFarmRequestDto request, HttpServletRequest httpRequest){
         farmService.registerFarm(request, httpRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("농장 등록 성공했습니다.");
+    }
+
+    @GetMapping
+    public ResponseEntity<FarmUserResponseDto> FarmFindById (HttpServletRequest httpRequest){
+        FarmEntity farmEntity = farmService.farmFindById(httpRequest);
+        return ResponseEntity.ok().body(new FarmUserResponseDto(farmEntity));
     }
 
     @GetMapping("/{user_id}")
