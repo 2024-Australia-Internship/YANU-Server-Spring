@@ -5,6 +5,7 @@ import com.bbogle.yanu.dto.favorite.FindHeartResponseDto;
 import com.bbogle.yanu.dto.favorite.RegisterHeartRequestDto;
 import com.bbogle.yanu.entity.FavoriteEntity;
 import com.bbogle.yanu.service.FavoriteService;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,8 +21,8 @@ public class FavoriteController {
     private final FavoriteService favoriteService;
 
     @PostMapping
-    public ResponseEntity<String> registerHeart(@RequestBody RegisterHeartRequestDto request){
-        favoriteService.registerHeart(request);
+    public ResponseEntity<String> registerHeart(@RequestBody RegisterHeartRequestDto request, HttpServletRequest httpRequest){
+        favoriteService.registerHeart(request, httpRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("하트 등록에 성공했습니다.");
     }
 
