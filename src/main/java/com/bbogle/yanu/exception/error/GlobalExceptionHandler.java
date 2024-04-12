@@ -86,4 +86,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(FarmNotFoundException.class)
+    public ResponseEntity<ErrorResponse> handleFarmNotFoundException(FarmNotFoundException ex){
+        log.error("handleFarmNotFoundException", ex);
+        ErrorResponse response = new ErrorResponse(ex.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
+    }
 }
