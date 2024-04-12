@@ -3,6 +3,7 @@ package com.bbogle.yanu.service;
 import com.bbogle.yanu.dto.farm.RegisterFarmRequestDto;
 import com.bbogle.yanu.entity.FarmEntity;
 import com.bbogle.yanu.entity.UserEntity;
+import com.bbogle.yanu.exception.FarmDuplicateException;
 import com.bbogle.yanu.exception.SessionNotFoundException;
 import com.bbogle.yanu.exception.error.ErrorCode;
 import com.bbogle.yanu.repository.FarmRepository;
@@ -26,6 +27,10 @@ public class FarmService {
         }
 
         Long id = (Long) session.getAttribute("userId");
+
+        if(farmRepository.existsByUserId(id)){
+            throw new FarmDuplicateException("farm duplicated", ErrorCode.FARM_DUPKICATION);
+        }
 
         UserEntity user = userRepository.findUserById(id);
         request.setUserId(user);

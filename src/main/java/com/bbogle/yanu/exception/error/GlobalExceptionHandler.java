@@ -79,4 +79,11 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(FarmDuplicateException.class)
+    public ResponseEntity<ErrorResponse> handleFarmDuplicateException(FarmDuplicateException ex){
+        log.error("handleFarmDuplicateException", ex);
+        ErrorResponse response = new ErrorResponse(ex.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
+    }
+
 }
