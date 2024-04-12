@@ -4,6 +4,7 @@ import com.bbogle.yanu.dto.farm.RegisterFarmRequestDto;
 import com.bbogle.yanu.entity.FarmEntity;
 import com.bbogle.yanu.entity.UserEntity;
 import com.bbogle.yanu.exception.FarmDuplicateException;
+import com.bbogle.yanu.exception.FarmNotFoundException;
 import com.bbogle.yanu.exception.SessionNotFoundException;
 import com.bbogle.yanu.exception.error.ErrorCode;
 import com.bbogle.yanu.repository.FarmRepository;
@@ -35,6 +36,19 @@ public class FarmService {
         UserEntity user = userRepository.findUserById(id);
         request.setUserId(user);
         farmRepository.save(request.toEntity());
+    }
+
+    public FarmEntity farmFindById(HttpServletRequest httpRequest){
+        HttpSession session = httpRequest.getSession();
+
+        if(session == null){
+            throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
+        }
+
+        Long id = (Long) session.getAttribute("userId");
+
+        return farmRepository.findById(id)
+                .orElseThrow(() -> new FarmNotFoundException("farm not found", ErrorCode.FARM_NOTFOUND));
     }
 
     public FarmEntity framFindByUser (Long id){
