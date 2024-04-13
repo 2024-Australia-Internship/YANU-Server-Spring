@@ -45,8 +45,14 @@ public class FavoriteService {
     }
 
     @Transactional
-    public void deleteHeart(DeleteHeartRequestDto request){
-        Long userId = request.getUserId().getId();
+    public void deleteHeart(DeleteHeartRequestDto request, HttpServletRequest httpRequest){
+        HttpSession session = httpRequest.getSession(false);
+
+        if(session == null){
+            throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
+        }
+
+        Long userId = (Long) session.getAttribute("userId");
         Long productId = request.getProductId().getId();
         String type = request.getType();
         boolean exists = favoriteRepository.existsByUserIdAndProductIdAndType(userId, productId, type);
