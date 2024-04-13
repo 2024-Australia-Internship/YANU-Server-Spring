@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
-import javax.swing.*;
 import java.util.List;
 
 @Builder
@@ -43,4 +42,7 @@ public class ProductEntity {
     @OneToMany(mappedBy = "product",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<FavoriteEntity> favoriteEntity;
 
+    @JsonIgnore
+    @OneToMany(mappedBy = "product",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<CartEntity> cartEntity;
 }
