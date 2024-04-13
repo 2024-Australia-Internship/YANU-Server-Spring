@@ -27,8 +27,8 @@ public class FavoriteController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteHeart(@RequestBody DeleteHeartRequestDto request){
-        favoriteService.deleteHeart(request);
+    public ResponseEntity<String> deleteHeart(@RequestBody DeleteHeartRequestDto request, HttpServletRequest httpServletRequest){
+        favoriteService.deleteHeart(request, httpServletRequest);
         return ResponseEntity.ok().body("하트 삭제 성공했습니다.");
     }
 
