@@ -48,4 +48,8 @@ public class UserEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "user",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<FavoriteEntity> favoriteEntity;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<CartEntity> cartEntity;
 }
