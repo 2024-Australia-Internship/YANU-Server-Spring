@@ -72,10 +72,16 @@ public class UserService {
         }
     }
 
-    public UserEntity findByUser(Long id){
+    public UserEntity findById (Long id){
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
     }
+
+    public UserEntity findByUser (Long id){
+        return userRepository.findById(id)
+                .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
+    }
+
 
     public void updatePassword(PasswordUpdateRequestDto request){
         String email = request.getEmail();

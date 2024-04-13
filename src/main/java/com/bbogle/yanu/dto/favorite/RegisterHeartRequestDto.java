@@ -4,8 +4,9 @@ import com.bbogle.yanu.entity.FavoriteEntity;
 import com.bbogle.yanu.entity.ProductEntity;
 import com.bbogle.yanu.entity.UserEntity;
 import lombok.Getter;
+import lombok.Setter;
 
-@Getter
+@Getter @Setter
 public class RegisterHeartRequestDto {
     private UserEntity userId;
     private ProductEntity productId;
