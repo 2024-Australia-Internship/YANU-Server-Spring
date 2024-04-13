@@ -5,6 +5,7 @@ import com.bbogle.yanu.dto.favorite.RegisterHeartRequestDto;
 import com.bbogle.yanu.entity.FavoriteEntity;
 import com.bbogle.yanu.entity.UserEntity;
 import com.bbogle.yanu.exception.HeartDuplicateException;
+import com.bbogle.yanu.exception.HeartNotFoundException;
 import com.bbogle.yanu.exception.SessionNotFoundException;
 import com.bbogle.yanu.exception.error.ErrorCode;
 import com.bbogle.yanu.repository.FavoriteRepository;
@@ -45,20 +46,39 @@ public class FavoriteService {
     }
 
     @Transactional
-    public void deleteHeart(DeleteHeartRequestDto request){
-        Long userId = request.getUserId().getId();
+    public void deleteHeart(DeleteHeartRequestDto request, HttpServletRequest httpRequest){
+        HttpSession session = httpRequest.getSession(false);
+
+        if(session == null){
+            throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
+        }
+
+        Long userId = (Long) session.getAttribute("userId");
         Long productId = request.getProductId().getId();
         String type = request.getType();
         boolean exists = favoriteRepository.existsByUserIdAndProductIdAndType(userId, productId, type);
 
         if(!exists){
-            throw new HeartDuplicateException("heart notfound", ErrorCode.HEART_NOTFOUND);
+            throw new HeartNotFoundException("heart notfound", ErrorCode.HEART_NOTFOUND);
         }
 
         favoriteRepository.deleteByUserIdAndProductIdAndType(userId, productId, type);
     }
 
-    public List<FavoriteEntity> findHeart(String type, Long id){
-        return favoriteRepository.findAllByTypeAndUserId(type, id);
+    public List<FavoriteEntity> findHeart(String type, HttpServletRequest httpRequest){
+        HttpSession session = httpRequest.getSession(false);
+
+        if(session == null){
+            throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
+        }
+
+        Long id = (Long) session.getAttribute("userId");
+
+        List<FavoriteEntity> hearts = favoriteRepository.findAllByTypeAndUserId(type, id);
+
+        if(hearts.isEmpty())
+            throw new HeartNotFoundException("heart notfound", ErrorCode.HEART_NOTFOUND);
+
+        return hearts;
     }
 }

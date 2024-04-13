@@ -27,14 +27,14 @@ public class FavoriteController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteHeart(@RequestBody DeleteHeartRequestDto request){
-        favoriteService.deleteHeart(request);
+    public ResponseEntity<String> deleteHeart(@RequestBody DeleteHeartRequestDto request, HttpServletRequest httpServletRequest){
+        favoriteService.deleteHeart(request, httpServletRequest);
         return ResponseEntity.ok().body("하트 삭제 성공했습니다.");
     }
 
-    @GetMapping("/{type}/{user_id}")
-    public List<FindHeartResponseDto> findHeart(@PathVariable("type") String type, @PathVariable("user_id") Long id){
-        List<FavoriteEntity> hearts = favoriteService.findHeart(type, id);
+    @GetMapping("/{type}")
+    public List<FindHeartResponseDto> findHeart(@PathVariable("type") String type, HttpServletRequest httpServletRequest){
+        List<FavoriteEntity> hearts = favoriteService.findHeart(type, httpServletRequest);
         return hearts.stream()
                 .map(FindHeartResponseDto::new)
                 .collect(Collectors.toList());
