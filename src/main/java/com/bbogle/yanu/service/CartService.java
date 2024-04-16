@@ -1,8 +1,10 @@
 package com.bbogle.yanu.service;
 
+import com.bbogle.yanu.dto.cart.DeleteCartDto;
 import com.bbogle.yanu.dto.cart.RegisterCartDto;
 import com.bbogle.yanu.entity.UserEntity;
 import com.bbogle.yanu.exception.CartDuplicateException;
+import com.bbogle.yanu.exception.CartNotFoundException;
 import com.bbogle.yanu.exception.SessionNotFoundException;
 import com.bbogle.yanu.exception.error.ErrorCode;
 import com.bbogle.yanu.repository.CartRepository;
@@ -11,6 +13,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -38,4 +41,23 @@ public class CartService {
         cartRepository.save(request.toEntity());
     }
 
+    @Transactional
+    public void deleteCart(DeleteCartDto request, HttpServletRequest httpRequest) {
+        HttpSession session = httpRequest.getSession(false);
+
+        if (session == null)
+            throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
+
+
+        Long userId = (Long) session.getAttribute("userId");
+        Long productId = request.getProductId().getId();
+        boolean exists = cartRepository.existsByUserIdAndProductId(userId, productId);
+
+        if(!exists)
+            throw new CartNotFoundException("cart not found", ErrorCode.CART_NOTFOUND);
+
+        UserEntity user = userRepository.findUserById(userId);
+        request.setUserId(user);
+        cartRepository.deleteByUserIdAndProductId(userId, productId);
+    }
 }
