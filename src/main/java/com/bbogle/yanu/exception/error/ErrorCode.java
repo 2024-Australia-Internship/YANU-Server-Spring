@@ -18,7 +18,8 @@ public enum ErrorCode {
     HEART_NOTFOUND(404,"HEART-ERROR-404", "해당 하트를 찾을 수 없습니다"),
     SESSION_NOTFOUND(401, "SESSION-ERROR-401", "세션이 조회되지 않습니다"),
     FARM_DUPKICATION(400, "FARM-ERROR-400", "이미 농장을 등록한 회원입니다."),
-    FARM_NOTFOUND(404, "FARM-ERROR-404", "해당 농장을 찾을 수 없습니다");
+    FARM_NOTFOUND(404, "FARM-ERROR-404", "해당 농장을 찾을 수 없습니다"),
+    CART_DUPLICATION(400, "CART-ERROR-400", "이미 등록된 장바구니 상품 입니다.");
 
     private int status;
     private String errorCode;
