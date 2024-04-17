@@ -35,3 +35,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+### SCRET KEY INFO
+application-aws.properties
+application-db.properties
