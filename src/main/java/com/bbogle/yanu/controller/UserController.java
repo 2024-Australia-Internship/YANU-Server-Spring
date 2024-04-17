@@ -2,6 +2,7 @@ package com.bbogle.yanu.controller;
 
 import com.bbogle.yanu.dto.user.*;
 import com.bbogle.yanu.entity.UserEntity;
+import com.bbogle.yanu.service.S3UploadService;
 import com.bbogle.yanu.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -9,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -18,6 +21,7 @@ import java.util.Optional;
 @RequestMapping("/users")
 public class UserController {
     private final UserService userService;
+    private final S3UploadService s3UploadService;
     private final HttpServletRequest httpServletRequest;
 
     @PostMapping
@@ -56,5 +60,15 @@ public class UserController {
     public ResponseEntity<String> updatePassword (@RequestBody PasswordUpdateRequestDto request) {
         userService.updatePassword(request);
         return ResponseEntity.ok().body("비밀번호 변경에 성공하였습니다.");
+    }
+
+    @PostMapping("/profile/img")
+    public ResponseEntity<String> uploadProfileImg(@RequestParam(value = "profile") MultipartFile file) {
+        try {
+            String fileName = s3UploadService.uploadProfile(file);
+            return ResponseEntity.ok().body("프로필 이미지 업로드에 성공했습니다");
+        } catch (IOException e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 이미지 업로드에 실패했습니다");
+        }
     }
 }
