@@ -2,12 +2,10 @@ package com.bbogle.yanu.service;
 
 import com.bbogle.yanu.dto.user.LoginRequestDto;
 import com.bbogle.yanu.dto.user.PasswordUpdateRequestDto;
+import com.bbogle.yanu.dto.user.RegisterProfileRequestDto;
 import com.bbogle.yanu.dto.user.RegisterRequestDto;
 import com.bbogle.yanu.entity.UserEntity;
-import com.bbogle.yanu.exception.EmailDuplicateException;
-import com.bbogle.yanu.exception.PasswordNotFoundException;
-import com.bbogle.yanu.exception.PhoneNumberDuplicateException;
-import com.bbogle.yanu.exception.UserNotFoundException;
+import com.bbogle.yanu.exception.*;
 import com.bbogle.yanu.exception.error.ErrorCode;
 import com.bbogle.yanu.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
@@ -92,6 +90,17 @@ public class UserService {
         String encodedPassword = passwordEncoder.encode(password);
 
         userEntity.setPassword(encodedPassword);
+        userRepository.save(userEntity);
+    }
+
+    public void uploadProfileInfo(String email, RegisterProfileRequestDto request){
+
+        if(!userRepository.existsByEmail(email))
+            throw new EmailNotFoundException("email not found", ErrorCode.EMAIL_NOTFOUND);
+
+        String nickname = request.getNickname();
+        UserEntity userEntity = userRepository.findByEmail(email);
+        userEntity.setNickname(nickname);
         userRepository.save(userEntity);
     }
 
