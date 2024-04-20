@@ -18,9 +18,7 @@ public class UserIdResponseDto {
     public UserIdResponseDto(UserEntity userEntity) {
         this.email = userEntity.getEmail();
         this.phonenumber = userEntity.getPhonenumber();
-        this.profile_image = userEntity.getProfile_image();
         this.nickname = userEntity.getNickname();
-        this.introduction = userEntity.getIntroduction();
         this.ugly_percent = userEntity.getUgly_percent();
         this.is_farmer = userEntity.getIs_farmer();
     }

@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -62,13 +63,19 @@ public class UserController {
         return ResponseEntity.ok().body("비밀번호 변경에 성공하였습니다.");
     }
 
-    @PostMapping("/profile/img")
-    public ResponseEntity<String> uploadProfileImg(@RequestParam(value = "profile") MultipartFile file) {
+    @PostMapping(value = "/profile/img/{email}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadProfileImg(@RequestParam(value = "profile") MultipartFile file, @PathVariable("email") String email) {
         try {
-            String fileName = s3UploadService.uploadProfile(file);
+            String fileName = s3UploadService.uploadProfile(email, file);
             return ResponseEntity.ok().body("프로필 이미지 업로드에 성공했습니다");
         } catch (IOException e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 이미지 업로드에 실패했습니다");
         }
+    }
+
+    @PostMapping("/profile/info/{email}")
+    public ResponseEntity<String> uploadProfileInfo(@PathVariable("email") String email, @RequestBody RegisterProfileRequestDto request){
+        userService.uploadProfileInfo(email, request);
+        return ResponseEntity.ok().body("닉네임 등록에 성공했습니다.");
     }
 }
