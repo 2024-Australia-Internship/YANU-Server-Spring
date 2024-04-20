@@ -72,4 +72,10 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 이미지 업로드에 실패했습니다");
         }
     }
+
+    @PostMapping("/profile/info/{email}")
+    public ResponseEntity<String> uploadProfileInfo(@PathVariable("email") String email, @RequestBody RegisterProfileRequestDto request){
+        userService.uploadProfileInfo(email, request);
+        return ResponseEntity.ok().body("닉네임 등록에 성공했습니다.");
+    }
 }
