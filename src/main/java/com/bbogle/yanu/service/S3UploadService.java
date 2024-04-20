@@ -7,15 +7,12 @@ import com.bbogle.yanu.exception.EmailNotFoundException;
 import com.bbogle.yanu.exception.SessionNotFoundException;
 import com.bbogle.yanu.exception.error.ErrorCode;
 import com.bbogle.yanu.repository.UserRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
@@ -30,13 +27,13 @@ public class S3UploadService {
         if(!userRepository.existsByEmail(email))
             throw new EmailNotFoundException("email not found", ErrorCode.EMAIL_NOTFOUND);
 
-        String fileName = generateFileName(email, file);
+        String fileName = generateFileName(email);
         String fileURL = uploadFileToS3(fileName, file);
         return fileURL;
     }
 
-    private String generateFileName(String email, MultipartFile file){
-        return UUID.randomUUID().toString() + "_" + "profile" + "_" + email + "_" + file.getOriginalFilename();
+    private String generateFileName(String email){
+        return "profile" + "_" + email;
     }
 
     private String uploadFileToS3(String fileName, MultipartFile file) throws IOException{
