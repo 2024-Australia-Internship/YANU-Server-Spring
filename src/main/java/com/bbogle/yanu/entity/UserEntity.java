@@ -27,13 +27,7 @@ public class UserEntity {
     private String phonenumber;
 
     @Column
-    private String profile_image;
-
-    @Column
     private String nickname;
-
-    @Column(columnDefinition = "TEXT")
-    private String introduction;
 
     @Column
     private Byte ugly_percent;
