@@ -80,10 +80,6 @@ public class UserService {
 
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
-
-        String email = user.getEmail();
-        String profilePath = s3UploadService.getFilePath(email, "profile");
-
         return user;
     }
 
