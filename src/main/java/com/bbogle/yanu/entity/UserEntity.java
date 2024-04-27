@@ -30,6 +30,9 @@ public class UserEntity {
     private String nickname;
 
     @Column
+    private String proflie_image;
+
+    @Column
     private Byte ugly_percent;
 
     @Column
