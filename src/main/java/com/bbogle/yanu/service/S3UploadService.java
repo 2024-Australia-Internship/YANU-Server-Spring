@@ -2,9 +2,7 @@ package com.bbogle.yanu.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
-import com.bbogle.yanu.entity.UserEntity;
 import com.bbogle.yanu.exception.EmailNotFoundException;
-import com.bbogle.yanu.exception.SessionNotFoundException;
 import com.bbogle.yanu.exception.error.ErrorCode;
 import com.bbogle.yanu.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -42,6 +40,11 @@ public class S3UploadService {
         metadata.setContentLength(file.getSize());
         amazonS3.putObject(bucketName, fileName, file.getInputStream(), metadata);
         return amazonS3.getUrl(bucketName, fileName).toString();
+    }
+
+    public String getFilePath(String fileName, String type){
+        String imgPath = type + "_" + fileName;
+        return amazonS3.getUrl(bucketName , imgPath).toString();
     }
 
 }
