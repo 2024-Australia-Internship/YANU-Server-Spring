@@ -39,8 +39,8 @@ public class UserController {
     }
 
     @GetMapping
-    public ResponseEntity<UserIdResponseDto> findById (@SessionAttribute(name="userId", required = false) Long id){
-        UserEntity user = userService.findById(id);
+    public ResponseEntity<UserIdResponseDto> findById (HttpServletRequest httpRequest){
+        UserEntity user = userService.findById(httpRequest);
         return ResponseEntity.ok().body(new UserIdResponseDto(user));
     }
 
