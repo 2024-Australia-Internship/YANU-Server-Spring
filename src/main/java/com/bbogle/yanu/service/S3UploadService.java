@@ -48,9 +48,9 @@ public class S3UploadService {
         return amazonS3.getUrl(bucketName, fileName).toString();
     }
 
-    public String getFilePath(String email, String type){
+    public String getFilePath(String email){
         UserEntity user = userRepository.findByEmail(email);
-        String imgPath = type + "_" + user.getProflie_image();
+        String imgPath = user.getProflie_image();
         return amazonS3.getUrl(bucketName , imgPath).toString();
     }
 
