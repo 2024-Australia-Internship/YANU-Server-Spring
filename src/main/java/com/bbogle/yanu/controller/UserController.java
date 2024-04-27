@@ -41,14 +41,15 @@ public class UserController {
     @GetMapping
     public ResponseEntity<UserIdResponseDto> findById (HttpServletRequest httpRequest){
         UserEntity user = userService.findById(httpRequest);
-        return ResponseEntity.ok().body(new UserIdResponseDto(user));
+        String profile_img = s3UploadService.getFilePath(user.getEmail());
+        return ResponseEntity.ok().body(new UserIdResponseDto(user, profile_img));
     }
 
 
     @GetMapping("/{user_id}")
     public ResponseEntity<UserIdResponseDto> findByUser(@PathVariable("user_id") Long id){
         UserEntity user = userService.findByUser(id);
-        return ResponseEntity.ok().body(new UserIdResponseDto(user));
+        return ResponseEntity.ok().body(new UserIdResponseDto(user, ""));
     }
 
     @PostMapping("/duplication/{email}")
