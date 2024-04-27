@@ -21,6 +21,7 @@ import java.util.Optional;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final S3UploadService s3UploadService;
 
     public void registerUser(RegisterRequestDto request){
         String email = request.getEmail();
@@ -70,9 +71,20 @@ public class UserService {
         }
     }
 
-    public UserEntity findById (Long id){
-        return userRepository.findById(id)
+    public UserEntity findById (HttpServletRequest httpRequest){
+        HttpSession session = httpRequest.getSession(false);
+        if(session == null){
+            throw new SessionNotFoundException("sessoin not found", ErrorCode.SESSION_NOTFOUND);
+        }
+        Long userId = (Long) session.getAttribute("userId");
+
+        UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
+
+        String email = user.getEmail();
+        String profilePath = s3UploadService.getFilePath(email, "profile");
+
+        return user;
     }
 
     public UserEntity findByUser (Long id){

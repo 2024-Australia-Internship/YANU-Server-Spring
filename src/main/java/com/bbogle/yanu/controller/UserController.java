@@ -66,7 +66,7 @@ public class UserController {
     @PostMapping(value = "/profile/img/{email}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> uploadProfileImg(@RequestParam(value = "profile") MultipartFile file, @PathVariable("email") String email) {
         try {
-            String fileName = s3UploadService.uploadProfile(email, file);
+            s3UploadService.uploadProfile(email, file);
             return ResponseEntity.ok().body("프로필 이미지 업로드에 성공했습니다");
         } catch (IOException e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("프로필 이미지 업로드에 실패했습니다");

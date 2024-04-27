@@ -2,6 +2,7 @@ package com.bbogle.yanu.service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.bbogle.yanu.entity.UserEntity;
 import com.bbogle.yanu.exception.EmailNotFoundException;
 import com.bbogle.yanu.exception.error.ErrorCode;
 import com.bbogle.yanu.repository.UserRepository;
@@ -22,13 +23,17 @@ public class S3UploadService {
     @Value("${could.aws.s3.bucket}")
     private String bucketName;
 
-    public String uploadProfile(String email, MultipartFile file) throws IOException {
+    public void uploadProfile(String email, MultipartFile file) throws IOException {
         if(!userRepository.existsByEmail(email))
             throw new EmailNotFoundException("email not found", ErrorCode.EMAIL_NOTFOUND);
 
         String fileName = generateFileName(email);
-        String fileURL = uploadFileToS3(fileName, file);
-        return fileURL;
+
+        UserEntity user = userRepository.findByEmail(email);
+        user.setProflie_image(fileName);
+        userRepository.save(user);
+
+        uploadFileToS3(fileName, file);
     }
 
     private String generateFileName(String email){
