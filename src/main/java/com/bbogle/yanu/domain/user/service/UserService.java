@@ -1,9 +1,6 @@
 package com.bbogle.yanu.domain.user.service;
 
-import com.bbogle.yanu.domain.user.dto.LoginRequestDto;
-import com.bbogle.yanu.domain.user.dto.PasswordUpdateRequestDto;
-import com.bbogle.yanu.domain.user.dto.RegisterProfileRequestDto;
-import com.bbogle.yanu.domain.user.dto.RegisterRequestDto;
+import com.bbogle.yanu.domain.user.dto.*;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.global.exception.*;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
@@ -82,7 +79,8 @@ public class UserService {
         return user;
     }
 
-    public UserEntity findByUser (Long id){
+    public UserEntity findByUser (FindByUserRequestDto request){
+        Long id = request.getId();
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
     }
