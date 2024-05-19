@@ -1,6 +1,7 @@
 package com.bbogle.yanu.domain.favorite.controller;
 
 import com.bbogle.yanu.domain.favorite.dto.DeleteHeartRequestDto;
+import com.bbogle.yanu.domain.favorite.dto.FindHeartRequestDto;
 import com.bbogle.yanu.domain.favorite.dto.FindHeartResponseDto;
 import com.bbogle.yanu.domain.favorite.dto.RegisterHeartRequestDto;
 import com.bbogle.yanu.domain.favorite.domain.FavoriteEntity;
@@ -33,8 +34,8 @@ public class FavoriteController {
     }
 
     @GetMapping("/{type}")
-    public List<FindHeartResponseDto> findHeart(@PathVariable("type") String type, HttpServletRequest httpServletRequest){
-        List<FavoriteEntity> hearts = favoriteService.findHeart(type, httpServletRequest);
+    public List<FindHeartResponseDto> findHeart(@PathVariable("type") String type, @RequestBody FindHeartRequestDto request){
+        List<FavoriteEntity> hearts = favoriteService.findHeart(type, request);
         return hearts.stream()
                 .map(FindHeartResponseDto::new)
                 .collect(Collectors.toList());
