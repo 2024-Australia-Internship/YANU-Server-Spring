@@ -24,14 +24,15 @@ public class CartService {
     private final CartRepository cartRepository;
     private final UserRepository userRepository;
 
-    public void registerCart(RegisterCartDto request, HttpServletRequest httpRequest){
-        HttpSession session = httpRequest.getSession(false);
+    public void registerCart(RegisterCartDto request){
+        /*HttpSession session = httpRequest.getSession(false);
 
         if(session == null){
             throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
         }
 
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = (Long) session.getAttribute("userId");*/
+        Long userId = request.getUserId().getId();
         Long productId = request.getProductId().getId();
         boolean exists = cartRepository.existsByUserIdAndProductId(userId, productId);
 

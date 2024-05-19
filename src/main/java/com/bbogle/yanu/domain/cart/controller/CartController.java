@@ -21,8 +21,8 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping
-    public ResponseEntity<String> registerCart(@RequestBody RegisterCartDto requst, HttpServletRequest httpRequest){
-        cartService.registerCart(requst, httpRequest);
+    public ResponseEntity<String> registerCart(@RequestBody RegisterCartDto requst){
+        cartService.registerCart(requst);
         return ResponseEntity.status(HttpStatus.CREATED).body("장바구니 등록에 성공했습니다.");
     }
 
