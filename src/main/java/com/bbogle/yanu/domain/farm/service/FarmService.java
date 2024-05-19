@@ -1,5 +1,6 @@
 package com.bbogle.yanu.domain.farm.service;
 
+import com.bbogle.yanu.domain.farm.dto.FarmFindByUserRequest;
 import com.bbogle.yanu.domain.farm.dto.RegisterFarmRequestDto;
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
@@ -53,7 +54,8 @@ public class FarmService {
                 .orElseThrow(() -> new FarmNotFoundException("farm not found", ErrorCode.FARM_NOTFOUND));
     }
 
-    public FarmEntity framFindByUser (Long id){
+    public FarmEntity framFindByUser (FarmFindByUserRequest request){
+        Long id = request.getUserId().getId();
         return farmRepository.findByUserId(id);
     }
 
