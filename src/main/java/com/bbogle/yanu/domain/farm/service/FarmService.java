@@ -20,14 +20,16 @@ public class FarmService {
     private final FarmRepository farmRepository;
     private final UserRepository userRepository;
 
-    public void registerFarm(RegisterFarmRequestDto request, HttpServletRequest httpRequest){
-        HttpSession session = httpRequest.getSession(false);
+    public void registerFarm(RegisterFarmRequestDto request){
+        /*HttpSession session = httpRequest.getSession(false);
 
         if(session == null){
             throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
         }
 
-        Long id = (Long) session.getAttribute("userId");
+        Long id = (Long) session.getAttribute("userId");*/
+
+        Long id = request.getUserId().getId();
 
         if(farmRepository.existsByUserId(id)){
             throw new FarmDuplicateException("farm duplicated", ErrorCode.FARM_DUPKICATION);

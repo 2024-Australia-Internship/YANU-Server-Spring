@@ -17,8 +17,8 @@ public class FarmController {
     private final FarmService farmService;
 
     @PostMapping
-    public ResponseEntity<String> registerFarm(@RequestBody RegisterFarmRequestDto request, HttpServletRequest httpRequest){
-        farmService.registerFarm(request, httpRequest);
+    public ResponseEntity<String> registerFarm(@RequestBody RegisterFarmRequestDto request){
+        farmService.registerFarm(request);
         return ResponseEntity.status(HttpStatus.CREATED).body("농장 등록 성공했습니다.");
     }
 
