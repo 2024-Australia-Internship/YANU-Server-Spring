@@ -1,6 +1,7 @@
 package com.bbogle.yanu.domain.cart.service;
 
 import com.bbogle.yanu.domain.cart.dto.DeleteCartDto;
+import com.bbogle.yanu.domain.cart.dto.FindCartRequestDto;
 import com.bbogle.yanu.domain.cart.dto.RegisterCartDto;
 import com.bbogle.yanu.domain.cart.domain.CartEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
@@ -65,13 +66,14 @@ public class CartService {
         cartRepository.deleteByUserIdAndProductId(userId, productId);
     }
 
-    public List<CartEntity> findCart(HttpServletRequest httpRequest){
-        HttpSession session = httpRequest.getSession(false);
+    public List<CartEntity> findCart(FindCartRequestDto request){
+        /*ttpSession session = httpRequest.getSession(false);
 
         if(session == null)
             throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
 
-        Long id = (Long) session.getAttribute("userId");
+        Long id = (Long) session.getAttribute("userId");*/
+        Long id = request.getUserId().getId();
 
         List<CartEntity> carts = cartRepository.findAllByUserId(id);
 

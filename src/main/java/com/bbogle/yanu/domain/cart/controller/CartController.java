@@ -1,6 +1,7 @@
 package com.bbogle.yanu.domain.cart.controller;
 
 import com.bbogle.yanu.domain.cart.dto.DeleteCartDto;
+import com.bbogle.yanu.domain.cart.dto.FindCartRequestDto;
 import com.bbogle.yanu.domain.cart.dto.FindCartResponseDto;
 import com.bbogle.yanu.domain.cart.dto.RegisterCartDto;
 import com.bbogle.yanu.domain.cart.domain.CartEntity;
@@ -33,8 +34,8 @@ public class CartController {
     }
 
     @GetMapping
-    public List<FindCartResponseDto> findCart(HttpServletRequest httpRequest){
-        List<CartEntity> carts = cartService.findCart(httpRequest);
+    public List<FindCartResponseDto> findCart(@RequestBody FindCartRequestDto request){
+        List<CartEntity> carts = cartService.findCart(request);
         return carts.stream()
                 .map(FindCartResponseDto::new)
                 .collect(Collectors.toList());
