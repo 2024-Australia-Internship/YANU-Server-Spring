@@ -41,7 +41,7 @@ public class UserService {
         }
     }
 
-    public Long loginUser(LoginRequestDto request, HttpServletRequest httpRequest){
+    public Long loginUser(LoginRequestDto request){
         String email = request.getEmail();
         String password = request.getPassword();
 
@@ -50,9 +50,9 @@ public class UserService {
         UserEntity userEntity = userRepository.findByEmail(email);
         checkPassword(password, userEntity.getPassword());
 
-        HttpSession session = httpRequest.getSession(true);
+        /*HttpSession session = httpRequest.getSession(true);
         session.setAttribute("userId", userEntity.getId());
-        session.setMaxInactiveInterval(1800);
+        session.setMaxInactiveInterval(1800);*/
 
         return userEntity.getId();
     }

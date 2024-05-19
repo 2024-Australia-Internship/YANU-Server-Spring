@@ -30,7 +30,7 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> loginUser (@RequestBody LoginRequestDto request){
-        Long id = userService.loginUser(request, httpServletRequest);
+        Long id = userService.loginUser(request);
         return ResponseEntity.ok()
                 .body(new LoginResponseDto(id));
     }
