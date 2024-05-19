@@ -24,14 +24,15 @@ public class FavoriteService {
     private final FavoriteRepository favoriteRepository;
     private final UserRepository userRepository;
 
-    public void registerHeart(RegisterHeartRequestDto request, HttpServletRequest httpRequest){
-        HttpSession session = httpRequest.getSession(false);
+    public void registerHeart(RegisterHeartRequestDto request){
+        /*HttpSession session = httpRequest.getSession(false);
 
         if(session == null){
             throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
         }
 
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = (Long) session.getAttribute("userId");*/
+        Long userId =  request.getUserId().getId();
         Long productId = request.getProductId().getId();
         String type = request.getType();
         boolean exists = favoriteRepository.existsByUserIdAndProductIdAndType(userId, productId, type);
