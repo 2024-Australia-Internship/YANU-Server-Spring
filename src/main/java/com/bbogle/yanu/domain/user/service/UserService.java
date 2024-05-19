@@ -1,9 +1,6 @@
 package com.bbogle.yanu.domain.user.service;
 
-import com.bbogle.yanu.domain.user.dto.LoginRequestDto;
-import com.bbogle.yanu.domain.user.dto.PasswordUpdateRequestDto;
-import com.bbogle.yanu.domain.user.dto.RegisterProfileRequestDto;
-import com.bbogle.yanu.domain.user.dto.RegisterRequestDto;
+import com.bbogle.yanu.domain.user.dto.*;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.global.exception.*;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
@@ -44,7 +41,7 @@ public class UserService {
         }
     }
 
-    public Long loginUser(LoginRequestDto request, HttpServletRequest httpRequest){
+    public Long loginUser(LoginRequestDto request){
         String email = request.getEmail();
         String password = request.getPassword();
 
@@ -53,9 +50,9 @@ public class UserService {
         UserEntity userEntity = userRepository.findByEmail(email);
         checkPassword(password, userEntity.getPassword());
 
-        HttpSession session = httpRequest.getSession(true);
+        /*HttpSession session = httpRequest.getSession(true);
         session.setAttribute("userId", userEntity.getId());
-        session.setMaxInactiveInterval(1800);
+        session.setMaxInactiveInterval(1800);*/
 
         return userEntity.getId();
     }
@@ -82,7 +79,8 @@ public class UserService {
         return user;
     }
 
-    public UserEntity findByUser (Long id){
+    public UserEntity findByUser (FindByUserRequestDto request){
+        Long id = request.getId();
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
     }

@@ -30,22 +30,22 @@ public class UserController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> loginUser (@RequestBody LoginRequestDto request){
-        Long id = userService.loginUser(request, httpServletRequest);
+        Long id = userService.loginUser(request);
         return ResponseEntity.ok()
                 .body(new LoginResponseDto(id));
     }
 
-    @GetMapping
+    /*@GetMapping
     public ResponseEntity<UserIdResponseDto> findById (HttpServletRequest httpRequest){
         UserEntity user = userService.findById(httpRequest);
         String profile_img = s3UploadService.getFilePath(user.getEmail());
         return ResponseEntity.ok().body(new UserIdResponseDto(user, profile_img));
-    }
+    }*/
 
 
-    @GetMapping("/{user_id}")
-    public ResponseEntity<UserIdResponseDto> findByUser(@PathVariable("user_id") Long id){
-        UserEntity user = userService.findByUser(id);
+    @GetMapping
+    public ResponseEntity<UserIdResponseDto> findByUser(@RequestBody FindByUserRequestDto request){
+        UserEntity user = userService.findByUser(request);
         return ResponseEntity.ok().body(new UserIdResponseDto(user, ""));
     }
 

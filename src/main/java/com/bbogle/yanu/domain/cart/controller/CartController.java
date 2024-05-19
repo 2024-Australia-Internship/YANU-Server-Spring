@@ -1,6 +1,7 @@
 package com.bbogle.yanu.domain.cart.controller;
 
 import com.bbogle.yanu.domain.cart.dto.DeleteCartDto;
+import com.bbogle.yanu.domain.cart.dto.FindCartRequestDto;
 import com.bbogle.yanu.domain.cart.dto.FindCartResponseDto;
 import com.bbogle.yanu.domain.cart.dto.RegisterCartDto;
 import com.bbogle.yanu.domain.cart.domain.CartEntity;
@@ -21,20 +22,20 @@ public class CartController {
     private final CartService cartService;
 
     @PostMapping
-    public ResponseEntity<String> registerCart(@RequestBody RegisterCartDto requst, HttpServletRequest httpRequest){
-        cartService.registerCart(requst, httpRequest);
+    public ResponseEntity<String> registerCart(@RequestBody RegisterCartDto requst){
+        cartService.registerCart(requst);
         return ResponseEntity.status(HttpStatus.CREATED).body("장바구니 등록에 성공했습니다.");
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteCart(@RequestBody DeleteCartDto request, HttpServletRequest httpRequest){
-        cartService.deleteCart(request, httpRequest);
+    public ResponseEntity<String> deleteCart(@RequestBody DeleteCartDto request){
+        cartService.deleteCart(request);
         return ResponseEntity.ok().body("장바구니에서 삭제 성공했습니다.");
     }
 
     @GetMapping
-    public List<FindCartResponseDto> findCart(HttpServletRequest httpRequest){
-        List<CartEntity> carts = cartService.findCart(httpRequest);
+    public List<FindCartResponseDto> findCart(@RequestBody FindCartRequestDto request){
+        List<CartEntity> carts = cartService.findCart(request);
         return carts.stream()
                 .map(FindCartResponseDto::new)
                 .collect(Collectors.toList());

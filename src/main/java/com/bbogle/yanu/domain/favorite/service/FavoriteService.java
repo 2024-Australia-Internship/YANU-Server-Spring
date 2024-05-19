@@ -1,6 +1,7 @@
 package com.bbogle.yanu.domain.favorite.service;
 
 import com.bbogle.yanu.domain.favorite.dto.DeleteHeartRequestDto;
+import com.bbogle.yanu.domain.favorite.dto.FindHeartRequestDto;
 import com.bbogle.yanu.domain.favorite.dto.RegisterHeartRequestDto;
 import com.bbogle.yanu.domain.favorite.domain.FavoriteEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
@@ -24,14 +25,15 @@ public class FavoriteService {
     private final FavoriteRepository favoriteRepository;
     private final UserRepository userRepository;
 
-    public void registerHeart(RegisterHeartRequestDto request, HttpServletRequest httpRequest){
-        HttpSession session = httpRequest.getSession(false);
+    public void registerHeart(RegisterHeartRequestDto request){
+        /*HttpSession session = httpRequest.getSession(false);
 
         if(session == null){
             throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
         }
 
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = (Long) session.getAttribute("userId");*/
+        Long userId =  request.getUserId().getId();
         Long productId = request.getProductId().getId();
         String type = request.getType();
         boolean exists = favoriteRepository.existsByUserIdAndProductIdAndType(userId, productId, type);
@@ -46,14 +48,15 @@ public class FavoriteService {
     }
 
     @Transactional
-    public void deleteHeart(DeleteHeartRequestDto request, HttpServletRequest httpRequest){
-        HttpSession session = httpRequest.getSession(false);
+    public void deleteHeart(DeleteHeartRequestDto request){
+        /*HttpSession session = httpRequest.getSession(false);
 
         if(session == null){
             throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
         }
 
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = (Long) session.getAttribute("userId");*/
+        Long userId = request.getUserId().getId();
         Long productId = request.getProductId().getId();
         String type = request.getType();
         boolean exists = favoriteRepository.existsByUserIdAndProductIdAndType(userId, productId, type);
@@ -65,14 +68,16 @@ public class FavoriteService {
         favoriteRepository.deleteByUserIdAndProductIdAndType(userId, productId, type);
     }
 
-    public List<FavoriteEntity> findHeart(String type, HttpServletRequest httpRequest){
-        HttpSession session = httpRequest.getSession(false);
+    public List<FavoriteEntity> findHeart(String type, FindHeartRequestDto request){
+        /*HttpSession session = httpRequest.getSession(false);
 
         if(session == null){
             throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
         }
 
-        Long id = (Long) session.getAttribute("userId");
+        Long id = (Long) session.getAttribute("userId");*/
+
+        Long id = request.getUserId().getId();
 
         List<FavoriteEntity> hearts = favoriteRepository.findAllByTypeAndUserId(type, id);
 
