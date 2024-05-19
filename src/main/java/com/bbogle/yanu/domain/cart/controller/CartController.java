@@ -27,8 +27,8 @@ public class CartController {
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteCart(@RequestBody DeleteCartDto request, HttpServletRequest httpRequest){
-        cartService.deleteCart(request, httpRequest);
+    public ResponseEntity<String> deleteCart(@RequestBody DeleteCartDto request){
+        cartService.deleteCart(request);
         return ResponseEntity.ok().body("장바구니에서 삭제 성공했습니다.");
     }
 

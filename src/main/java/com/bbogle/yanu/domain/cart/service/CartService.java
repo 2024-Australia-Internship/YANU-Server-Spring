@@ -46,14 +46,14 @@ public class CartService {
     }
 
     @Transactional
-    public void deleteCart(DeleteCartDto request, HttpServletRequest httpRequest) {
-        HttpSession session = httpRequest.getSession(false);
+    public void deleteCart(DeleteCartDto request) {
+        /*HttpSession session = httpRequest.getSession(false);
 
         if (session == null)
             throw new SessionNotFoundException("session not found", ErrorCode.SESSION_NOTFOUND);
 
-
-        Long userId = (Long) session.getAttribute("userId");
+        Long userId = (Long) session.getAttribute("userId");*/
+        Long userId = request.getUserId().getId();
         Long productId = request.getProductId().getId();
         boolean exists = cartRepository.existsByUserIdAndProductId(userId, productId);
 
