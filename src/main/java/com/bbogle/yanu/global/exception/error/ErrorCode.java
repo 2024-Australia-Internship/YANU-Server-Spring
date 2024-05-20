@@ -20,7 +20,8 @@ public enum ErrorCode {
     FARM_DUPKICATION(400, "FARM-ERROR-400", "이미 농장을 등록한 회원입니다."),
     FARM_NOTFOUND(404, "FARM-ERROR-404", "해당 농장을 찾을 수 없습니다"),
     CART_DUPLICATION(400, "CART-ERROR-400", "이미 등록된 장바구니 상품 입니다."),
-    CART_NOTFOUND(404, "CART-ERROR-404", "해당 장바구니 내역을 찾을 수 없습니다.");
+    CART_NOTFOUND(404, "CART-ERROR-404", "해당 장바구니 내역을 찾을 수 없습니다."),
+    TOKEN_NOTFOUND(401, "TOKEN-ERROR-401", "해당 토큰이 조회되지 않습니다");
 
     private int status;
     private String errorCode;
