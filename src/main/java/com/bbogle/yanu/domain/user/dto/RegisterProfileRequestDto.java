@@ -4,5 +4,6 @@ import lombok.Getter;
 
 @Getter
 public class RegisterProfileRequestDto {
+    private String email;
     private String nickname;
 }

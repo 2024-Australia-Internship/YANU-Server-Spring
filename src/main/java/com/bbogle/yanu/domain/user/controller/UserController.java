@@ -2,8 +2,8 @@ package com.bbogle.yanu.domain.user.controller;
 
 import com.bbogle.yanu.domain.user.dto.*;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
+import com.bbogle.yanu.domain.user.service.*;
 import com.bbogle.yanu.global.S3Service.S3UploadService;
-import com.bbogle.yanu.domain.user.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,51 +18,56 @@ import java.io.IOException;
 @RequiredArgsConstructor
 @RequestMapping("/users")
 public class UserController {
-    private final UserService userService;
+    private final SignupService signupService;
+    private final LoginService loginService;
+    private final FindMyInfoService findMyInfoService;
+    private final FindOtherInfoService findOtherInfoService;
+    private final EmailDuplicateService emailDuplicateService;
+    private final PasswordUpdateService passwordUpdateService;
     private final S3UploadService s3UploadService;
-    private final HttpServletRequest httpServletRequest;
+    private final ProfileInfoUploadService profileInfoUploadService;
 
     @PostMapping
-    public ResponseEntity<String> registerUser(@RequestBody RegisterRequestDto request) {
-        userService.registerUser(request);
+    public ResponseEntity<String> signupUser(@RequestBody RegisterRequestDto request) {
+        signupService.execute(request);
         return ResponseEntity.status(HttpStatus.CREATED).body("회원가입에 성공했습니다");
     }
 
     @PostMapping("/login")
     public ResponseEntity<LoginResponseDto> loginUser (@RequestBody LoginRequestDto request){
-        Long id = userService.loginUser(request);
-        return ResponseEntity.ok()
-                .body(new LoginResponseDto(id));
+        String token = loginService.execute(request);
+        return ResponseEntity.ok().body(new LoginResponseDto(token));
     }
 
-    /*@GetMapping
-    public ResponseEntity<UserIdResponseDto> findById (HttpServletRequest httpRequest){
-        UserEntity user = userService.findById(httpRequest);
+    @GetMapping
+    public ResponseEntity<UserIdResponseDto> findmyInfo (HttpServletRequest httpRequest){
+        UserEntity user = findMyInfoService.execute(httpRequest);
         String profile_img = s3UploadService.getFilePath(user.getEmail());
         return ResponseEntity.ok().body(new UserIdResponseDto(user, profile_img));
-    }*/
+    }
 
 
-    @GetMapping
-    public ResponseEntity<UserIdResponseDto> findByUser(@RequestBody FindByUserRequestDto request){
-        UserEntity user = userService.findByUser(request);
+    @GetMapping("/{id}")
+    public ResponseEntity<UserIdResponseDto> findOtherInfo (@PathVariable("id") Long id, HttpServletRequest request){
+        UserEntity user = findOtherInfoService.execute(id, request);
         return ResponseEntity.ok().body(new UserIdResponseDto(user, ""));
     }
 
-    @PostMapping("/duplication/{email}")
-    public ResponseEntity<String> duplicateEmail (@PathVariable("email") String email){
-        userService.duplicateEmail(email);
+    @PostMapping("/duplication/email")
+    public ResponseEntity<String> duplicateEmail (@RequestBody EmailDuplicateRequestDto request){
+        emailDuplicateService.execute(request);
         return ResponseEntity.ok().body("사용 가능한 이메일 입니다.");
     }
 
     @PutMapping("/password")
-    public ResponseEntity<String> updatePassword (@RequestBody PasswordUpdateRequestDto request) {
-        userService.updatePassword(request);
+    public ResponseEntity<String> updatePassword (@RequestBody PasswordUpdateRequestDto request, HttpServletRequest httpRequest) {
+        passwordUpdateService.execute(request, httpRequest);
         return ResponseEntity.ok().body("비밀번호 변경에 성공하였습니다.");
     }
 
-    @PostMapping(value = "/profile/img/{email}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> uploadProfileImg(@RequestParam(value = "profile") MultipartFile file, @PathVariable("email") String email) {
+    @PostMapping(value = "/profile/img", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> uploadProfileImg(@RequestParam(value = "profile") MultipartFile file,
+                                                   @RequestParam(value = "email") String email) {
         try {
             s3UploadService.uploadProfile(email, file);
             return ResponseEntity.ok().body("프로필 이미지 업로드에 성공했습니다");
@@ -71,9 +76,9 @@ public class UserController {
         }
     }
 
-    @PostMapping("/profile/info/{email}")
-    public ResponseEntity<String> uploadProfileInfo(@PathVariable("email") String email, @RequestBody RegisterProfileRequestDto request){
-        userService.uploadProfileInfo(email, request);
+    @PostMapping("/profile/info")
+    public ResponseEntity<String> uploadProfileInfo( @RequestBody RegisterProfileRequestDto request){
+        profileInfoUploadService.execute(request);
         return ResponseEntity.ok().body("닉네임 등록에 성공했습니다.");
     }
 }
