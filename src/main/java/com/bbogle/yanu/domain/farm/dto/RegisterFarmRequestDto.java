@@ -16,8 +16,8 @@ public class RegisterFarmRequestDto {
     private String phonenumber;
     private String email;
     private String address;
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
 
     public FarmEntity toEntity(){
         GeometryFactory geometryFactory = new GeometryFactory();

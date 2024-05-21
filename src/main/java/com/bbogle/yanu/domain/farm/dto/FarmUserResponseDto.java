@@ -10,6 +10,8 @@ public class FarmUserResponseDto {
     private String phoneNumber;
     private String email;
     private String address;
+    private Double latitude;
+    private Double longitude;
 
     public FarmUserResponseDto(FarmEntity farmEntity) {
         this.businessName = farmEntity.getFarm_name();
@@ -17,5 +19,10 @@ public class FarmUserResponseDto {
         this.phoneNumber = farmEntity.getPhonenumber();
         this.email = farmEntity.getEmail();
         this.address = farmEntity.getAddress();
+
+        if(farmEntity.getGeography()!= null){
+            this.latitude = farmEntity.getGeography().getX();
+            this.longitude = farmEntity.getGeography().getY();
+        }
     }
 }
