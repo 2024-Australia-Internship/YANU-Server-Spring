@@ -7,11 +7,11 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class RegisterCartDto {
+public class RegisterCartRequestDto {
     private UserEntity userId;
     private ProductEntity productId;
 
-    public CartEntity toEntity(){
+    public CartEntity toEntity(UserEntity userId){
         return CartEntity.builder()
                 .user(userId)
                 .product(productId)

@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Getter @Setter
-public class DeleteCartDto {
-    private UserEntity userId;
+public class DeleteCartRequestDto {
     private ProductEntity productId;
 }
