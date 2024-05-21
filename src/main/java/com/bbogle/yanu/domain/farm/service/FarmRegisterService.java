@@ -31,8 +31,12 @@ public class FarmRegisterService {
             throw new FarmDuplicateException("farm duplicated", ErrorCode.FARM_DUPKICATION);
         }
 
+        //farms 테이블에 데이터 저장
         UserEntity user = userRepository.findUserById(id);
-        request.setUserId(user);
-        farmRepository.save(request.toEntity());
+        farmRepository.save(request.toEntity(user));
+
+        //users 테이블 is_farmer = true로 변경
+        user.setIs_farmer(true);
+        userRepository.save(user);
     }
 }

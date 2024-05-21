@@ -19,7 +19,7 @@ public class RegisterFarmRequestDto {
     private Double latitude;
     private Double longitude;
 
-    public FarmEntity toEntity(){
+    public FarmEntity toEntity(UserEntity userId){
         GeometryFactory geometryFactory = new GeometryFactory();
         Point geography = geometryFactory.createPoint(new Coordinate(longitude, latitude));
 
