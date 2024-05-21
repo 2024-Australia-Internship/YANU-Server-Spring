@@ -39,3 +39,4 @@ out/
 ### SCRET KEY INFO
 application-aws.properties
 application-db.properties
+applictaion-jwt.properties
