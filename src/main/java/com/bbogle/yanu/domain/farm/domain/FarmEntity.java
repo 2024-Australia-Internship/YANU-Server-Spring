@@ -5,6 +5,8 @@ import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
+import org.locationtech.jts.geom.Point;
+
 
 import java.util.List;
 
@@ -37,6 +39,9 @@ public class FarmEntity {
 
     @Column
     private String address;
+
+    @Column(columnDefinition = "GEOMETRY")
+    private Point geography;
 
     @JsonIgnore
     @OneToMany(mappedBy = "farm", cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
