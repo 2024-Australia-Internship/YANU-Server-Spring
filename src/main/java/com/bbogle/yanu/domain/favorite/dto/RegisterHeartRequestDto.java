@@ -6,13 +6,13 @@ import com.bbogle.yanu.domain.user.domain.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
 public class RegisterHeartRequestDto {
     private UserEntity userId;
     private ProductEntity productId;
     private String type;
 
-    public FavoriteEntity toEntity(){
+    public FavoriteEntity toEntity(UserEntity userId){
         return FavoriteEntity.builder()
                 .user(userId)
                 .product(productId)
