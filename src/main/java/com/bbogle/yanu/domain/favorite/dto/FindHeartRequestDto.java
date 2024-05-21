@@ -5,5 +5,5 @@ import lombok.Getter;
 
 @Getter
 public class FindHeartRequestDto {
-    private UserEntity userId;
+    private String type;
 }

@@ -14,7 +14,7 @@ public class RegisterProductRequestDto {
     private String unit;
     private String description;
 
-    public ProductEntity toEntity(){
+    public ProductEntity toEntity(FarmEntity farmId){
         return ProductEntity.builder()
                 .farm(farmId)
                 .title(title)

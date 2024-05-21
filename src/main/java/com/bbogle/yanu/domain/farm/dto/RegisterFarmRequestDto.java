@@ -4,6 +4,9 @@ import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import lombok.Getter;
 import lombok.Setter;
+import org.locationtech.jts.geom.Coordinate;
+import org.locationtech.jts.geom.GeometryFactory;
+import org.locationtech.jts.geom.Point;
 
 @Getter @Setter
 public class RegisterFarmRequestDto {
@@ -13,8 +16,13 @@ public class RegisterFarmRequestDto {
     private String phonenumber;
     private String email;
     private String address;
+    private Double latitude;
+    private Double longitude;
 
     public FarmEntity toEntity(){
+        GeometryFactory geometryFactory = new GeometryFactory();
+        Point geography = geometryFactory.createPoint(new Coordinate(longitude, latitude));
+
         return FarmEntity.builder()
                 .user(userId)
                 .business_name(business_name)
@@ -22,6 +30,7 @@ public class RegisterFarmRequestDto {
                 .phonenumber(phonenumber)
                 .email(email)
                 .address(address)
+                .geography(geography)
                 .build();
     }
 }
