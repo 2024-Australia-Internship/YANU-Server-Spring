@@ -46,7 +46,6 @@ public class UserController {
         return ResponseEntity.ok().body(new UserIdResponseDto(user, profile_img));
     }
 
-
     @GetMapping("/{id}")
     public ResponseEntity<UserIdResponseDto> findOtherInfo (@PathVariable("id") Long id, HttpServletRequest request){
         UserEntity user = findOtherInfoService.execute(id, request);

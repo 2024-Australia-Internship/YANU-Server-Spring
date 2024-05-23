@@ -5,6 +5,7 @@ import lombok.Getter;
 
 @Getter
 public class UserIdResponseDto {
+    private Long id;
     private String email;
     private String phonenumber;
     private String profile_image;
@@ -13,6 +14,7 @@ public class UserIdResponseDto {
     private Boolean is_farmer;
 
     public UserIdResponseDto(UserEntity userEntity, String profile_image) {
+        this.id = userEntity.getId();
         this.email = userEntity.getEmail();
         this.phonenumber = userEntity.getPhonenumber();
         this.profile_image = profile_image;
