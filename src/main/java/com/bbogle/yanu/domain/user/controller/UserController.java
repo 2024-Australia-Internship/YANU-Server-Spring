@@ -60,8 +60,8 @@ public class UserController {
     }
 
     @PutMapping("/password")
-    public ResponseEntity<String> updatePassword (@RequestBody PasswordUpdateRequestDto request, HttpServletRequest httpRequest) {
-        passwordUpdateService.execute(request, httpRequest);
+    public ResponseEntity<String> updatePassword (@RequestBody PasswordUpdateRequestDto request) {
+        passwordUpdateService.execute(request);
         return ResponseEntity.ok().body("비밀번호 변경에 성공하였습니다.");
     }
 
