@@ -19,14 +19,9 @@ public class PasswordUpdateService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final UserFacade userFacade;
-    private final TokenProvider tokenProvider;
 
     @Transactional
-    public void execute(PasswordUpdateRequestDto request, HttpServletRequest httpRequest){
-        String token = tokenProvider.resolveToken(httpRequest);
-        if (token == null || !tokenProvider.validToken(token)) {
-            throw new TokenNotFoundException("Invalid token", ErrorCode.TOKEN_NOTFOUND);
-        }
+    public void execute(PasswordUpdateRequestDto request){
 
         String email = request.getEmail();
         String password = request.getPassword();
