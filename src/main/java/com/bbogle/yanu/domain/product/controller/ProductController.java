@@ -1,14 +1,10 @@
 package com.bbogle.yanu.domain.product.controller;
 
-import com.bbogle.yanu.domain.product.dto.ProductFarmResponseDto;
-import com.bbogle.yanu.domain.product.dto.ProductAllResponseDto;
-import com.bbogle.yanu.domain.product.dto.ProductResponseDto;
-import com.bbogle.yanu.domain.product.dto.RegisterProductRequestDto;
+import com.bbogle.yanu.domain.product.dto.*;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.product.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +20,7 @@ public class ProductController {
     private final FindAllProductService findAllProductService;
     private final FindAllFarmService findAllFarmService;
     private final FindProductService findProductService;
+    private final PutProductService putProductService;
 
     @PostMapping
     public ResponseEntity<String> registerProduct(@RequestBody RegisterProductRequestDto request, HttpServletRequest httpRequest){
@@ -51,5 +48,11 @@ public class ProductController {
     public ResponseEntity<ProductResponseDto> findByProduct(@PathVariable ("product_id") Long id, HttpServletRequest httpRequest){
         ProductEntity product = findProductService.execute(id, httpRequest);
         return ResponseEntity.ok().body(new ProductResponseDto(product));
+    }
+
+    @PutMapping
+    public ResponseEntity<String> putProduct (@RequestBody PutProductRequestDto request, HttpServletRequest httpRequest){
+        putProductService.execute(request, httpRequest);
+        return ResponseEntity.ok().body("상품 정보 변경에 성공했습니다");
     }
 }
