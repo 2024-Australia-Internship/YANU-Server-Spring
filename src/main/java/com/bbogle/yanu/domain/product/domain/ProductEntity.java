@@ -48,4 +48,13 @@ public class ProductEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "product",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<CartEntity> cartEntity;
+
+    public void updateProduct(String title, String category, String hashtag, Integer price, String unit, String description) {
+        this.title = title;
+        this.category = category;
+        this.hashtag = hashtag;
+        this.price = price;
+        this.unit = unit;
+        this.description = description;
+    }
 }
