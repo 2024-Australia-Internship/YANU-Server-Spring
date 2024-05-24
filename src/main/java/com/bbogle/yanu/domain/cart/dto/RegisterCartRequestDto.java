@@ -8,12 +8,10 @@ import lombok.Setter;
 
 @Getter @Setter
 public class RegisterCartRequestDto {
-    private UserEntity userId;
     private ProductEntity productId;
 
     public CartEntity toEntity(UserEntity userId){
         return CartEntity.builder()
-                .user(userId)
                 .product(productId)
                 .build();
     }

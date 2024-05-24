@@ -7,6 +7,8 @@ import lombok.Getter;
 public class ProductResponseDto {
     private Long userId;
     private Long farmId;
+    private Long productId;
+    private String business_name;
     private String farm_name;
     private String title;
     private String category;
@@ -18,7 +20,8 @@ public class ProductResponseDto {
     public ProductResponseDto(ProductEntity productEntity) {
         this.userId = productEntity.getFarm().getUser().getId();
         this.farmId = productEntity.getFarm().getId();
-        this.farm_name = productEntity.getFarm().getFarm_name();
+        this.productId = productEntity.getId();
+        this.business_name = productEntity.getFarm().getBusiness_name();
         this.title = productEntity.getTitle();
         this.category = productEntity.getCategory();
         this.hashtag = productEntity.getHashtag();
