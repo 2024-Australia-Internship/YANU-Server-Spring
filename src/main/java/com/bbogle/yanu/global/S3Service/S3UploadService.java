@@ -39,7 +39,7 @@ public class S3UploadService {
     }
 
     private String generateFileName(String email){
-        return UUID.randomUUID().toString() + "_" + "profile" + "_" + email;
+        return UUID.randomUUID().toString() + email;
     }
 
     private String uploadFileToS3(String fileName, MultipartFile file) throws IOException{
