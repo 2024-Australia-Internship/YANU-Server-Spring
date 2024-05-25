@@ -60,4 +60,8 @@ public class UserEntity {
     public void isFarmer(boolean is_farmer){
         this.is_farmer = is_farmer;
     }
+
+    public void updateNickname(String nickname){
+        this.nickname = nickname;
+    }
 }
