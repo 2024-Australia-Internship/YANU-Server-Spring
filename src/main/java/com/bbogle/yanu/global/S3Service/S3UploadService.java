@@ -30,7 +30,7 @@ public class S3UploadService {
         String fileName = generateFileName(email);
 
         UserEntity user = userRepository.findByEmail(email);
-        user.setProflie_image(fileName);
+        user.updateProfileImg(fileName);
         userRepository.save(user);
 
         uploadFileToS3(fileName, file);

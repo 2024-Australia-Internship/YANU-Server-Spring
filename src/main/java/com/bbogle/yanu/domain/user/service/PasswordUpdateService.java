@@ -1,5 +1,6 @@
 package com.bbogle.yanu.domain.user.service;
 
+import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.dto.PasswordUpdateRequestDto;
 import com.bbogle.yanu.domain.user.facade.UserFacade;
@@ -28,10 +29,11 @@ public class PasswordUpdateService {
 
         userFacade.checkEmail(email);
 
-        UserEntity userEntity = userRepository.findByEmail(email);
+        UserEntity user = userRepository.findByEmail(email);
         String encodedPassword = passwordEncoder.encode(password);
 
-        userEntity.setPassword(encodedPassword);
-        userRepository.save(userEntity);
+        user.updatePassword(encodedPassword);
+
+        userRepository.save(user);
     }
 }

@@ -20,8 +20,8 @@ public class ProfileInfoUploadService {
         userFacade.checkEmail(email);
 
         String nickname = request.getNickname();
-        UserEntity userEntity = userRepository.findByEmail(email);
-        userEntity.setNickname(nickname);
-        userRepository.save(userEntity);
+        UserEntity user = userRepository.findByEmail(email);
+        user.updateNickname(nickname);
+        userRepository.save(user);
     }
 }

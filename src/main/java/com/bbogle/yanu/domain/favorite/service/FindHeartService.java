@@ -7,6 +7,7 @@ import com.bbogle.yanu.global.exception.HeartNotFoundException;
 import com.bbogle.yanu.global.exception.TokenNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
+import com.bbogle.yanu.global.jwt.TokenValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,13 +18,11 @@ import java.util.List;
 @Service
 public class FindHeartService {
     private final FavoriteRepository favoriteRepository;
+    private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
 
     public List<FavoriteEntity> execute(FindHeartRequestDto request, HttpServletRequest httpRequest){
-        String token = tokenProvider.resolveToken(httpRequest);
-        if (token == null || !tokenProvider.validToken(token)) {
-            throw new TokenNotFoundException("Invalid token", ErrorCode.TOKEN_NOTFOUND);
-        }
+        String token = tokenValidator.validateToken(httpRequest);
 
         Long userId = tokenProvider.getUserId(token);
         String type = request.getType();
