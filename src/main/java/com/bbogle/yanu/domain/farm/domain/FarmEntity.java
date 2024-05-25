@@ -32,6 +32,9 @@ public class FarmEntity {
     private String farm_name;
 
     @Column
+    private String profile;
+
+    @Column
     private String phonenumber;
 
     @Column
@@ -46,4 +49,8 @@ public class FarmEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "farm", cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<ProductEntity> productEntity;
+
+    public void updateProfile(String profile){
+        this.profile = profile;
+    }
 }

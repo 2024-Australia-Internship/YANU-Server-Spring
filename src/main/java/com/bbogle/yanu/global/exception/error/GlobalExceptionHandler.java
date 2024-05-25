@@ -114,4 +114,10 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
     }
 
+    @ExceptionHandler(ImageNotVaildException.class)
+    public ResponseEntity<ErrorResponse> handleImageNotVaildException(ImageNotVaildException ex){
+        log.error("handleImageNotVaildException", ex);
+        ErrorResponse response = new ErrorResponse(ex.getErrorCode());
+        return new ResponseEntity<>(response, HttpStatus.valueOf(ex.getErrorCode().getStatus()));
+    }
 }
