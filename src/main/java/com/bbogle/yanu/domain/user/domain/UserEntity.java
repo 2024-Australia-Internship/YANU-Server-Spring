@@ -10,7 +10,7 @@ import lombok.*;
 import java.util.List;
 
 @Builder
-@Getter @Setter
+@Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity (name = "users")
@@ -52,4 +52,8 @@ public class UserEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "user",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<CartEntity> cartEntity;
+
+    public void updatePassword(String encodedPassword){
+        this.password = encodedPassword;
+    }
 }
