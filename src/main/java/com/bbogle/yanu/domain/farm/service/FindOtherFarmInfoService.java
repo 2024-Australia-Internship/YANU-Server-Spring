@@ -5,6 +5,7 @@ import com.bbogle.yanu.domain.farm.repository.FarmRepository;
 import com.bbogle.yanu.global.exception.TokenNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
+import com.bbogle.yanu.global.jwt.TokenValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -13,13 +14,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class FindOtherFarmInfoService {
     private final FarmRepository farmRepository;
-    private final TokenProvider tokenProvider;
+    private final TokenValidator tokenValidator;
 
     public FarmEntity execute(Long id, HttpServletRequest httpRequest){
-        String token = tokenProvider.resolveToken(httpRequest);
-        if (token == null || !tokenProvider.validToken(token)) {
-            throw new TokenNotFoundException("Invalid token", ErrorCode.TOKEN_NOTFOUND);
-        }
+        String token = tokenValidator.validateToken(httpRequest);
 
         return farmRepository.findByUserId(id);
     }

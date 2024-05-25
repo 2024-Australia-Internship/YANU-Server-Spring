@@ -5,8 +5,10 @@ import com.bbogle.yanu.domain.product.repository.ProductRepository;
 import com.bbogle.yanu.global.exception.TokenNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
+import com.bbogle.yanu.global.jwt.TokenValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.antlr.v4.runtime.Token;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,13 +17,10 @@ import java.util.List;
 @Service
 public class FindAllProductService {
     private final ProductRepository productRepository;
-    private final TokenProvider tokenProvider;
+    private final TokenValidator tokenValidator;
 
     public List<ProductEntity> execute(HttpServletRequest httpRequest){
-        String token = tokenProvider.resolveToken(httpRequest);
-        if (token == null || !tokenProvider.validToken(token)) {
-            throw new TokenNotFoundException("Invalid token", ErrorCode.TOKEN_NOTFOUND);
-        }
+        String token = tokenValidator.validateToken(httpRequest);
 
         return productRepository.findAll();
     }

@@ -7,6 +7,7 @@ import com.bbogle.yanu.global.exception.ProductNotFoundException;
 import com.bbogle.yanu.global.exception.TokenNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
+import com.bbogle.yanu.global.jwt.TokenValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,14 +17,11 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class PutProductService {
     private final ProductRepository productRepository;
-    private final TokenProvider tokenProvider;
+    private final TokenValidator tokenValidator;
 
     @Transactional
     public void execute(PutProductRequestDto request, HttpServletRequest httpRequest){
-        String token = tokenProvider.resolveToken(httpRequest);
-        if (token == null || !tokenProvider.validToken(token)) {
-            throw new TokenNotFoundException("Invalid token", ErrorCode.TOKEN_NOTFOUND);
-        }
+        String token = tokenValidator.validateToken(httpRequest);
 
         Long id = request.getProductId();
         ProductEntity product = productRepository.findById(id)
