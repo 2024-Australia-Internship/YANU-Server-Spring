@@ -36,7 +36,7 @@ public class FarmRegisterService {
         farmRepository.save(request.toEntity(user));
 
         //users 테이블 is_farmer = true로 변경
-        user.setIs_farmer(true);
+        user.isFarmer(true);
         userRepository.save(user);
     }
 }

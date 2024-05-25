@@ -56,4 +56,8 @@ public class UserEntity {
     public void updatePassword(String encodedPassword){
         this.password = encodedPassword;
     }
+
+    public void isFarmer(boolean is_farmer){
+        this.is_farmer = is_farmer;
+    }
 }
