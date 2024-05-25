@@ -2,6 +2,8 @@ package com.bbogle.yanu.global.S3Service;
 
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.bbogle.yanu.domain.farm.domain.FarmEntity;
+import com.bbogle.yanu.domain.farm.repository.FarmRepository;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.global.exception.EmailNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
@@ -21,6 +23,7 @@ import java.util.UUID;
 public class S3UploadService {
     private final AmazonS3 amazonS3;
     private final UserRepository userRepository;
+    private final FarmRepository farmRepository;
 
     @Value("${could.aws.s3.bucket}")
     private String bucketName;
@@ -37,6 +40,13 @@ public class S3UploadService {
 
         uploadFileToS3(fileName, file);
     }
+
+    public String uploadFarm (String email, MultipartFile file) throws IOException {
+        String fileName = generateFileName(email);
+
+        return fileName;
+    }
+
 
     private String generateFileName(String email){
         return UUID.randomUUID().toString() + email;
