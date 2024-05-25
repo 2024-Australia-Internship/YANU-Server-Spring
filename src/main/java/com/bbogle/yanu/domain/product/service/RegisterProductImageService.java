@@ -7,6 +7,7 @@ import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.repository.UserRepository;
 import com.bbogle.yanu.global.S3Service.S3UploadService;
 import com.bbogle.yanu.domain.product.domain.ProductImageEntity;
+import com.bbogle.yanu.global.exception.ImageNotVaildException;
 import com.bbogle.yanu.global.exception.ProductNotFoundException;
 import com.bbogle.yanu.global.exception.UserNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
@@ -35,7 +36,10 @@ public class RegisterProductImageService {
     public void execute(List<MultipartFile> images, Long productId, HttpServletRequest httpRequest) throws IOException {
         String token = tokenValidator.validateToken(httpRequest);
 
-        //TODO : 이미지 등록 갯수 예외처리
+        // 유효하지 않은 이미지들이 들어왔을 때 예외처리
+        if(images.size() == 0 || images.size() > 5){
+            throw new ImageNotVaildException("image not vaild", ErrorCode.IMAGE_NOTVALID);
+        }
 
         Long userId = tokenProvider.getUserId(token);
         String email = userRepository.findEmailById(userId);
