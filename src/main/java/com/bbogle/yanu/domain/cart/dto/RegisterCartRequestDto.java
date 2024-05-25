@@ -13,6 +13,7 @@ public class RegisterCartRequestDto {
     public CartEntity toEntity(UserEntity userId){
         return CartEntity.builder()
                 .product(productId)
+                .user(userId)
                 .build();
     }
 }

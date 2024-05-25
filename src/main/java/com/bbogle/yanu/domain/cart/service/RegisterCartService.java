@@ -6,6 +6,7 @@ import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.repository.UserRepository;
 import com.bbogle.yanu.global.exception.CartDuplicateException;
 import com.bbogle.yanu.global.exception.TokenNotFoundException;
+import com.bbogle.yanu.global.exception.UserNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
 import com.bbogle.yanu.global.jwt.TokenValidator;
@@ -33,7 +34,9 @@ public class RegisterCartService {
         if(exists){
             throw new CartDuplicateException("cart duplicated", ErrorCode.CART_DUPLICATION);
         }
-        UserEntity user = userRepository.findUserById(userId);
+
+        UserEntity user = userRepository.findById(userId)
+                        .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
         cartRepository.save(request.toEntity(user));
 
     }
