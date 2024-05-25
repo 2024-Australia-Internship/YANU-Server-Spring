@@ -64,4 +64,8 @@ public class UserEntity {
     public void updateNickname(String nickname){
         this.nickname = nickname;
     }
+
+    public void updateProfileImg(String profile_image){
+        this.proflie_image = (profile_image);
+    }
 }
