@@ -18,7 +18,7 @@ public class FarmUserResponseDto {
 
     public FarmUserResponseDto(FarmEntity farmEntity) {
         this.farmId = farmEntity.getId();
-        this.businessName = farmEntity.getFarm_name();
+        this.businessName = farmEntity.getBusiness_name();
         this.farmName = farmEntity.getFarm_name();
         this.phoneNumber = farmEntity.getPhonenumber();
         this.email = farmEntity.getEmail();

@@ -22,6 +22,7 @@ public class ProductResponseDto {
         this.farmId = productEntity.getFarm().getId();
         this.productId = productEntity.getId();
         this.business_name = productEntity.getFarm().getBusiness_name();
+        this.farm_name = productEntity.getFarm().getFarm_name();
         this.title = productEntity.getTitle();
         this.category = productEntity.getCategory();
         this.hashtag = productEntity.getHashtag();
