@@ -21,6 +21,7 @@ public class ProductController {
     private final FindAllFarmService findAllFarmService;
     private final FindProductService findProductService;
     private final PutProductService putProductService;
+    private final DeleteProductService deleteProductService;
 
     @PostMapping
     public ResponseEntity<String> registerProduct(@RequestBody RegisterProductRequestDto request, HttpServletRequest httpRequest){
@@ -54,5 +55,11 @@ public class ProductController {
     public ResponseEntity<String> putProduct (@RequestBody PutProductRequestDto request, HttpServletRequest httpRequest){
         putProductService.execute(request, httpRequest);
         return ResponseEntity.ok().body("상품 정보 변경에 성공했습니다");
+    }
+
+    @DeleteMapping
+    public ResponseEntity<String> deleteProduct (@RequestBody DeleteProductRequestDto request, HttpServletRequest httpRequest){
+        deleteProductService.execute(request, httpRequest);
+        return ResponseEntity.ok().body("상품 삭제에 성공했습니다.");
     }
 }
