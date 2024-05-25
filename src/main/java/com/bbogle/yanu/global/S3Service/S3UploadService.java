@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -46,6 +48,21 @@ public class S3UploadService {
         metadata.setContentLength(file.getSize());
         amazonS3.putObject(bucketName, fileName, file.getInputStream(), metadata);
         return amazonS3.getUrl(bucketName, fileName).toString();
+    }
+
+    public List<String> uploadFilesToS3(List<MultipartFile> files, String email) throws IOException {
+        List<String> imgUrlList = new ArrayList<>();
+
+        for(MultipartFile file : files){
+            String fileName = generateFileName(email);
+            ObjectMetadata metadata =  new ObjectMetadata();
+            metadata.setContentType(file.getContentType());
+            metadata.setContentLength(file.getSize());
+            amazonS3.putObject(bucketName, fileName, file.getInputStream(), metadata);
+            imgUrlList.add(fileName);
+        }
+
+        return imgUrlList;
     }
 
     public String getFilePath(String email){
