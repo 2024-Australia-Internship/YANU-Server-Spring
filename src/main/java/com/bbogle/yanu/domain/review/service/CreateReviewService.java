@@ -7,6 +7,7 @@ import com.bbogle.yanu.domain.review.repository.ReviewRepository;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.repository.UserRepository;
 import com.bbogle.yanu.global.exception.ProductNotFoundException;
+import com.bbogle.yanu.global.exception.ReviewDuplicateException;
 import com.bbogle.yanu.global.exception.UserNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
@@ -30,10 +31,16 @@ public class CreateReviewService {
         String token = tokenValidator.validateToken(httpRequest);
 
         Long userId = tokenProvider.getUserId(token);
+        Long productId = request.getProductId().getId();
+
+        boolean exists = reviewRepository.existsByUserIdAndProductId(userId, productId);
+        if(exists){
+            throw new ReviewDuplicateException("review duplicated", ErrorCode.REVIEW_DUPLICATION);
+        }
+
         UserEntity user = userRepository.findById(userId)
                         .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
 
-        Long productId = request.getProductId().getId();
         ProductEntity product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException("product not found", ErrorCode.PRODUCT_NOTFOUND));
 
