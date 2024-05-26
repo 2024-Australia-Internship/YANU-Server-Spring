@@ -4,6 +4,7 @@ import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
 
@@ -32,5 +33,6 @@ public class ReviewEntity {
     private String content;
 
     @Column
+    @UpdateTimestamp
     private LocalDate createAt;
 }
