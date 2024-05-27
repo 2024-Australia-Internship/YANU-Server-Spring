@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ public class FindMyReviewService {
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
 
+    @Transactional(readOnly = true)
     public List<ReviewEntity> execute(HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 
