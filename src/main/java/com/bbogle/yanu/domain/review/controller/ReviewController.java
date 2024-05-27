@@ -4,9 +4,11 @@ import com.bbogle.yanu.domain.review.domain.ReviewEntity;
 import com.bbogle.yanu.domain.review.dto.CreateReviewRequestDto;
 import com.bbogle.yanu.domain.review.dto.FindMyReveiwResponseDto;
 import com.bbogle.yanu.domain.review.dto.FindOtherReviewResponseDto;
+import com.bbogle.yanu.domain.review.dto.UpdateReviewRequestDto;
 import com.bbogle.yanu.domain.review.service.CreateReviewService;
 import com.bbogle.yanu.domain.review.service.FindMyReviewService;
 import com.bbogle.yanu.domain.review.service.FindOtherReviewService;
+import com.bbogle.yanu.domain.review.service.UpdateReviewService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +25,7 @@ public class ReviewController {
     private final CreateReviewService createReviewService;
     private final FindMyReviewService findMyReviewService;
     private final FindOtherReviewService findOtherReviewService;
+    private final UpdateReviewService updateReviewService;
 
     @PostMapping
     public ResponseEntity<String> createReview (@RequestBody CreateReviewRequestDto request, HttpServletRequest httpRequest){
@@ -44,5 +47,11 @@ public class ReviewController {
         return reviews.stream()
                 .map(FindOtherReviewResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @PutMapping
+    public ResponseEntity<String> updateReview (@RequestBody UpdateReviewRequestDto request, HttpServletRequest httpRequest){
+        updateReviewService.execute(request, httpRequest);
+        return ResponseEntity.ok().body("리뷰 수정에 성공했습니다");
     }
 }
