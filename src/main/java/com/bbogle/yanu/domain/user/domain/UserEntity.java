@@ -3,6 +3,7 @@ package com.bbogle.yanu.domain.user.domain;
 import com.bbogle.yanu.domain.cart.domain.CartEntity;
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.favorite.domain.FavoriteEntity;
+import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.review.domain.ReviewEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -57,6 +58,10 @@ public class UserEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "user",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<ReviewEntity> reivewEntity;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<OrderEntity> orderEntity;
 
     public void updatePassword(String encodedPassword){
         this.password = encodedPassword;
