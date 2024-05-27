@@ -23,7 +23,8 @@ public enum ErrorCode {
     CART_NOTFOUND(404, "CART-ERROR-404", "해당 장바구니 내역을 찾을 수 없습니다."),
     TOKEN_NOTFOUND(401, "TOKEN-ERROR-401", "해당 토큰이 조회되지 않습니다"),
     IMAGE_NOTVALID(400, "FILE-ERROR-400", "등록하신 이미지 정보가 유효하지 않습니다"),
-    REVIEW_DUPLICATION(400, "REVIEW-ERROR-400", "이미 등록한 리뷰 입니다");
+    REVIEW_DUPLICATION(400, "REVIEW-ERROR-400", "이미 등록한 리뷰 입니다"),
+    REVIEW_NOTFOUND(404, "REVIEW-ERROR-404", "해당 리뷰를 찾을 수 없습니다");
 
     private int status;
     private String errorCode;
