@@ -1,14 +1,8 @@
 package com.bbogle.yanu.domain.review.controller;
 
 import com.bbogle.yanu.domain.review.domain.ReviewEntity;
-import com.bbogle.yanu.domain.review.dto.CreateReviewRequestDto;
-import com.bbogle.yanu.domain.review.dto.FindMyReveiwResponseDto;
-import com.bbogle.yanu.domain.review.dto.FindOtherReviewResponseDto;
-import com.bbogle.yanu.domain.review.dto.UpdateReviewRequestDto;
-import com.bbogle.yanu.domain.review.service.CreateReviewService;
-import com.bbogle.yanu.domain.review.service.FindMyReviewService;
-import com.bbogle.yanu.domain.review.service.FindOtherReviewService;
-import com.bbogle.yanu.domain.review.service.UpdateReviewService;
+import com.bbogle.yanu.domain.review.dto.*;
+import com.bbogle.yanu.domain.review.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -25,6 +19,7 @@ public class ReviewController {
     private final CreateReviewService createReviewService;
     private final FindMyReviewService findMyReviewService;
     private final FindOtherReviewService findOtherReviewService;
+    private final FindProductReviewService findProductReviewService;
     private final UpdateReviewService updateReviewService;
 
     @PostMapping
@@ -41,11 +36,19 @@ public class ReviewController {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("/{user_id}")
+    @GetMapping("/user/{user_id}")
     public List<FindOtherReviewResponseDto> findOtherReview(@PathVariable("user_id") Long userId, HttpServletRequest httpRequest){
         List<ReviewEntity> reviews = findOtherReviewService.execute(userId, httpRequest);
         return reviews.stream()
                 .map(FindOtherReviewResponseDto::new)
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("/product/{product_id}")
+    public List<FindProductReviewResponseDto> findProductReview(@PathVariable("product_id") Long productId, HttpServletRequest httpRequest){
+        List<ReviewEntity> reviews = findProductReviewService.execute(productId, httpRequest);
+        return reviews.stream()
+                .map(FindProductReviewResponseDto::new)
                 .collect(Collectors.toList());
     }
 
