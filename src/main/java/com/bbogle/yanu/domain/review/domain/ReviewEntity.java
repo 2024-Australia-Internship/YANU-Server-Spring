@@ -35,4 +35,9 @@ public class ReviewEntity {
     @Column
     @UpdateTimestamp
     private LocalDate createAt;
+
+    public void updateReview(int starraing, String content){
+        this.starraing = starraing;
+        this.content = content;
+    }
 }
