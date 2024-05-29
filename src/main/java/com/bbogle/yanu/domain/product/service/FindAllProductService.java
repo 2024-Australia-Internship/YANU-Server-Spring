@@ -1,6 +1,8 @@
 package com.bbogle.yanu.domain.product.service;
 
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
+import com.bbogle.yanu.domain.product.dto.ProductAllResponseDto;
+import com.bbogle.yanu.domain.product.facade.ProductFacade;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
 import com.bbogle.yanu.global.exception.TokenNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
@@ -12,16 +14,25 @@ import org.antlr.v4.runtime.Token;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
 public class FindAllProductService {
     private final ProductRepository productRepository;
+    private final ProductFacade productFacade;
     private final TokenValidator tokenValidator;
+    private final TokenProvider tokenProvider;
 
-    public List<ProductEntity> execute(HttpServletRequest httpRequest){
+    public List<ProductAllResponseDto> execute(HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 
-        return productRepository.findAll();
+        Long userId = tokenProvider.getUserId(token);
+
+        List<ProductEntity> products = productRepository.findAll();
+
+        return products.stream()
+                .map(product -> new ProductAllResponseDto(product, productFacade.checkIsHeart(product, userId)))
+                .collect(Collectors.toList());
     }
 }
