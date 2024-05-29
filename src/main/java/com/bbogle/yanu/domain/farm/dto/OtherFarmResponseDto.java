@@ -4,7 +4,7 @@ import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import lombok.Getter;
 
 @Getter
-public class FarmUserResponseDto {
+public class OtherFarmResponseDto {
     private Long farmId;
     private String businessName;
     private String farmName;
@@ -15,8 +15,9 @@ public class FarmUserResponseDto {
     private Double longitude;
     private Byte ugly_percent;
     private String profile;
+    private boolean isHeart;
 
-    public FarmUserResponseDto(FarmEntity farmEntity) {
+    public OtherFarmResponseDto(FarmEntity farmEntity, boolean isHeart) {
         this.farmId = farmEntity.getId();
         this.businessName = farmEntity.getBusiness_name();
         this.farmName = farmEntity.getFarm_name();
@@ -25,6 +26,7 @@ public class FarmUserResponseDto {
         this.address = farmEntity.getAddress();
         this.ugly_percent = farmEntity.getUser().getUgly_percent();
         this.profile = farmEntity.getUser().getProflie_image();
+        this.isHeart = isHeart;
 
         if(farmEntity.getGeography()!= null){
             this.latitude = farmEntity.getGeography().getX();

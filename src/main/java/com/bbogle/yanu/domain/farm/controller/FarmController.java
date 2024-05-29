@@ -1,6 +1,7 @@
 package com.bbogle.yanu.domain.farm.controller;
 
-import com.bbogle.yanu.domain.farm.dto.FarmUserResponseDto;
+import com.bbogle.yanu.domain.farm.dto.MyFarmResponseDto;
+import com.bbogle.yanu.domain.farm.dto.OtherFarmResponseDto;
 import com.bbogle.yanu.domain.farm.dto.RegisterFarmRequestDto;
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.farm.service.FarmRegisterService;
@@ -39,14 +40,14 @@ public class FarmController {
     }
 
     @GetMapping
-    public ResponseEntity<FarmUserResponseDto> FindMyFarmInfo (HttpServletRequest httpRequest){
+    public ResponseEntity<MyFarmResponseDto> FindMyFarmInfo (HttpServletRequest httpRequest){
         FarmEntity farmEntity = findMyFarmInfoService.execute(httpRequest);
-        return ResponseEntity.ok().body(new FarmUserResponseDto(farmEntity));
+        return ResponseEntity.ok().body(new MyFarmResponseDto(farmEntity));
     }
 
-    @GetMapping("/{id}") // id는 userId
-    public ResponseEntity<FarmUserResponseDto> FindOtherFarmInfo (@PathVariable("id") Long id, HttpServletRequest httpRequest){
-        FarmEntity farmEntity = findOtherFarmInfoService.execute(id, httpRequest);
-        return ResponseEntity.ok().body(new FarmUserResponseDto(farmEntity));
+    @GetMapping("/{user_id}") // id는 userId
+    public ResponseEntity<OtherFarmResponseDto> FindOtherFarmInfo (@PathVariable("user_id") Long id, HttpServletRequest httpRequest){
+        OtherFarmResponseDto farm = findOtherFarmInfoService.execute(id, httpRequest);
+        return ResponseEntity.ok().body(farm);
     }
 }

@@ -2,7 +2,9 @@ package com.bbogle.yanu.domain.product.controller;
 
 import com.bbogle.yanu.domain.product.dto.*;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
+import com.bbogle.yanu.domain.product.facade.ProductFacade;
 import com.bbogle.yanu.domain.product.service.*;
+import com.bbogle.yanu.domain.user.facade.UserFacade;
 import com.bbogle.yanu.global.S3Service.S3UploadService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -43,24 +45,18 @@ public class ProductController {
 
     @GetMapping
     public List<ProductAllResponseDto> findAllProduct(HttpServletRequest httpRequest){
-        List<ProductEntity> prodcts = findAllProductService.execute(httpRequest);
-        return prodcts.stream()
-                .map(ProductAllResponseDto::new)
-                .collect(Collectors.toList());
+        return findAllProductService.execute(httpRequest);
     }
 
     @GetMapping("farm/{farm_id}")
     public List<ProductFarmResponseDto> findAllFarm(@PathVariable ("farm_id") Long id, HttpServletRequest httpRequest){
-        List<ProductEntity> products = findAllFarmService.execute(id, httpRequest);
-        return products.stream()
-                .map(ProductFarmResponseDto::new)
-                .collect(Collectors.toList());
+        return findAllFarmService.execute(id, httpRequest);
     }
 
     @GetMapping("product/{product_id}")
     public ResponseEntity<ProductResponseDto> findByProduct(@PathVariable ("product_id") Long id, HttpServletRequest httpRequest){
-        ProductEntity product = findProductService.execute(id, httpRequest);
-        return ResponseEntity.ok().body(new ProductResponseDto(product));
+        ProductResponseDto product = findProductService.execute(id, httpRequest);
+        return ResponseEntity.ok().body(product);
     }
 
     @PutMapping
