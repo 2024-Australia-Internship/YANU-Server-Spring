@@ -12,7 +12,7 @@ import java.time.LocalDate;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity
+@Entity(name = "orders")
 public class OrderEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -27,8 +27,10 @@ public class OrderEntity {
     private ProductEntity product;
 
     @Column
+    private int quantity;
+
+    @Column
     @CreationTimestamp
     private LocalDate order_date;
-
 
 }
