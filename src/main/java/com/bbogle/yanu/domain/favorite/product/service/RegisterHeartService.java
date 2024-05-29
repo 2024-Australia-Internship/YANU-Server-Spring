@@ -27,8 +27,7 @@ public class RegisterHeartService {
 
         Long userId = tokenProvider.getUserId(token);
         Long productId = request.getProductId().getId();
-        String type = request.getType();
-        boolean exists = favoriteRepository.existsByUserIdAndProductIdAndType(userId, productId, type);
+        boolean exists = favoriteRepository.existsByUserIdAndProductId(userId, productId);
 
         if(exists){
             throw new HeartDuplicateException("heart duplicated", ErrorCode.HEART_DUPLICATION);
