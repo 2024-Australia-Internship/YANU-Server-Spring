@@ -9,4 +9,5 @@ import java.util.List;
 public interface FavoriteFarmRepository extends JpaRepository <FavoriteFarmEntity, Long> {
     boolean existsByUserIdAndFarmId(Long userId, Long farmId);
     void deleteByUserIdAndFarmId(Long userId, Long farmId);
+    List<FavoriteFarmEntity> findAllByUserId(Long userId);
 }
