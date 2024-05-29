@@ -1,6 +1,6 @@
 package com.bbogle.yanu.domain.favorite.product.service;
 
-import com.bbogle.yanu.domain.favorite.product.dto.RegisterHeartRequestDto;
+import com.bbogle.yanu.domain.favorite.product.dto.RegisterProductHeartRequestDto;
 import com.bbogle.yanu.domain.favorite.product.repository.FavoriteProductRepository;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.repository.UserRepository;
@@ -15,14 +15,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class RegisterHeartService {
+public class RegisterProductHeartService {
     private final FavoriteProductRepository favoriteRepository;
     private final UserRepository userRepository;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
 
     @Transactional
-    public void execute(RegisterHeartRequestDto request, HttpServletRequest httpRequest){
+    public void execute(RegisterProductHeartRequestDto request, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 
         Long userId = tokenProvider.getUserId(token);

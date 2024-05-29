@@ -2,8 +2,6 @@ package com.bbogle.yanu.domain.favorite.farm.service;
 
 import com.bbogle.yanu.domain.favorite.farm.dto.DeleteFarmHeartRequestDto;
 import com.bbogle.yanu.domain.favorite.farm.repository.FavoriteFarmRepository;
-import com.bbogle.yanu.domain.favorite.product.dto.DeleteHeartRequestDto;
-import com.bbogle.yanu.domain.favorite.product.repository.FavoriteProductRepository;
 import com.bbogle.yanu.global.exception.HeartNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;

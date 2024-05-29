@@ -6,7 +6,7 @@ import com.bbogle.yanu.domain.user.domain.UserEntity;
 import lombok.Getter;
 
 @Getter
-public class RegisterHeartRequestDto {
+public class RegisterProductHeartRequestDto {
     private ProductEntity productId;
 
     public FavoriteProductEntity toEntity(UserEntity userId){
