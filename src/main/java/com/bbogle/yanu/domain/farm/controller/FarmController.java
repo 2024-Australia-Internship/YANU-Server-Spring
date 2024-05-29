@@ -1,6 +1,7 @@
 package com.bbogle.yanu.domain.farm.controller;
 
-import com.bbogle.yanu.domain.farm.dto.FarmUserResponseDto;
+import com.bbogle.yanu.domain.farm.dto.MyFarmResponseDto;
+import com.bbogle.yanu.domain.farm.dto.OtherFarmResponseDto;
 import com.bbogle.yanu.domain.farm.dto.RegisterFarmRequestDto;
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.farm.service.FarmRegisterService;
@@ -38,15 +39,15 @@ public class FarmController {
         return ResponseEntity.status(HttpStatus.CREATED).body("농장 프로필 등록 성공했습니다");
     }
 
-//    @GetMapping
-//    public ResponseEntity<FarmUserResponseDto> FindMyFarmInfo (HttpServletRequest httpRequest){
-//        FarmEntity farmEntity = findMyFarmInfoService.execute(httpRequest);
-//        return ResponseEntity.ok().body(new FarmUserResponseDto(farmEntity));
-//    }
+    @GetMapping
+    public ResponseEntity<MyFarmResponseDto> FindMyFarmInfo (HttpServletRequest httpRequest){
+        FarmEntity farmEntity = findMyFarmInfoService.execute(httpRequest);
+        return ResponseEntity.ok().body(new MyFarmResponseDto(farmEntity));
+    }
 
     @GetMapping("/{user_id}") // id는 userId
-    public ResponseEntity<FarmUserResponseDto> FindOtherFarmInfo (@PathVariable("user_id") Long id, HttpServletRequest httpRequest){
-        FarmUserResponseDto farm = findOtherFarmInfoService.execute(id, httpRequest);
+    public ResponseEntity<OtherFarmResponseDto> FindOtherFarmInfo (@PathVariable("user_id") Long id, HttpServletRequest httpRequest){
+        OtherFarmResponseDto farm = findOtherFarmInfoService.execute(id, httpRequest);
         return ResponseEntity.ok().body(farm);
     }
 }
