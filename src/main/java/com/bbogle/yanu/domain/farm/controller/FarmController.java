@@ -38,15 +38,15 @@ public class FarmController {
         return ResponseEntity.status(HttpStatus.CREATED).body("농장 프로필 등록 성공했습니다");
     }
 
-    @GetMapping
-    public ResponseEntity<FarmUserResponseDto> FindMyFarmInfo (HttpServletRequest httpRequest){
-        FarmEntity farmEntity = findMyFarmInfoService.execute(httpRequest);
-        return ResponseEntity.ok().body(new FarmUserResponseDto(farmEntity));
-    }
+//    @GetMapping
+//    public ResponseEntity<FarmUserResponseDto> FindMyFarmInfo (HttpServletRequest httpRequest){
+//        FarmEntity farmEntity = findMyFarmInfoService.execute(httpRequest);
+//        return ResponseEntity.ok().body(new FarmUserResponseDto(farmEntity));
+//    }
 
-    @GetMapping("/{id}") // id는 userId
-    public ResponseEntity<FarmUserResponseDto> FindOtherFarmInfo (@PathVariable("id") Long id, HttpServletRequest httpRequest){
-        FarmEntity farmEntity = findOtherFarmInfoService.execute(id, httpRequest);
-        return ResponseEntity.ok().body(new FarmUserResponseDto(farmEntity));
+    @GetMapping("/{user_id}") // id는 userId
+    public ResponseEntity<FarmUserResponseDto> FindOtherFarmInfo (@PathVariable("user_id") Long id, HttpServletRequest httpRequest){
+        FarmUserResponseDto farm = findOtherFarmInfoService.execute(id, httpRequest);
+        return ResponseEntity.ok().body(farm);
     }
 }
