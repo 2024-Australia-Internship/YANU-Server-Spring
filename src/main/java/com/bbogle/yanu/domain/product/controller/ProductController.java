@@ -50,10 +50,7 @@ public class ProductController {
 
     @GetMapping("farm/{farm_id}")
     public List<ProductFarmResponseDto> findAllFarm(@PathVariable ("farm_id") Long id, HttpServletRequest httpRequest){
-        List<ProductEntity> products = findAllFarmService.execute(id, httpRequest);
-        return products.stream()
-                .map(ProductFarmResponseDto::new)
-                .collect(Collectors.toList());
+        return findAllFarmService.execute(id, httpRequest);
     }
 
     @GetMapping("product/{product_id}")
