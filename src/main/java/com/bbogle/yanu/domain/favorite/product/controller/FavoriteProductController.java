@@ -4,7 +4,7 @@ import com.bbogle.yanu.domain.favorite.product.dto.DeleteHeartRequestDto;
 import com.bbogle.yanu.domain.favorite.product.dto.FindHeartRequestDto;
 import com.bbogle.yanu.domain.favorite.product.dto.FindHeartResponseDto;
 import com.bbogle.yanu.domain.favorite.product.dto.RegisterHeartRequestDto;
-import com.bbogle.yanu.domain.favorite.product.domain.FavoriteEntity;
+import com.bbogle.yanu.domain.favorite.product.domain.FavoriteProductEntity;
 import com.bbogle.yanu.domain.favorite.product.service.DeleteHeartService;
 import com.bbogle.yanu.domain.favorite.product.service.FindHeartService;
 import com.bbogle.yanu.domain.favorite.product.service.RegisterHeartService;
@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/favorites")
-public class FavoriteController {
+public class FavoriteProductController {
     private final RegisterHeartService registerHeartService;
     private final DeleteHeartService deleteHeartService;
     private final FindHeartService findHeartService;
@@ -39,7 +39,7 @@ public class FavoriteController {
 
     @GetMapping
     public List<FindHeartResponseDto> findHeart(@RequestBody FindHeartRequestDto request, HttpServletRequest httpRequest){
-        List<FavoriteEntity> hearts = findHeartService.execute(request, httpRequest);
+        List<FavoriteProductEntity> hearts = findHeartService.execute(request, httpRequest);
         return hearts.stream()
                 .map(FindHeartResponseDto::new)
                 .collect(Collectors.toList());

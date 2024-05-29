@@ -1,7 +1,7 @@
 package com.bbogle.yanu.domain.favorite.product.service;
 
 import com.bbogle.yanu.domain.favorite.product.dto.DeleteHeartRequestDto;
-import com.bbogle.yanu.domain.favorite.product.repository.FavoriteRepository;
+import com.bbogle.yanu.domain.favorite.product.repository.FavoriteProductRepository;
 import com.bbogle.yanu.global.exception.HeartNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 public class DeleteHeartService {
-    private final FavoriteRepository favoriteRepository;
+    private final FavoriteProductRepository favoriteRepository;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
 

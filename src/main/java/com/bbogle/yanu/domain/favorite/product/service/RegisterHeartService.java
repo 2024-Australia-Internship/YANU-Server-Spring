@@ -1,7 +1,7 @@
 package com.bbogle.yanu.domain.favorite.product.service;
 
 import com.bbogle.yanu.domain.favorite.product.dto.RegisterHeartRequestDto;
-import com.bbogle.yanu.domain.favorite.product.repository.FavoriteRepository;
+import com.bbogle.yanu.domain.favorite.product.repository.FavoriteProductRepository;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.repository.UserRepository;
 import com.bbogle.yanu.global.exception.HeartDuplicateException;
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @RequiredArgsConstructor
 @Service
 public class RegisterHeartService {
-    private final FavoriteRepository favoriteRepository;
+    private final FavoriteProductRepository favoriteRepository;
     private final UserRepository userRepository;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
