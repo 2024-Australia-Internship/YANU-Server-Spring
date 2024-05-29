@@ -16,8 +16,9 @@ public class ProductResponseDto {
     private Integer price;
     private String unit;
     private String description;
+    private boolean isHeart;
 
-    public ProductResponseDto(ProductEntity productEntity) {
+    public ProductResponseDto(ProductEntity productEntity, boolean isHeart) {
         this.userId = productEntity.getFarm().getUser().getId();
         this.farmId = productEntity.getFarm().getId();
         this.productId = productEntity.getId();
@@ -29,5 +30,6 @@ public class ProductResponseDto {
         this.price = productEntity.getPrice();
         this.unit = productEntity.getUnit();
         this.description = productEntity.getDescription();
+        this.isHeart = isHeart;
     }
 }

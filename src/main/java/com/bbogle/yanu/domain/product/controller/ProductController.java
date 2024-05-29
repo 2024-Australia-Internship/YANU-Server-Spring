@@ -55,8 +55,8 @@ public class ProductController {
 
     @GetMapping("product/{product_id}")
     public ResponseEntity<ProductResponseDto> findByProduct(@PathVariable ("product_id") Long id, HttpServletRequest httpRequest){
-        ProductEntity product = findProductService.execute(id, httpRequest);
-        return ResponseEntity.ok().body(new ProductResponseDto(product));
+        ProductResponseDto product = findProductService.execute(id, httpRequest);
+        return ResponseEntity.ok().body(product);
     }
 
     @PutMapping
