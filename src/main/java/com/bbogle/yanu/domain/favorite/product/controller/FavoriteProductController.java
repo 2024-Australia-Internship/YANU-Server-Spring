@@ -1,7 +1,6 @@
 package com.bbogle.yanu.domain.favorite.product.controller;
 
 import com.bbogle.yanu.domain.favorite.product.dto.DeleteHeartRequestDto;
-import com.bbogle.yanu.domain.favorite.product.dto.FindHeartRequestDto;
 import com.bbogle.yanu.domain.favorite.product.dto.FindHeartResponseDto;
 import com.bbogle.yanu.domain.favorite.product.dto.RegisterHeartRequestDto;
 import com.bbogle.yanu.domain.favorite.product.domain.FavoriteProductEntity;
@@ -38,8 +37,8 @@ public class FavoriteProductController {
     }
 
     @GetMapping
-    public List<FindHeartResponseDto> findHeart(@RequestBody FindHeartRequestDto request, HttpServletRequest httpRequest){
-        List<FavoriteProductEntity> hearts = findHeartService.execute(request, httpRequest);
+    public List<FindHeartResponseDto> findHeart(HttpServletRequest httpRequest){
+        List<FavoriteProductEntity> hearts = findHeartService.execute(httpRequest);
         return hearts.stream()
                 .map(FindHeartResponseDto::new)
                 .collect(Collectors.toList());
