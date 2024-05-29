@@ -2,11 +2,7 @@ package com.bbogle.yanu.domain.cart.service;
 
 import com.bbogle.yanu.domain.cart.dto.DeleteCartRequestDto;
 import com.bbogle.yanu.domain.cart.repository.CartRepository;
-import com.bbogle.yanu.domain.favorite.dto.DeleteHeartRequestDto;
-import com.bbogle.yanu.domain.user.domain.UserEntity;
-import com.bbogle.yanu.domain.user.repository.UserRepository;
 import com.bbogle.yanu.global.exception.CartNotFoundException;
-import com.bbogle.yanu.global.exception.TokenNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
 import com.bbogle.yanu.global.jwt.TokenValidator;

@@ -1,5 +1,6 @@
-package com.bbogle.yanu.domain.favorite.domain;
+package com.bbogle.yanu.domain.favorite.farm.domain;
 
+import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import jakarta.persistence.*;
@@ -9,8 +10,8 @@ import lombok.*;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Entity(name = "favorites")
-public class FavoriteEntity {
+@Entity(name = "favorite_farms")
+public class FavoriteFarmEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -20,9 +21,6 @@ public class FavoriteEntity {
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "product_id")
-    private ProductEntity product;
-
-    @Column
-    private String type;
+    @JoinColumn(name = "farm_id")
+    private FarmEntity farm;
 }
