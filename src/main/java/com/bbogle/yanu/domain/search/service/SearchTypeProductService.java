@@ -23,7 +23,7 @@ public class SearchTypeProductService {
     public List<ProductEntity> execute(String keyword, String type, HttpServletRequest httpRequest) {
         String token = tokenValidator.validateToken(httpRequest);
 
-        List<ProductEntity> searchResult = searchRepository.findAllByTitleContaining(keyword);
+        List<ProductEntity> searchResult = searchRepository.findAllByTitleContainingAndCategory(keyword, type);
         if (searchResult.isEmpty()) {
             throw new ProductNotFoundException("product not found", ErrorCode.PRODUCT_NOTFOUND);
         }
