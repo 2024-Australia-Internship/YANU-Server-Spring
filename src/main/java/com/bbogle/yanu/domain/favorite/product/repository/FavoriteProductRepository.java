@@ -6,8 +6,8 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface FavoriteProductRepository extends JpaRepository<FavoriteProductEntity, Long> {
-    boolean existsByUserIdAndProductIdAndType(Long userId, Long productId, String type);
-    void deleteByUserIdAndProductIdAndType(Long userId, Long productId, String type);
+    boolean existsByUserIdAndProductId(Long userId, Long productId);
+    void deleteByUserIdAndProductId(Long userId, Long productId);
 
-    List<FavoriteProductEntity> findAllByTypeAndUserId(String type, Long userId);
+    List<FavoriteProductEntity> findAllByUserId(Long userId);
 }
