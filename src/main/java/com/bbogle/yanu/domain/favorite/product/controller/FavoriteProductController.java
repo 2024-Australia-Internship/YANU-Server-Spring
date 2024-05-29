@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/favorites")
+@RequestMapping("/favorites/products")
 public class FavoriteProductController {
     private final RegisterHeartService registerHeartService;
     private final DeleteHeartService deleteHeartService;
