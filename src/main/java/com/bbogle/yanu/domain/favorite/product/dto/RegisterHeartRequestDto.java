@@ -7,15 +7,12 @@ import lombok.Getter;
 
 @Getter
 public class RegisterHeartRequestDto {
-    private UserEntity userId;
     private ProductEntity productId;
-    private String type;
 
     public FavoriteProductEntity toEntity(UserEntity userId){
         return FavoriteProductEntity.builder()
                 .user(userId)
                 .product(productId)
-                .type(type)
                 .build();
     }
 }
