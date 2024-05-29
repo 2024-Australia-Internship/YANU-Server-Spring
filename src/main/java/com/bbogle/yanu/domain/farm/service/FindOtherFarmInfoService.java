@@ -1,7 +1,10 @@
 package com.bbogle.yanu.domain.farm.service;
 
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
+import com.bbogle.yanu.domain.farm.dto.FarmUserResponseDto;
 import com.bbogle.yanu.domain.farm.repository.FarmRepository;
+import com.bbogle.yanu.domain.favorite.farm.domain.FavoriteFarmEntity;
+import com.bbogle.yanu.domain.favorite.farm.repository.FavoriteFarmRepository;
 import com.bbogle.yanu.global.exception.TokenNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
@@ -14,11 +17,23 @@ import org.springframework.stereotype.Service;
 @Service
 public class FindOtherFarmInfoService {
     private final FarmRepository farmRepository;
+    private final FavoriteFarmRepository favoriteFarmRepository;
     private final TokenValidator tokenValidator;
+    private final TokenProvider tokenProvider;
 
-    public FarmEntity execute(Long id, HttpServletRequest httpRequest){
+    public FarmUserResponseDto execute(Long user_id, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 
-        return farmRepository.findByUserId(id);
+        Long id = tokenProvider.getUserId(token);
+
+        FarmEntity farm = farmRepository.findByUserId(user_id);
+        Long farm_id = farm.getId();
+
+        boolean favoriteExists = favoriteFarmRepository.existsByUserIdAndFarmId(id, farm_id);
+        if(favoriteExists)
+            return new FarmUserResponseDto(farm, true);
+        else
+            return new FarmUserResponseDto(farm, false);
+
     }
 }
