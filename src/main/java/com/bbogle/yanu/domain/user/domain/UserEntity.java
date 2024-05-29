@@ -2,6 +2,7 @@ package com.bbogle.yanu.domain.user.domain;
 
 import com.bbogle.yanu.domain.cart.domain.CartEntity;
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
+import com.bbogle.yanu.domain.favorite.farm.domain.FavoriteFarmEntity;
 import com.bbogle.yanu.domain.favorite.product.domain.FavoriteProductEntity;
 import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.review.domain.ReviewEntity;
@@ -49,7 +50,11 @@ public class UserEntity {
 
     @JsonIgnore
     @OneToMany(mappedBy = "user",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
-    private List<FavoriteProductEntity> favoriteEntity;
+    private List<FavoriteProductEntity> favoriteProductEntity;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "user",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<FavoriteFarmEntity> favoriteFarmEntity;
 
     @JsonIgnore
     @OneToMany(mappedBy = "user",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)

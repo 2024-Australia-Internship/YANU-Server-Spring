@@ -1,5 +1,6 @@
 package com.bbogle.yanu.domain.farm.domain;
 
+import com.bbogle.yanu.domain.favorite.farm.domain.FavoriteFarmEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -49,6 +50,10 @@ public class FarmEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "farm", cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<ProductEntity> productEntity;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "farm", cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<FavoriteFarmEntity> favoriteFarmEntity;
 
     public void updateProfile(String profile){
         this.profile = profile;
