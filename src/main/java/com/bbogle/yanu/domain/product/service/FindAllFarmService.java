@@ -6,6 +6,7 @@ import com.bbogle.yanu.domain.product.dto.ProductAllResponseDto;
 import com.bbogle.yanu.domain.product.dto.ProductFarmResponseDto;
 import com.bbogle.yanu.domain.product.facade.ProductFacade;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
+import com.bbogle.yanu.global.exception.FarmNotFoundException;
 import com.bbogle.yanu.global.exception.TokenNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
@@ -21,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class FindAllFarmService {
     private final ProductRepository productRepository;
+    private final FarmRepository farmRepository;
     private final ProductFacade productFacade;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
@@ -29,6 +31,10 @@ public class FindAllFarmService {
         String token = tokenValidator.validateToken(httpRequest);
 
         Long userId =  tokenProvider.getUserId(token);
+
+        boolean exist = farmRepository.existsById(farmId);
+        if(!exist)
+            throw new FarmNotFoundException("farm not found", ErrorCode.FARM_NOTFOUND);
 
         List<ProductEntity> products = productRepository.findAllByFarmId(farmId);
 
