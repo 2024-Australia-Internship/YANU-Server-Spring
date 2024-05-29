@@ -1,12 +1,9 @@
 package com.bbogle.yanu.domain.farm.service;
 
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
-import com.bbogle.yanu.domain.farm.dto.FarmUserResponseDto;
+import com.bbogle.yanu.domain.farm.dto.OtherFarmResponseDto;
 import com.bbogle.yanu.domain.farm.repository.FarmRepository;
-import com.bbogle.yanu.domain.favorite.farm.domain.FavoriteFarmEntity;
 import com.bbogle.yanu.domain.favorite.farm.repository.FavoriteFarmRepository;
-import com.bbogle.yanu.global.exception.TokenNotFoundException;
-import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
 import com.bbogle.yanu.global.jwt.TokenValidator;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +18,7 @@ public class FindOtherFarmInfoService {
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
 
-    public FarmUserResponseDto execute(Long user_id, HttpServletRequest httpRequest){
+    public OtherFarmResponseDto execute(Long user_id, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 
         Long id = tokenProvider.getUserId(token);
@@ -31,9 +28,9 @@ public class FindOtherFarmInfoService {
 
         boolean favoriteExists = favoriteFarmRepository.existsByUserIdAndFarmId(id, farm_id);
         if(favoriteExists)
-            return new FarmUserResponseDto(farm, true);
+            return new OtherFarmResponseDto(farm, true);
         else
-            return new FarmUserResponseDto(farm, false);
+            return new OtherFarmResponseDto(farm, false);
 
     }
 }
