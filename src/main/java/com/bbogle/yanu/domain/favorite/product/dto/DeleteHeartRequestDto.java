@@ -1,4 +1,4 @@
-package com.bbogle.yanu.domain.favorite.dto;
+package com.bbogle.yanu.domain.favorite.product.dto;
 
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;

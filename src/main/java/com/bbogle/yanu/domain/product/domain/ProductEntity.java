@@ -2,7 +2,7 @@ package com.bbogle.yanu.domain.product.domain;
 
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.cart.domain.CartEntity;
-import com.bbogle.yanu.domain.favorite.domain.FavoriteEntity;
+import com.bbogle.yanu.domain.favorite.product.domain.FavoriteEntity;
 import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.review.domain.ReviewEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;

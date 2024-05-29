@@ -1,11 +1,10 @@
-package com.bbogle.yanu.domain.favorite.service;
+package com.bbogle.yanu.domain.favorite.product.service;
 
-import com.bbogle.yanu.domain.favorite.dto.RegisterHeartRequestDto;
-import com.bbogle.yanu.domain.favorite.repository.FavoriteRepository;
+import com.bbogle.yanu.domain.favorite.product.dto.RegisterHeartRequestDto;
+import com.bbogle.yanu.domain.favorite.product.repository.FavoriteRepository;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.repository.UserRepository;
 import com.bbogle.yanu.global.exception.HeartDuplicateException;
-import com.bbogle.yanu.global.exception.TokenNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
 import com.bbogle.yanu.global.jwt.TokenValidator;

@@ -1,6 +1,6 @@
-package com.bbogle.yanu.domain.favorite.repository;
+package com.bbogle.yanu.domain.favorite.product.repository;
 
-import com.bbogle.yanu.domain.favorite.domain.FavoriteEntity;
+import com.bbogle.yanu.domain.favorite.product.domain.FavoriteEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

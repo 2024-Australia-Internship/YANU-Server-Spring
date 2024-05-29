@@ -1,10 +1,9 @@
-package com.bbogle.yanu.domain.favorite.dto;
+package com.bbogle.yanu.domain.favorite.product.dto;
 
-import com.bbogle.yanu.domain.favorite.domain.FavoriteEntity;
+import com.bbogle.yanu.domain.favorite.product.domain.FavoriteEntity;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class RegisterHeartRequestDto {
