@@ -14,6 +14,7 @@ public class RegisterCartRequestDto {
         return CartEntity.builder()
                 .product(productId)
                 .user(userId)
+                .quantity(1)
                 .build();
     }
 }
