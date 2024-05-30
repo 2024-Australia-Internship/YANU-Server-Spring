@@ -22,4 +22,9 @@ public class CartEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private ProductEntity product;
+
+    @Column
+    private int quantity;
+
+
 }
