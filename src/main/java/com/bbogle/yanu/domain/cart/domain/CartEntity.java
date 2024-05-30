@@ -26,5 +26,7 @@ public class CartEntity {
     @Column
     private int quantity;
 
-
+    public void updateQuantity(int quantity){
+        this.quantity = quantity;
+    }
 }
