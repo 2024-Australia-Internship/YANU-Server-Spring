@@ -52,7 +52,7 @@ public class FarmEntity {
     @Min(0)
     @Max(100)
     @Column
-    private byte ugly_percent;
+    private float ugly_percent;
 
     @JsonIgnore
     @OneToMany(mappedBy = "farm", cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
