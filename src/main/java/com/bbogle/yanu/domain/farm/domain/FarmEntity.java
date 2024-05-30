@@ -5,6 +5,8 @@ import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 import lombok.*;
 import org.locationtech.jts.geom.Point;
 
@@ -46,6 +48,11 @@ public class FarmEntity {
 
     @Column(columnDefinition = "GEOMETRY")
     private Point geography;
+
+    @Min(0)
+    @Max(100)
+    @Column
+    private byte ugly_percent;
 
     @JsonIgnore
     @OneToMany(mappedBy = "farm", cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
