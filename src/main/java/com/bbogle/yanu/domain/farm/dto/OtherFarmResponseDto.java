@@ -13,7 +13,6 @@ public class OtherFarmResponseDto {
     private String address;
     private Double latitude;
     private Double longitude;
-    private Byte ugly_percent;
     private String profile;
     private boolean isHeart;
 
@@ -24,7 +23,6 @@ public class OtherFarmResponseDto {
         this.phoneNumber = farmEntity.getPhonenumber();
         this.email = farmEntity.getEmail();
         this.address = farmEntity.getAddress();
-        this.ugly_percent = farmEntity.getUser().getUgly_percent();
         this.profile = farmEntity.getUser().getProflie_image();
         this.isHeart = isHeart;
 
