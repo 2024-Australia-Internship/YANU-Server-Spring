@@ -9,6 +9,7 @@ import java.time.LocalDate;
 public class FindProductReviewResponseDto {
     private Long userId;
     private Long productId;
+    private Long farmId;
     private int starrating;
     private String content;
     private LocalDate createdAt;
@@ -16,6 +17,7 @@ public class FindProductReviewResponseDto {
     public FindProductReviewResponseDto (ReviewEntity reviewEntity){
         this.userId = reviewEntity.getUser().getId();
         this.productId = reviewEntity.getProduct().getId();
+        this.farmId = reviewEntity.getProduct().getFarm().getId();
         this.starrating = reviewEntity.getStarraing();
         this.content = reviewEntity.getContent();
         this.createdAt = reviewEntity.getCreateAt();
