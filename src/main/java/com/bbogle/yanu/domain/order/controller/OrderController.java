@@ -29,9 +29,6 @@ public class OrderController {
 
     @GetMapping
     public List<FindOrderResponseDto> findOrder(HttpServletRequest httpRequest){
-        List<OrderEntity> orders = findOrderService.execute(httpRequest);
-        return orders.stream()
-                .map(FindOrderResponseDto::new)
-                .collect(Collectors.toList());
+        return findOrderService.execute(httpRequest);
     }
 }
