@@ -15,7 +15,6 @@ public class RegisterRequestDto {
                 .password(password)
                 .phonenumber(phonenumber)
                 .is_farmer(false)
-                .ugly_percent((byte) 0)
                 .build();
     }
 }

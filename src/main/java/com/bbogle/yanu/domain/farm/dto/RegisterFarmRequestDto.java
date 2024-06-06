@@ -31,6 +31,7 @@ public class RegisterFarmRequestDto {
                 .email(email)
                 .address(address)
                 .geography(geography)
+                .ugly_percent(13)
                 .build();
     }
 }

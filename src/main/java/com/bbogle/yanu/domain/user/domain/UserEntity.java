@@ -39,9 +39,6 @@ public class UserEntity {
     private String proflie_image;
 
     @Column
-    private Byte ugly_percent;
-
-    @Column
     private Boolean is_farmer;
 
     @JsonIgnore

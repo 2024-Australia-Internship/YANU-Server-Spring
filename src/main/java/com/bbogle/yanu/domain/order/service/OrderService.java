@@ -1,5 +1,6 @@
 package com.bbogle.yanu.domain.order.service;
 
+import com.bbogle.yanu.domain.cart.repository.CartRepository;
 import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.order.dto.OrderRequestDto;
 import com.bbogle.yanu.domain.order.repository.OrderRepository;
@@ -23,6 +24,7 @@ import java.util.List;
 public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private final CartRepository cartRepository;
     private final ProductRepository productRepository;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
@@ -38,10 +40,17 @@ public class OrderService {
 
         List<OrderEntity> orderList = request.toEntity(user);
         for(OrderEntity order : orderList) {
+            //상품 존재 확인
             productRepository.findById(order.getProduct().getId())
                     .orElseThrow(() -> new ProductNotFoundException("product not found", ErrorCode.PRODUCT_NOTFOUND));
 
+            //주문 저장
             orderRepository.save(order);
+
+            //장바구니에서 해당 내역이 있다면 제거
+            cartRepository.findByUserAndProduct(user, order.getProduct()).ifPresent(cart -> {
+                cartRepository.deleteByUserAndProduct(user, order.getProduct());
+            });
         }
     }
 }
