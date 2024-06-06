@@ -2,6 +2,7 @@ package com.bbogle.yanu.domain.product.service;
 
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.farm.repository.FarmRepository;
+import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.product.dto.RegisterProductRequestDto;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
@@ -14,6 +15,7 @@ import com.bbogle.yanu.global.jwt.TokenValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -25,7 +27,9 @@ public class RegisterProductService {
     private final UserRepository userRepository;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
-    public void execute(RegisterProductRequestDto request, HttpServletRequest httpRequest){
+
+    @Transactional
+    public Long execute(RegisterProductRequestDto request, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 
         Long userId = tokenProvider.getUserId(token);
@@ -35,9 +39,8 @@ public class RegisterProductService {
             throw new FarmNotFoundException("not farmer", ErrorCode.FARM_NOTFOUND);
         }
 
-        FarmEntity farmEntity = farmRepository.findByUserId(userId);
-
-
-        productRepository.save(request.toEntity(farmEntity));
+        FarmEntity farm = farmRepository.findByUserId(userId);
+        ProductEntity savedProduct = productRepository.save(request.toEntity(farm));
+        return savedProduct.getId();
     }
 }

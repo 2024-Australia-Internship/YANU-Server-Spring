@@ -6,7 +6,6 @@ import lombok.Getter;
 
 @Getter
 public class RegisterProductRequestDto {
-    private FarmEntity farmId;
     private String title;
     private String category;
     private String hashtag;

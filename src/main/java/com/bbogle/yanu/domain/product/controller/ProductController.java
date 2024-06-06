@@ -30,9 +30,9 @@ public class ProductController {
     private final DeleteProductService deleteProductService;
 
     @PostMapping
-    public ResponseEntity<String> registerProduct(@RequestBody RegisterProductRequestDto request, HttpServletRequest httpRequest){
-        registerProductService.execute(request, httpRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body("상품 등록 성공했습니다");
+    public ResponseEntity<Long> registerProduct(@RequestBody RegisterProductRequestDto request, HttpServletRequest httpRequest){
+        Long productId = registerProductService.execute(request, httpRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(productId);
     }
 
     @PostMapping("/image")
