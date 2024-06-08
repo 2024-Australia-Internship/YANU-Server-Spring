@@ -15,8 +15,9 @@ public class SearchResponseDto {
     private String unit;
     private String description;
     private String business_name;
+    private boolean isHeart;
 
-    public SearchResponseDto(ProductEntity productEntity) {
+    public SearchResponseDto(ProductEntity productEntity, boolean isHeart) {
         this.userId = productEntity.getFarm().getUser().getId();
         this.farmId = productEntity.getFarm().getId();
         this.productId = productEntity.getId();
@@ -27,5 +28,6 @@ public class SearchResponseDto {
         this.unit = productEntity.getUnit();
         this.description = productEntity.getDescription();
         this.business_name = productEntity.getFarm().getBusinessName();
+        this.isHeart = isHeart;
     }
 }
