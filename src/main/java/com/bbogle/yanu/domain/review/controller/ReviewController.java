@@ -22,6 +22,7 @@ public class ReviewController {
     private final FindProductReviewService findProductReviewService;
     private final UpdateReviewService updateReviewService;
     private final DeleteReviewService deleteReviewService;
+    private final FindReviewService findReviewService;
 
     @PostMapping
     public ResponseEntity<String> createReview (@RequestBody CreateReviewRequestDto request, HttpServletRequest httpRequest){
@@ -63,5 +64,11 @@ public class ReviewController {
     public ResponseEntity<String> deleteReview (@RequestBody DeleteReviewRequestDto request, HttpServletRequest httpRequest){
         deleteReviewService.execute(request, httpRequest);
         return ResponseEntity.ok().body("리뷰 삭제에 성공했습니다");
+    }
+
+    @GetMapping("/{review_id}")
+    public ResponseEntity<FindReviewResponseDto> findReview(@PathVariable("review_id") Long reviewId, HttpServletRequest httpRequest){
+        ReviewEntity review = findReviewService.execute(reviewId, httpRequest);
+        return ResponseEntity.ok().body(new FindReviewResponseDto(review));
     }
 }

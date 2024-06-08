@@ -26,7 +26,7 @@ public class FindOrderResponseDto {
         this.quantity = orderEntity.getQuantity();
         this.orderDate = orderEntity.getOrder_date();
         this.title = orderEntity.getProduct().getTitle();
-        this.businessName = orderEntity.getProduct().getFarm().getBusiness_name();
+        this.businessName = orderEntity.getProduct().getFarm().getBusinessName();
         this.description = orderEntity.getProduct().getDescription();
         this.price = orderEntity.getProduct().getPrice();
         this.unit = orderEntity.getProduct().getUnit();

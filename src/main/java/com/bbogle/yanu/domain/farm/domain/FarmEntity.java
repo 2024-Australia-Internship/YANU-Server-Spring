@@ -28,8 +28,8 @@ public class FarmEntity {
     @JoinColumn(name = "user_id")
     private UserEntity user;
 
-    @Column
-    private String business_name;
+    @Column(name = "business_name")
+    private String businessName;
 
     @Column
     private String farm_name;

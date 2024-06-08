@@ -6,18 +6,12 @@ import lombok.Getter;
 import java.time.LocalDate;
 
 @Getter
-public class FindProductReviewResponseDto {
-    private Long userId;
-    private Long productId;
-    private Long farmId;
+public class FindReviewResponseDto {
     private int starrating;
     private String content;
     private LocalDate createdAt;
 
-    public FindProductReviewResponseDto (ReviewEntity reviewEntity){
-        this.userId = reviewEntity.getUser().getId();
-        this.productId = reviewEntity.getProduct().getId();
-        this.farmId = reviewEntity.getProduct().getFarm().getId();
+    public FindReviewResponseDto(ReviewEntity reviewEntity){
         this.starrating = reviewEntity.getStarraing();
         this.content = reviewEntity.getContent();
         this.createdAt = reviewEntity.getCreateAt();

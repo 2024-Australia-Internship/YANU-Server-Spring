@@ -26,6 +26,6 @@ public class SearchTypeResponseDto {
         this.price = productEntity.getPrice();
         this.unit = productEntity.getUnit();
         this.description = productEntity.getDescription();
-        this.business_name = productEntity.getFarm().getBusiness_name();
+        this.business_name = productEntity.getFarm().getBusinessName();
     }
 }

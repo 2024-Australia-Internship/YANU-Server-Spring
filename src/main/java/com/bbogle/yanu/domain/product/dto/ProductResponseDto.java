@@ -22,7 +22,7 @@ public class ProductResponseDto {
         this.userId = productEntity.getFarm().getUser().getId();
         this.farmId = productEntity.getFarm().getId();
         this.productId = productEntity.getId();
-        this.business_name = productEntity.getFarm().getBusiness_name();
+        this.business_name = productEntity.getFarm().getBusinessName();
         this.farm_name = productEntity.getFarm().getFarm_name();
         this.title = productEntity.getTitle();
         this.category = productEntity.getCategory();
