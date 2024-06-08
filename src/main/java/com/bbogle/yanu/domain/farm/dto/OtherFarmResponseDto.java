@@ -18,7 +18,7 @@ public class OtherFarmResponseDto {
 
     public OtherFarmResponseDto(FarmEntity farmEntity, boolean isHeart) {
         this.farmId = farmEntity.getId();
-        this.businessName = farmEntity.getBusiness_name();
+        this.businessName = farmEntity.getBusinessName();
         this.farmName = farmEntity.getFarm_name();
         this.phoneNumber = farmEntity.getPhonenumber();
         this.email = farmEntity.getEmail();

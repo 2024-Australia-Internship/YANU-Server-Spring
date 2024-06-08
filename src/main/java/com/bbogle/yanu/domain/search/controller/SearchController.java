@@ -1,8 +1,11 @@
 package com.bbogle.yanu.domain.search.controller;
 
+import com.bbogle.yanu.domain.farm.domain.FarmEntity;
+import com.bbogle.yanu.domain.search.dto.SearchFarmResponseDto;
 import com.bbogle.yanu.domain.search.dto.SearchResponseDto;
 import com.bbogle.yanu.domain.search.dto.SearchTypeResponseDto;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
+import com.bbogle.yanu.domain.search.service.SearchFarmService;
 import com.bbogle.yanu.domain.search.service.SearchProductService;
 import com.bbogle.yanu.domain.search.service.SearchTypeProductService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +24,7 @@ import java.util.stream.Collectors;
 public class SearchController {
     private final SearchProductService searchProductService;
     private final SearchTypeProductService searchTypeProductService;
+    private final SearchFarmService searchFarmService;
 
     @GetMapping("/{keyword}")
     public List<SearchResponseDto> searchProduct(@PathVariable ("keyword") String keyword, HttpServletRequest httpRequest){
@@ -36,5 +40,14 @@ public class SearchController {
         return products.stream()
                 .map(SearchTypeResponseDto::new)
                 .collect(Collectors.toList());
+    }
+
+    @GetMapping("/farms/{keyword}")
+    public List<SearchFarmResponseDto> searchFarm(@PathVariable("keyword") String keyword, HttpServletRequest httpRequest){
+        List<FarmEntity> farms = searchFarmService.execute(keyword, httpRequest);
+        return farms.stream()
+                .map(SearchFarmResponseDto::new)
+                .collect(Collectors.toList());
+
     }
 }

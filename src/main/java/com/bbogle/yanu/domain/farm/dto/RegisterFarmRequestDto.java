@@ -25,7 +25,7 @@ public class RegisterFarmRequestDto {
 
         return FarmEntity.builder()
                 .user(userId)
-                .business_name(business_name)
+                .businessName(business_name)
                 .farm_name(farm_name)
                 .phonenumber(phonenumber)
                 .email(email)
