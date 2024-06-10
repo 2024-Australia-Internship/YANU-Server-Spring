@@ -65,4 +65,8 @@ public class FarmEntity {
     public void updateProfile(String profile){
         this.profile = profile;
     }
+
+    public void updateUglyPercent(float uglyPercnet){
+        this.ugly_percent+=uglyPercnet;
+    }
 }
