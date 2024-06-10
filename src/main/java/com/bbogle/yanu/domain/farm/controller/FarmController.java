@@ -1,13 +1,11 @@
 package com.bbogle.yanu.domain.farm.controller;
 
+import com.bbogle.yanu.domain.farm.dto.FindFarmReviewResponseDto;
 import com.bbogle.yanu.domain.farm.dto.MyFarmResponseDto;
 import com.bbogle.yanu.domain.farm.dto.OtherFarmResponseDto;
 import com.bbogle.yanu.domain.farm.dto.RegisterFarmRequestDto;
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
-import com.bbogle.yanu.domain.farm.service.FarmRegisterService;
-import com.bbogle.yanu.domain.farm.service.FindMyFarmInfoService;
-import com.bbogle.yanu.domain.farm.service.FindOtherFarmInfoService;
-import com.bbogle.yanu.domain.farm.service.FarmImageRegisterService;
+import com.bbogle.yanu.domain.farm.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,6 +24,7 @@ public class FarmController {
     private final FarmImageRegisterService farmImageRegisterService;
     private final FindMyFarmInfoService findMyFarmInfoService;
     private final FindOtherFarmInfoService findOtherFarmInfoService;
+    private final FindFarmReviewService findFarmReviewService;
 
     @PostMapping
     public ResponseEntity<String> registerFarm(@RequestBody RegisterFarmRequestDto request, HttpServletRequest httpRequest){
@@ -49,5 +49,12 @@ public class FarmController {
     public ResponseEntity<OtherFarmResponseDto> FindOtherFarmInfo (@PathVariable("user_id") Long id, HttpServletRequest httpRequest){
         OtherFarmResponseDto farm = findOtherFarmInfoService.execute(id, httpRequest);
         return ResponseEntity.ok().body(farm);
+    }
+
+    @GetMapping("/{farm_id}/reviews")
+    public List<FindFarmReviewResponseDto> findFarmReview(@PathVariable("farm_id") Long farmId,
+                                                          HttpServletRequest httpRequest){
+        List<FindFarmReviewResponseDto> reviews = findFarmReviewService.execute(farmId, httpRequest);
+        return reviews;
     }
 }
