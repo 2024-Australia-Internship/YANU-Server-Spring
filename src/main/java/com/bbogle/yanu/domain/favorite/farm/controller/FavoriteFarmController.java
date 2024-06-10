@@ -25,13 +25,15 @@ public class FavoriteFarmController {
     private final FindFarmHeartService findFarmHeartService;
 
     @PostMapping
-    public ResponseEntity<String> registerHeart(@RequestBody RegisterFarmHeartRequestDto request, HttpServletRequest httpRequest){
+    public ResponseEntity<String> registerHeart(@RequestBody RegisterFarmHeartRequestDto request,
+                                                HttpServletRequest httpRequest){
         registerFarmHeartService.execute(request, httpRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("하트 등록에 성공했습니다.");
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteHeart(@RequestBody DeleteFarmHeartRequestDto request, HttpServletRequest httpRequest){
+    public ResponseEntity<String> deleteHeart(@RequestBody DeleteFarmHeartRequestDto request,
+                                              HttpServletRequest httpRequest){
         deleteFarmHeartService.execute(request, httpRequest);
         return ResponseEntity.ok().body("하트 삭제 성공했습니다.");
     }

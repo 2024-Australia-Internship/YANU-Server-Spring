@@ -25,13 +25,15 @@ public class FavoriteProductController {
     private final FindProductHeartService findProductHeartService;
 
     @PostMapping
-    public ResponseEntity<String> registerHeart(@RequestBody RegisterProductHeartRequestDto request, HttpServletRequest httpRequest){
+    public ResponseEntity<String> registerHeart(@RequestBody RegisterProductHeartRequestDto request,
+                                                HttpServletRequest httpRequest){
         registerProductHeartService.execute(request, httpRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("하트 등록에 성공했습니다.");
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteHeart(@RequestBody DeleteProductHeartRequestDto request, HttpServletRequest httpRequest){
+    public ResponseEntity<String> deleteHeart(@RequestBody DeleteProductHeartRequestDto request,
+                                              HttpServletRequest httpRequest){
         deleteProductHeartService.execute(request, httpRequest);
         return ResponseEntity.ok().body("하트 삭제 성공했습니다.");
     }

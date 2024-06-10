@@ -28,19 +28,22 @@ public class SearchController {
     private final SearchFarmService searchFarmService;
 
     @GetMapping("/{keyword}")
-    public List<SearchProductResponseDto> searchProduct(@PathVariable ("keyword") String keyword, HttpServletRequest httpRequest){
+    public List<SearchProductResponseDto> searchProduct(@PathVariable ("keyword") String keyword,
+                                                        HttpServletRequest httpRequest){
         List<SearchProductResponseDto> products = searchProductService.execute(keyword, httpRequest);
         return products;
     }
 
     @GetMapping("/{keyword}/{type}")
-    public List<SearchResponseDto> searchTypeProduct(@PathVariable ("keyword") String keyword, @PathVariable("type") String type, HttpServletRequest httpRequest){
+    public List<SearchResponseDto> searchTypeProduct(@PathVariable ("keyword") String keyword, @PathVariable("type") String type,
+                                                     HttpServletRequest httpRequest){
         List<SearchResponseDto> products = searchTypeProductService.execute(keyword, type, httpRequest);
         return products;
     }
 
     @GetMapping("/farms/{keyword}")
-    public List<SearchFarmResponseDto> searchFarm(@PathVariable("keyword") String keyword, HttpServletRequest httpRequest){
+    public List<SearchFarmResponseDto> searchFarm(@PathVariable("keyword") String keyword,
+                                                  HttpServletRequest httpRequest){
          return searchFarmService.execute(keyword, httpRequest);
     }
 }
