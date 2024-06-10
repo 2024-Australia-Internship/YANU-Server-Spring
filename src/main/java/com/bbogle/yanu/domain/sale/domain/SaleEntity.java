@@ -1,6 +1,7 @@
 package com.bbogle.yanu.domain.sale.domain;
 
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
+import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -19,8 +20,8 @@ public class SaleEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private UserEntity user;
+    @JoinColumn(name = "product_id")
+    private ProductEntity product;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "farm_id")
