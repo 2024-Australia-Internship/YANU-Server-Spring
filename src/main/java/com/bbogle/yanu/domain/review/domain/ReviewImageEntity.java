@@ -1,12 +1,12 @@
 package com.bbogle.yanu.domain.review.domain;
 
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
+@Builder
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
 @Entity(name = "review_images")
 public class ReviewImageEntity {
     @Id
@@ -18,4 +18,5 @@ public class ReviewImageEntity {
     private ReviewEntity review;
 
     private String url;
+
 }
