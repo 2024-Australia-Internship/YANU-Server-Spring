@@ -24,13 +24,19 @@ public class OrderRequestDto {
                 .collect(Collectors.toList());
     }
 
-    public List<SaleEntity> toSaleEntity(UserEntity user){
+    public List<SaleEntity> toSaleEntity(List<ProductEntity> products){
         return orders.stream()
-                .map(order -> SaleEntity.builder()
-                        .user(user)
-                        .farm(FarmEntity.builder().id(order.getProductId()).build())
-                        .quantity(order.getQuantity())
-                        .build())
+                .map(order -> {
+                    ProductEntity product = products.stream()
+                            .filter(p -> p.getId().equals(order.getProductId()))
+                            .findFirst()
+                            .orElseThrow(() -> new RuntimeException("Product not found"));
+                    return SaleEntity.builder()
+                            .product(product)
+                            .farm(product.getFarm())
+                            .quantity(order.getQuantity())
+                            .build();
+                })
                 .collect(Collectors.toList());
     }
 }
