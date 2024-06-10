@@ -7,6 +7,7 @@ import lombok.Getter;
 public class FindCartResponseDto {
     private Long userId;
     private Long productId;
+    private Long farmId;
     private int quantity;
     private String title;
     private String businessName;
@@ -15,8 +16,9 @@ public class FindCartResponseDto {
     private String unit;
 
     public FindCartResponseDto(CartEntity cartEntity) {
-        this.userId = cartEntity.getUser().getId();
+        this.userId = cartEntity.getProduct().getFarm().getUser().getId();
         this.productId = cartEntity.getProduct().getId();
+        this.farmId = cartEntity.getProduct().getFarm().getId();
         this.quantity = cartEntity.getQuantity();
         this.title = cartEntity.getProduct().getTitle();
         this.businessName = cartEntity.getProduct().getFarm().getBusinessName();
