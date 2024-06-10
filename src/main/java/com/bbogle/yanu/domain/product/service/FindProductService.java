@@ -1,9 +1,11 @@
 package com.bbogle.yanu.domain.product.service;
 
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
+import com.bbogle.yanu.domain.product.domain.ProductImageEntity;
 import com.bbogle.yanu.domain.product.dto.ProductAllResponseDto;
 import com.bbogle.yanu.domain.product.dto.ProductResponseDto;
 import com.bbogle.yanu.domain.product.facade.ProductFacade;
+import com.bbogle.yanu.domain.product.repository.ProductImageRepository;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
 import com.bbogle.yanu.global.exception.ProductNotFoundException;
 import com.bbogle.yanu.global.exception.TokenNotFoundException;
@@ -21,6 +23,7 @@ import java.util.stream.Collectors;
 @Service
 public class FindProductService {
     private final ProductRepository productRepository;
+    private final ProductImageRepository productImageRepository;
     private final TokenValidator tokenValidator;
     private final ProductFacade productFacade;
     private final TokenProvider tokenProvider;
@@ -33,6 +36,7 @@ public class FindProductService {
         ProductEntity product = productRepository.findById(product_id)
                 .orElseThrow(()-> new ProductNotFoundException("product not found", ErrorCode.PRODUCT_NOTFOUND));
 
-        return new ProductResponseDto(product, productFacade.checkIsHeart(product, userId));
+        List<ProductImageEntity> images = productImageRepository.findAllByProductId(product_id);
+        return new ProductResponseDto(product, productFacade.checkIsHeart(product, userId), images);
     }
 }

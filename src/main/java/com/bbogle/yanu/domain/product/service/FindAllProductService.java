@@ -1,8 +1,10 @@
 package com.bbogle.yanu.domain.product.service;
 
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
+import com.bbogle.yanu.domain.product.domain.ProductImageEntity;
 import com.bbogle.yanu.domain.product.dto.ProductAllResponseDto;
 import com.bbogle.yanu.domain.product.facade.ProductFacade;
+import com.bbogle.yanu.domain.product.repository.ProductImageRepository;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
 import com.bbogle.yanu.global.exception.TokenNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
@@ -20,6 +22,7 @@ import java.util.stream.Collectors;
 @Service
 public class FindAllProductService {
     private final ProductRepository productRepository;
+    private final ProductImageRepository productImageRepository;
     private final ProductFacade productFacade;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
@@ -30,9 +33,12 @@ public class FindAllProductService {
         Long userId = tokenProvider.getUserId(token);
 
         List<ProductEntity> products = productRepository.findAll();
+        List<ProductImageEntity> images = productImageRepository.findAll();
 
         return products.stream()
-                .map(product -> new ProductAllResponseDto(product, productFacade.checkIsHeart(product, userId)))
+                .map(product -> new ProductAllResponseDto(product,
+                        productFacade.checkIsHeart(product, userId),
+                        images))
                 .collect(Collectors.toList());
     }
 }
