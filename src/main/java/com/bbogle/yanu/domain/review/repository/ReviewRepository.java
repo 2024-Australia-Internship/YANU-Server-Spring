@@ -1,5 +1,6 @@
 package com.bbogle.yanu.domain.review.repository;
 
+import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.review.domain.ReviewEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -12,4 +13,5 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
     Optional<ReviewEntity> findByUserIdAndProductId(Long userId, Long productId);
     List<ReviewEntity> findAllByProductId(Long productId);
     void deleteByUserIdAndProductId(Long userId, Long productId);
+    List<ReviewEntity> findAllByProductIn(List<ProductEntity> products);
 }

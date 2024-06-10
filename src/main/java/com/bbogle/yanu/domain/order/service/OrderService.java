@@ -4,7 +4,10 @@ import com.bbogle.yanu.domain.cart.repository.CartRepository;
 import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.order.dto.OrderRequestDto;
 import com.bbogle.yanu.domain.order.repository.OrderRepository;
+import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
+import com.bbogle.yanu.domain.sale.domain.SaleEntity;
+import com.bbogle.yanu.domain.sale.repository.SaleRepository;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.repository.UserRepository;
 import com.bbogle.yanu.global.exception.ProductNotFoundException;
@@ -18,6 +21,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -25,6 +29,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
+    private final SaleRepository saleRepository;
     private final ProductRepository productRepository;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
@@ -36,18 +41,24 @@ public class OrderService {
         Long userId = tokenProvider.getUserId(token);
 
         UserEntity user = userRepository.findById(userId)
-                .orElseThrow(()->new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
+                .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
 
         List<OrderEntity> orderList = request.toEntity(user);
-        for(OrderEntity order : orderList) {
-            //상품 존재 확인
-            productRepository.findById(order.getProduct().getId())
-                    .orElseThrow(() -> new ProductNotFoundException("product not found", ErrorCode.PRODUCT_NOTFOUND));
 
-            //주문 저장
-            orderRepository.save(order);
+        List<ProductEntity> products = orderList.stream()
+                .map(order -> productRepository.findById(order.getProduct().getId())
+                        .orElseThrow(() -> new ProductNotFoundException("product not found", ErrorCode.PRODUCT_NOTFOUND)))
+                .collect(Collectors.toList());
 
-            //장바구니에서 해당 내역이 있다면 제거
+        // 주문 저장
+        orderRepository.saveAll(orderList);
+
+        // 판매 도메인에 저장
+        List<SaleEntity> saleList = request.toSaleEntity(products);
+        saleRepository.saveAll(saleList);
+
+        // 장바구니에서 해당 내역이 있다면 제거
+        for (OrderEntity order : orderList) {
             cartRepository.findByUserAndProduct(user, order.getProduct()).ifPresent(cart -> {
                 cartRepository.deleteByUserAndProduct(user, order.getProduct());
             });
