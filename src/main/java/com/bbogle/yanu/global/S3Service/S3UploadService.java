@@ -75,10 +75,4 @@ public class S3UploadService {
         return imgUrlList;
     }
 
-    public String getFilePath(String email){
-        UserEntity user = userRepository.findByEmail(email);
-        String imgPath = user.getProflie_image();
-        return amazonS3.getUrl(bucketName , imgPath).toString();
-    }
-
 }
