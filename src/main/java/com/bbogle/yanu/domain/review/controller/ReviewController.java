@@ -6,9 +6,12 @@ import com.bbogle.yanu.domain.review.service.*;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -17,6 +20,7 @@ import java.util.stream.Collectors;
 @RequestMapping("/reviews")
 public class ReviewController {
     private final CreateReviewService createReviewService;
+    private final CreateReviewImageService createReviewImageService;
     private final FindMyReviewService findMyReviewService;
     private final FindOtherReviewService findOtherReviewService;
     private final FindProductReviewService findProductReviewService;
@@ -25,10 +29,18 @@ public class ReviewController {
     private final FindReviewService findReviewService;
 
     @PostMapping
-    public ResponseEntity<String> createReview (@RequestBody CreateReviewRequestDto request,
+    public ResponseEntity<Long> createReview (@RequestBody CreateReviewRequestDto request,
                                                 HttpServletRequest httpRequest){
-        createReviewService.execute(request, httpRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body("리뷰 등록 성공했습니다");
+        Long reviewId = createReviewService.execute(request, httpRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(reviewId);
+    }
+
+    @PostMapping(value = "/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> createReviewImage(@RequestParam(value = "image", required = false) List<MultipartFile> files,
+                                                    @RequestParam("review_id") Long reviewId,
+                                                    HttpServletRequest httpRequest) throws IOException {
+        createReviewImageService.execute(files, reviewId, httpRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body("이미지 등록 성공했습니다");
     }
 
     @GetMapping
