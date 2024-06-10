@@ -4,6 +4,7 @@ import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.farm.repository.FarmRepository;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.product.dto.RegisterProductRequestDto;
+import com.bbogle.yanu.domain.product.dto.RegisterProductResponseDto;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.repository.UserRepository;
@@ -29,7 +30,7 @@ public class RegisterProductService {
     private final TokenProvider tokenProvider;
 
     @Transactional
-    public Long execute(RegisterProductRequestDto request, HttpServletRequest httpRequest){
+    public RegisterProductResponseDto execute(RegisterProductRequestDto request, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 
         Long userId = tokenProvider.getUserId(token);
@@ -41,6 +42,6 @@ public class RegisterProductService {
 
         FarmEntity farm = farmRepository.findByUserId(userId);
         ProductEntity savedProduct = productRepository.save(request.toEntity(farm));
-        return savedProduct.getId();
+        return new RegisterProductResponseDto(userId, farm.getId());
     }
 }
