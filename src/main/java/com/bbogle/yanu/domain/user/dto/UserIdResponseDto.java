@@ -8,16 +8,16 @@ public class UserIdResponseDto {
     private Long id;
     private String email;
     private String phonenumber;
-    private String profile_image;
     private String nickname;
     private Boolean is_farmer;
+    private String profile;
 
-    public UserIdResponseDto(UserEntity userEntity, String profile_image) {
+    public UserIdResponseDto(UserEntity userEntity) {
         this.id = userEntity.getId();
         this.email = userEntity.getEmail();
         this.phonenumber = userEntity.getPhonenumber();
-        this.profile_image = profile_image;
         this.nickname = userEntity.getNickname();
         this.is_farmer = userEntity.getIs_farmer();
+        this.profile = userEntity.getProflie_image();
     }
 }

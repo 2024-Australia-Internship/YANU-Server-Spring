@@ -2,11 +2,13 @@ package com.bbogle.yanu.domain.review.domain;
 
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Builder
 @Getter
@@ -35,6 +37,10 @@ public class ReviewEntity {
     @Column
     @UpdateTimestamp
     private LocalDate createAt;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "review",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private List<ReviewImageEntity> reviewImageEntity;
 
     public void updateReview(int starraing, String content){
         this.starraing = starraing;

@@ -4,6 +4,7 @@ import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.farm.repository.FarmRepository;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
+import com.bbogle.yanu.domain.review.domain.ReviewEntity;
 import com.bbogle.yanu.domain.review.dto.CreateReviewRequestDto;
 import com.bbogle.yanu.domain.review.repository.ReviewRepository;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
@@ -31,7 +32,7 @@ public class CreateReviewService {
     private final TokenProvider tokenProvider;
 
     @Transactional
-    public void execute(CreateReviewRequestDto request, HttpServletRequest httpRequest){
+    public Long execute(CreateReviewRequestDto request, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 
         Long userId = tokenProvider.getUserId(token);
@@ -48,7 +49,7 @@ public class CreateReviewService {
         ProductEntity product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException("product not found", ErrorCode.PRODUCT_NOTFOUND));
 
-        reviewRepository.save(request.toEntity(user, product));
+        ReviewEntity review = reviewRepository.save(request.toEntity(user, product));
 
         //ugly_percent update
         int starrating = request.getStarrating();
@@ -63,5 +64,7 @@ public class CreateReviewService {
         FarmEntity farm = farmRepository.findById(farmId)
                 .orElseThrow(() -> new FarmNotFoundException("farm not found", ErrorCode.FARM_NOTFOUND));
         farm.updateUglyPercent(ugly_percent);
+
+        return review.getId();
     }
 }
