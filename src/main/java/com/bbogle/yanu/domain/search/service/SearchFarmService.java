@@ -38,7 +38,4 @@ public class SearchFarmService {
                 .collect(Collectors.toList());
     }
 
-    private int cntProduct(Long farmId){
-        return productRepository.countByFarmId(farmId);
-    }
 }
