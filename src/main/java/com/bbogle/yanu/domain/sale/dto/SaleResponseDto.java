@@ -14,6 +14,7 @@ public class SaleResponseDto {
     private String title;
     private int quantity;
     private int price;
+    private String farmName;
 
     public SaleResponseDto(SaleEntity sale) {
         this.farmId = sale.getFarm().getId();
@@ -22,5 +23,6 @@ public class SaleResponseDto {
         this.quantity = sale.getQuantity();
         this.title = sale.getProduct().getTitle();
         this.price = sale.getProduct().getPrice();
+        this.farmName = sale.getFarm().getFarm_name();
     }
 }

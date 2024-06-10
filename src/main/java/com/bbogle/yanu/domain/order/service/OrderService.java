@@ -1,6 +1,8 @@
 package com.bbogle.yanu.domain.order.service;
 
 import com.bbogle.yanu.domain.cart.repository.CartRepository;
+import com.bbogle.yanu.domain.farm.domain.FarmEntity;
+import com.bbogle.yanu.domain.farm.repository.FarmRepository;
 import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.order.dto.OrderRequestDto;
 import com.bbogle.yanu.domain.order.repository.OrderRepository;
@@ -30,6 +32,7 @@ public class OrderService {
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
     private final SaleRepository saleRepository;
+    private final FarmRepository farmRepository;
     private final ProductRepository productRepository;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
@@ -63,5 +66,13 @@ public class OrderService {
                 cartRepository.deleteByUserAndProduct(user, order.getProduct());
             });
         }
+
+        //ugly_percent 업데이트
+        for (ProductEntity product : products) {
+            FarmEntity farm = product.getFarm();
+            farm.updateUglyPercent(0.2F);
+            farmRepository.save(farm);
+        }
+
     }
 }
