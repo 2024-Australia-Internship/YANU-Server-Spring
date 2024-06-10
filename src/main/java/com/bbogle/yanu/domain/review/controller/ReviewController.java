@@ -45,44 +45,39 @@ public class ReviewController {
 
     @GetMapping
     public List<FindMyReveiwResponseDto> findMyReview(HttpServletRequest httpRequest){
-        List<ReviewEntity> reviews = findMyReviewService.execute(httpRequest);
-        return reviews.stream()
-                .map(FindMyReveiwResponseDto::new)
-                .collect(Collectors.toList());
+        return findMyReviewService.execute(httpRequest);
     }
 
     @GetMapping("/user/{user_id}")
     public List<FindOtherReviewResponseDto> findOtherReview(@PathVariable("user_id") Long userId,
                                                             HttpServletRequest httpRequest){
-        List<ReviewEntity> reviews = findOtherReviewService.execute(userId, httpRequest);
-        return reviews.stream()
-                .map(FindOtherReviewResponseDto::new)
-                .collect(Collectors.toList());
+        return findOtherReviewService.execute(userId, httpRequest);
     }
 
     @GetMapping("/product/{product_id}")
-    public List<FindProductReviewResponseDto> findProductReview(@PathVariable("product_id") Long productId, HttpServletRequest httpRequest){
-        List<ReviewEntity> reviews = findProductReviewService.execute(productId, httpRequest);
-        return reviews.stream()
-                .map(FindProductReviewResponseDto::new)
-                .collect(Collectors.toList());
+    public List<FindProductReviewResponseDto> findProductReview(@PathVariable("product_id") Long productId,
+                                                                HttpServletRequest httpRequest){
+        return findProductReviewService.execute(productId, httpRequest);
     }
 
     @PutMapping
-    public ResponseEntity<String> updateReview (@RequestBody UpdateReviewRequestDto request, HttpServletRequest httpRequest){
+    public ResponseEntity<String> updateReview (@RequestBody UpdateReviewRequestDto request,
+                                                HttpServletRequest httpRequest){
         updateReviewService.execute(request, httpRequest);
         return ResponseEntity.ok().body("리뷰 수정에 성공했습니다");
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteReview (@RequestBody DeleteReviewRequestDto request, HttpServletRequest httpRequest){
+    public ResponseEntity<String> deleteReview (@RequestBody DeleteReviewRequestDto request,
+                                                HttpServletRequest httpRequest){
         deleteReviewService.execute(request, httpRequest);
         return ResponseEntity.ok().body("리뷰 삭제에 성공했습니다");
     }
 
     @GetMapping("/{review_id}")
-    public ResponseEntity<FindReviewResponseDto> findReview(@PathVariable("review_id") Long reviewId, HttpServletRequest httpRequest){
-        ReviewEntity review = findReviewService.execute(reviewId, httpRequest);
-        return ResponseEntity.ok().body(new FindReviewResponseDto(review));
+    public ResponseEntity<FindReviewResponseDto> findReview(@PathVariable("review_id") Long reviewId,
+                                                            HttpServletRequest httpRequest){
+        FindReviewResponseDto review = findReviewService.execute(reviewId, httpRequest);
+        return ResponseEntity.ok().body(review);
     }
 }
