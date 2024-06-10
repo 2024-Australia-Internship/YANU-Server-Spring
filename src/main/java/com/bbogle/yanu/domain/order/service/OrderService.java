@@ -5,6 +5,8 @@ import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.order.dto.OrderRequestDto;
 import com.bbogle.yanu.domain.order.repository.OrderRepository;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
+import com.bbogle.yanu.domain.sale.domain.SaleEntity;
+import com.bbogle.yanu.domain.sale.repository.SaleRepository;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.repository.UserRepository;
 import com.bbogle.yanu.global.exception.ProductNotFoundException;
@@ -25,6 +27,7 @@ public class OrderService {
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
     private final CartRepository cartRepository;
+    private final SaleRepository saleRepository;
     private final ProductRepository productRepository;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
@@ -51,6 +54,12 @@ public class OrderService {
             cartRepository.findByUserAndProduct(user, order.getProduct()).ifPresent(cart -> {
                 cartRepository.deleteByUserAndProduct(user, order.getProduct());
             });
+        }
+
+        List<SaleEntity> saleList = request.toSaleEntity(user);
+        for (SaleEntity sale : saleList) {
+            // 판매 도메인에 저장
+            saleRepository.save(sale);
         }
     }
 }
