@@ -41,10 +41,6 @@ public class SearchController {
 
     @GetMapping("/farms/{keyword}")
     public List<SearchFarmResponseDto> searchFarm(@PathVariable("keyword") String keyword, HttpServletRequest httpRequest){
-        List<FarmEntity> farms = searchFarmService.execute(keyword, httpRequest);
-        return farms.stream()
-                .map(SearchFarmResponseDto::new)
-                .collect(Collectors.toList());
-
+         return searchFarmService.execute(keyword, httpRequest);
     }
 }
