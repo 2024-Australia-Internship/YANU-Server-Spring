@@ -9,6 +9,7 @@ import com.bbogle.yanu.global.S3Service.S3UploadService;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -36,8 +37,8 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(product);
     }
 
-    @PostMapping("/image")
-    public ResponseEntity<String> registerProductImage(@RequestParam("image") List<MultipartFile> files,
+    @PostMapping(value = "/image", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> registerProductImage(@RequestParam(value = "image", required = false) List<MultipartFile> files,
                                                        @RequestParam("productId") Long productId,
                                                        HttpServletRequest httpRequest) throws IOException {
         registerProductImageService.execute(files, productId, httpRequest);
