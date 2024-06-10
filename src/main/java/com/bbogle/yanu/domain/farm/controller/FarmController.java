@@ -27,7 +27,8 @@ public class FarmController {
     private final FindFarmReviewService findFarmReviewService;
 
     @PostMapping
-    public ResponseEntity<String> registerFarm(@RequestBody RegisterFarmRequestDto request, HttpServletRequest httpRequest){
+    public ResponseEntity<String> registerFarm(@RequestBody RegisterFarmRequestDto request,
+                                               HttpServletRequest httpRequest){
         farmRegisterService.execute(request, httpRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("농장 등록 성공했습니다.");
     }
@@ -46,7 +47,8 @@ public class FarmController {
     }
 
     @GetMapping("/{user_id}") // id는 userId
-    public ResponseEntity<OtherFarmResponseDto> FindOtherFarmInfo (@PathVariable("user_id") Long id, HttpServletRequest httpRequest){
+    public ResponseEntity<OtherFarmResponseDto> FindOtherFarmInfo (@PathVariable("user_id") Long id,
+                                                                   HttpServletRequest httpRequest){
         OtherFarmResponseDto farm = findOtherFarmInfoService.execute(id, httpRequest);
         return ResponseEntity.ok().body(farm);
     }

@@ -28,13 +28,15 @@ public class CartController {
     private final UpdateQuantityService updateQuantityService;
 
     @PostMapping
-    public ResponseEntity<String> registerCart(@RequestBody RegisterCartRequestDto requst, HttpServletRequest httpRequest){
+    public ResponseEntity<String> registerCart(@RequestBody RegisterCartRequestDto requst,
+                                               HttpServletRequest httpRequest){
         registerCartService.execute(requst, httpRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("장바구니 등록에 성공했습니다.");
     }
 
     @DeleteMapping
-    public ResponseEntity<String> deleteCart(@RequestBody DeleteCartRequestDto request, HttpServletRequest httpRequest){
+    public ResponseEntity<String> deleteCart(@RequestBody DeleteCartRequestDto request,
+                                             HttpServletRequest httpRequest){
         deleteCartService.execute(request, httpRequest);
         return ResponseEntity.ok().body("장바구니에서 삭제 성공했습니다.");
     }
@@ -48,7 +50,8 @@ public class CartController {
     }
 
     @PutMapping("/quantity")
-    public ResponseEntity<String> updateQuantity(@RequestBody UpdateQuantityRequestDto request, HttpServletRequest httpRequest){
+    public ResponseEntity<String> updateQuantity(@RequestBody UpdateQuantityRequestDto request,
+                                                 HttpServletRequest httpRequest){
         updateQuantityService.execute(request, httpRequest);
         return ResponseEntity.ok().body("장바구니 수량 변경 성공했습니다");
     }

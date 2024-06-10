@@ -47,7 +47,8 @@ public class UserController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<UserIdResponseDto> findOtherInfo (@PathVariable("id") Long id, HttpServletRequest request){
+    public ResponseEntity<UserIdResponseDto> findOtherInfo (@PathVariable("id") Long id,
+                                                            HttpServletRequest request){
         UserEntity user = findOtherInfoService.execute(id, request);
         return ResponseEntity.ok().body(new UserIdResponseDto(user, ""));
     }

@@ -25,7 +25,8 @@ public class ReviewController {
     private final FindReviewService findReviewService;
 
     @PostMapping
-    public ResponseEntity<String> createReview (@RequestBody CreateReviewRequestDto request, HttpServletRequest httpRequest){
+    public ResponseEntity<String> createReview (@RequestBody CreateReviewRequestDto request,
+                                                HttpServletRequest httpRequest){
         createReviewService.execute(request, httpRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("리뷰 등록 성공했습니다");
     }
@@ -39,7 +40,8 @@ public class ReviewController {
     }
 
     @GetMapping("/user/{user_id}")
-    public List<FindOtherReviewResponseDto> findOtherReview(@PathVariable("user_id") Long userId, HttpServletRequest httpRequest){
+    public List<FindOtherReviewResponseDto> findOtherReview(@PathVariable("user_id") Long userId,
+                                                            HttpServletRequest httpRequest){
         List<ReviewEntity> reviews = findOtherReviewService.execute(userId, httpRequest);
         return reviews.stream()
                 .map(FindOtherReviewResponseDto::new)

@@ -22,7 +22,8 @@ public class OrderController {
     private final FindOrderService findOrderService;
 
     @PostMapping
-    public ResponseEntity<String> order(@RequestBody OrderRequestDto request, HttpServletRequest httpRequest){
+    public ResponseEntity<String> order(@RequestBody OrderRequestDto request,
+                                        HttpServletRequest httpRequest){
         orderService.execute(request, httpRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body("주문 성공 했습니다");
     }
