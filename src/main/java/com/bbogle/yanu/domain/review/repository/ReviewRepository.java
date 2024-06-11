@@ -14,4 +14,5 @@ public interface ReviewRepository extends JpaRepository<ReviewEntity, Long> {
     List<ReviewEntity> findAllByProductId(Long productId);
     void deleteByUserIdAndProductId(Long userId, Long productId);
     List<ReviewEntity> findAllByProductIn(List<ProductEntity> products);
+    List<ReviewEntity> findByUserIdIn(List<Long> userId);
 }
