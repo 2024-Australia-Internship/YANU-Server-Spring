@@ -26,11 +26,6 @@ public class SearchFarmService {
     public List<SearchFarmResponseDto> execute(String keyword, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 
-        Long userId = tokenProvider.getUserId(token);
-
-        FarmEntity farm = farmRepository.findByUserId(userId);
-        Long farmId = farm.getId();
-
         List<FarmEntity> searchResult = farmRepository.findAllByBusinessNameContaining(keyword);
 
         return searchResult.stream()

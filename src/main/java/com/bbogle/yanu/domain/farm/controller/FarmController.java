@@ -1,9 +1,6 @@
 package com.bbogle.yanu.domain.farm.controller;
 
-import com.bbogle.yanu.domain.farm.dto.FindFarmReviewResponseDto;
-import com.bbogle.yanu.domain.farm.dto.MyFarmResponseDto;
-import com.bbogle.yanu.domain.farm.dto.OtherFarmResponseDto;
-import com.bbogle.yanu.domain.farm.dto.RegisterFarmRequestDto;
+import com.bbogle.yanu.domain.farm.dto.*;
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.farm.service.*;
 import jakarta.servlet.http.HttpServletRequest;
@@ -25,6 +22,7 @@ public class FarmController {
     private final FindMyFarmInfoService findMyFarmInfoService;
     private final FindOtherFarmInfoService findOtherFarmInfoService;
     private final FindFarmReviewService findFarmReviewService;
+    private final FindListFarmService findListFarmService;
 
     @PostMapping
     public ResponseEntity<String> registerFarm(@RequestBody RegisterFarmRequestDto request,
@@ -58,5 +56,10 @@ public class FarmController {
                                                           HttpServletRequest httpRequest){
         List<FindFarmReviewResponseDto> reviews = findFarmReviewService.execute(farmId, httpRequest);
         return reviews;
+    }
+
+    @GetMapping("/lists")
+    public List<FindListFarmResponseDto> findAllFarm(HttpServletRequest httpRequest){
+        return findListFarmService.execute(httpRequest);
     }
 }
