@@ -1,6 +1,7 @@
 package com.bbogle.yanu.domain.sale.domain;
 
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
+import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import jakarta.persistence.*;
@@ -28,6 +29,10 @@ public class SaleEntity {
     private FarmEntity farm;
 
     private int quantity;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private OrderEntity order;
 
     @CreationTimestamp
     private LocalDate sale_date;
