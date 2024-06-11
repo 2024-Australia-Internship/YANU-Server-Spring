@@ -2,6 +2,7 @@ package com.bbogle.yanu.domain.search.service;
 
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.farm.repository.FarmRepository;
+import com.bbogle.yanu.domain.favorite.farm.repository.FavoriteFarmRepository;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
 import com.bbogle.yanu.domain.review.domain.ReviewEntity;
 import com.bbogle.yanu.domain.review.repository.ReviewRepository;
@@ -21,19 +22,24 @@ import java.util.stream.Collectors;
 public class SearchFarmService {
     private final FarmRepository farmRepository;
     private final ReviewRepository reviewRepository;
+    private final FavoriteFarmRepository favoriteFarmRepository;
     private final TokenValidator tokenValidator;
+    private final TokenProvider tokenProvider;
 
     @Transactional(readOnly = true)
     public List<SearchFarmResponseDto> execute( String keyword, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 
+        Long userId = tokenProvider.getUserId(token);
         List<FarmEntity> searchResult = farmRepository.findAllByBusinessNameContaining(keyword);
         List<Long> userIds = searchResult.stream().map(FarmEntity::getId).collect(Collectors.toList());
         List<ReviewEntity> reviews = reviewRepository.findByUserIdIn(userIds);
 
 
         return searchResult.stream()
-                .map(farm -> new SearchFarmResponseDto(farm, filterReviewsForFarm(reviews, farm.getId())))
+                .map(farm -> new SearchFarmResponseDto(farm,
+                        filterReviewsForFarm(reviews, farm.getId()),
+                        checkIsHeart(farm, userId)))
                 .collect(Collectors.toList());
     }
 
@@ -43,4 +49,9 @@ public class SearchFarmService {
                 .collect(Collectors.toList());
     }
 
+    private boolean checkIsHeart(FarmEntity farm, Long userId){
+        Long farmId = farm.getId();
+
+        return favoriteFarmRepository.existsByUserIdAndFarmId(userId, farmId);
+    }
 }
