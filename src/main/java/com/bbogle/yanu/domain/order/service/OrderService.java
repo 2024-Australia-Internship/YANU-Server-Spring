@@ -57,10 +57,10 @@ public class OrderService {
         List<OrderEntity> orderList = request.toEntity(user, products);
 
         // 주문 저장
-        orderRepository.saveAll(orderList);
+        List<OrderEntity> orders = orderRepository.saveAll(orderList);
 
         // 판매 도메인에 저장
-        List<SaleEntity> saleList = request.toSaleEntity(products);
+        List<SaleEntity> saleList = request.toSaleEntity(orders, products);
         saleRepository.saveAll(saleList);
 
         // 장바구니에서 해당 내역이 있다면 제거

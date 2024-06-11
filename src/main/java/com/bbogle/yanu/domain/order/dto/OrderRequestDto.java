@@ -30,14 +30,15 @@ public class OrderRequestDto {
                 .collect(Collectors.toList());
     }
 
-    public List<SaleEntity> toSaleEntity(List<ProductEntity> products){
+    public List<SaleEntity> toSaleEntity(List<OrderEntity> orders, List<ProductEntity> products){
         return orders.stream()
                 .map(order -> {
                     ProductEntity product = products.stream()
-                            .filter(p -> p.getId().equals(order.getProductId()))
+                            .filter(p -> p.getId().equals(order.getProduct().getId()))
                             .findFirst()
                             .orElseThrow(() -> new RuntimeException("Product not found"));
                     return SaleEntity.builder()
+                            .order(order)
                             .product(product)
                             .farm(product.getFarm())
                             .quantity(order.getQuantity())
