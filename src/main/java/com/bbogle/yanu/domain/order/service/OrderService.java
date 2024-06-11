@@ -4,7 +4,9 @@ import com.bbogle.yanu.domain.cart.repository.CartRepository;
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.farm.repository.FarmRepository;
 import com.bbogle.yanu.domain.order.domain.OrderEntity;
+import com.bbogle.yanu.domain.order.dto.Order;
 import com.bbogle.yanu.domain.order.dto.OrderRequestDto;
+import com.bbogle.yanu.domain.order.dto.OrderResponseDto;
 import com.bbogle.yanu.domain.order.repository.OrderRepository;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
@@ -38,7 +40,7 @@ public class OrderService {
     private final TokenProvider tokenProvider;
 
     @Transactional
-    public void execute(OrderRequestDto request, HttpServletRequest httpRequest){
+    public List<OrderResponseDto> execute(OrderRequestDto request, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 
         Long userId = tokenProvider.getUserId(token);
@@ -46,12 +48,13 @@ public class OrderService {
         UserEntity user = userRepository.findById(userId)
                 .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
 
-        List<OrderEntity> orderList = request.toEntity(user);
+        List<ProductEntity> products = productRepository.findAllById(
+                request.getOrders().stream()
+                        .map(Order::getProductId)
+                        .collect(Collectors.toList())
+        );
 
-        List<ProductEntity> products = orderList.stream()
-                .map(order -> productRepository.findById(order.getProduct().getId())
-                        .orElseThrow(() -> new ProductNotFoundException("product not found", ErrorCode.PRODUCT_NOTFOUND)))
-                .collect(Collectors.toList());
+        List<OrderEntity> orderList = request.toEntity(user, products);
 
         // 주문 저장
         orderRepository.saveAll(orderList);
@@ -73,6 +76,11 @@ public class OrderService {
             farm.updateUglyPercent(0.2F);
             farmRepository.save(farm);
         }
+
+        // 주문 정보 반환
+        return orderList.stream()
+                .map(OrderResponseDto::new)
+                .collect(Collectors.toList());
 
     }
 }

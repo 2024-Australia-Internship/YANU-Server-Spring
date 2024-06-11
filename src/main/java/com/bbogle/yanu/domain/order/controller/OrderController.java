@@ -3,6 +3,7 @@ package com.bbogle.yanu.domain.order.controller;
 import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.order.dto.FindOrderResponseDto;
 import com.bbogle.yanu.domain.order.dto.OrderRequestDto;
+import com.bbogle.yanu.domain.order.dto.OrderResponseDto;
 import com.bbogle.yanu.domain.order.service.FindOrderService;
 import com.bbogle.yanu.domain.order.service.OrderService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,10 +23,10 @@ public class OrderController {
     private final FindOrderService findOrderService;
 
     @PostMapping
-    public ResponseEntity<String> order(@RequestBody OrderRequestDto request,
-                                        HttpServletRequest httpRequest){
-        orderService.execute(request, httpRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body("주문 성공 했습니다");
+    public List<OrderResponseDto> order(@RequestBody OrderRequestDto request,
+                                                  HttpServletRequest httpRequest){
+
+        return orderService.execute(request, httpRequest);
     }
 
     @GetMapping

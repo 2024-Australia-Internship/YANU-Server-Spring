@@ -14,13 +14,19 @@ import java.util.stream.Collectors;
 public class OrderRequestDto {
     List<Order> orders;
 
-    public List<OrderEntity> toEntity(UserEntity userId){
+    public List<OrderEntity> toEntity(UserEntity userId, List<ProductEntity> products){
         return orders.stream()
-                .map(order -> OrderEntity.builder()
-                        .user(userId)
-                        .product(ProductEntity.builder().id(order.getProductId()).build())
-                        .quantity(order.getQuantity())
-                        .build())
+                .map(order -> {
+                    ProductEntity product = products.stream()
+                            .filter(p -> p.getId().equals(order.getProductId()))
+                            .findFirst()
+                            .orElseThrow(() -> new RuntimeException("Product not found"));
+                    return OrderEntity.builder()
+                            .user(userId)
+                            .product(product)
+                            .quantity(order.getQuantity())
+                            .build();
+                })
                 .collect(Collectors.toList());
     }
 
