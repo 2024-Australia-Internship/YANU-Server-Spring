@@ -49,8 +49,9 @@ public class SaleService {
 
         List<SaleEntity> sales = saleRepository.findAllByFarmId(farmId);
 
+
         return sales.stream()
-                .map(SaleResponseDto::new)
+                .map(sale -> new SaleResponseDto(sale, userId))
                 .collect(Collectors.toList());
     }
 }
