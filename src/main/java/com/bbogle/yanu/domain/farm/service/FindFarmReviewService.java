@@ -23,24 +23,12 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @Service
 public class FindFarmReviewService {
-    private final UserRepository userRepository;
-    private final FarmRepository farmRepository;
     private final ProductRepository productRepository;
     private final ReviewRepository reviewRepository;
     private final TokenValidator tokenValidator;
-    private final TokenProvider tokenProvider;
 
     public List<FindFarmReviewResponseDto> execute(Long farmId, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
-
-        Long userId = tokenProvider.getUserId(token);
-        UserEntity user = userRepository.findById(userId)
-                .orElseThrow(() -> new UserNotFoundException("User not found", ErrorCode.USER_NOTFOUND));
-
-        if (!user.getIs_farmer()) {
-            throw new IllegalArgumentException("User is not a farmer");
-        }
-
 
         List<ProductEntity> products = productRepository.findAllByFarmId(farmId);
         List<ReviewEntity> reviews = reviewRepository.findAllByProductIn(products);
