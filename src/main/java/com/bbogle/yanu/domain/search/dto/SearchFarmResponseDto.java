@@ -1,7 +1,9 @@
 package com.bbogle.yanu.domain.search.dto;
 
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
+import com.bbogle.yanu.domain.farm.dto.Product;
 import com.bbogle.yanu.domain.farm.dto.Review;
+import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.review.domain.ReviewEntity;
 import lombok.Getter;
 
@@ -18,9 +20,10 @@ public class SearchFarmResponseDto {
     private double longtitude;
     private boolean checkIsHeart;
     List<Review> reviews;
+    private List<Product> products;
 
 
-    public SearchFarmResponseDto(FarmEntity farm, List<ReviewEntity> reviews, boolean checkIsHeart){
+    public SearchFarmResponseDto(FarmEntity farm, List<ReviewEntity> reviews, List<ProductEntity> productEntities, boolean checkIsHeart){
         this.farmId = farm.getId();
         this.userId = farm.getUser().getId();
         this.businessName = farm.getBusinessName();
@@ -28,6 +31,8 @@ public class SearchFarmResponseDto {
         this.latitude = farm.getGeography().getX();
         this.longtitude = farm.getGeography().getY();
         this.reviews = reviews.stream().map(Review::new).collect(Collectors.toList());
+        this.products = productEntities.stream().map(Product::new).collect(Collectors.toList());
+
         this.checkIsHeart = checkIsHeart;
     }
 }

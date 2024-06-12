@@ -3,6 +3,7 @@ package com.bbogle.yanu.domain.search.service;
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.farm.repository.FarmRepository;
 import com.bbogle.yanu.domain.favorite.farm.repository.FavoriteFarmRepository;
+import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
 import com.bbogle.yanu.domain.review.domain.ReviewEntity;
 import com.bbogle.yanu.domain.review.repository.ReviewRepository;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
 public class SearchFarmService {
     private final FarmRepository farmRepository;
     private final ReviewRepository reviewRepository;
+    private final ProductRepository productRepository;
     private final FavoriteFarmRepository favoriteFarmRepository;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
@@ -32,13 +34,16 @@ public class SearchFarmService {
 
         Long userId = tokenProvider.getUserId(token);
         List<FarmEntity> searchResult = farmRepository.findAllByBusinessNameContaining(keyword);
-        List<Long> userIds = searchResult.stream().map(FarmEntity::getId).collect(Collectors.toList());
+        List<Long> userIds = searchResult.stream().map(farm -> farm.getUser().getId()).collect(Collectors.toList());
         List<ReviewEntity> reviews = reviewRepository.findByUserIdIn(userIds);
 
+        List<Long> farmIds = searchResult.stream().map(FarmEntity::getId).collect(Collectors.toList());
+        List<ProductEntity> products = productRepository.findByFarmIdIn(farmIds);
 
         return searchResult.stream()
                 .map(farm -> new SearchFarmResponseDto(farm,
                         filterReviewsForFarm(reviews, farm.getId()),
+                        filterProductsForFarm(products, farm.getId()),
                         checkIsHeart(farm, userId)))
                 .collect(Collectors.toList());
     }
@@ -46,6 +51,12 @@ public class SearchFarmService {
     private List<ReviewEntity> filterReviewsForFarm(List<ReviewEntity> reviews, Long farmId) {
         return reviews.stream()
                 .filter(review -> review.getProduct().getFarm().getId().equals(farmId))
+                .collect(Collectors.toList());
+    }
+
+    private List<ProductEntity> filterProductsForFarm(List<ProductEntity> products, Long farmId) {
+        return products.stream()
+                .filter(product -> product.getFarm().getId().equals(farmId))
                 .collect(Collectors.toList());
     }
 
