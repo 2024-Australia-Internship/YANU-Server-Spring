@@ -7,6 +7,7 @@ import java.time.LocalDate;
 
 @Getter
 public class FindFarmReviewResponseDto {
+    private Long productId;
     private String name;
     private LocalDate createAt;
     private int starrating;
@@ -14,6 +15,7 @@ public class FindFarmReviewResponseDto {
     private String content;
 
     public FindFarmReviewResponseDto(ReviewEntity review){
+        this.productId = review.getProduct().getId();
         this.name = review.getUser().getNickname();
         this.createAt = review.getCreateAt();
         this.starrating = review.getStarraing();
