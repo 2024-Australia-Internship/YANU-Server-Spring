@@ -18,6 +18,10 @@ public class FindMyReveiwResponseDto {
     private String content;
     private LocalDate createdAt;
     private List<String> images;
+    private String writerName;
+    private String title;
+    private String description;
+
 
     public FindMyReveiwResponseDto (ReviewEntity reviewEntity, List<ReviewImageEntity> images){
         this.userId = reviewEntity.getUser().getId();
@@ -30,5 +34,9 @@ public class FindMyReveiwResponseDto {
                 .filter(image -> image.getReview().getId().equals(reviewEntity.getId()))
                 .map(ReviewImageEntity::getUrl)
                 .collect(Collectors.toList());
+        this.writerName = reviewEntity.getUser().getNickname();
+        this.title = reviewEntity.getProduct().getTitle();
+        this.description = reviewEntity.getProduct().getDescription();
+
     }
 }

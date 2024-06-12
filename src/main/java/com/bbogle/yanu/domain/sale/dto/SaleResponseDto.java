@@ -8,6 +8,7 @@ import java.time.LocalDate;
 
 @Getter
 public class SaleResponseDto {
+    private Long userId;
     private Long farmId;
     private Long productId;
     private LocalDate saleDate;
@@ -15,8 +16,11 @@ public class SaleResponseDto {
     private int quantity;
     private int price;
     private String farmName;
+    private String buyerName;
 
-    public SaleResponseDto(SaleEntity sale) {
+
+    public SaleResponseDto(SaleEntity sale, Long userId) {
+        this.userId = userId;
         this.farmId = sale.getFarm().getId();
         this.productId = sale.getProduct().getId();
         this.saleDate = sale.getSale_date();
@@ -24,5 +28,6 @@ public class SaleResponseDto {
         this.title = sale.getProduct().getTitle();
         this.price = sale.getProduct().getPrice();
         this.farmName = sale.getFarm().getFarm_name();
+        this.buyerName = sale.getOrder().getUser().getNickname();
     }
 }
