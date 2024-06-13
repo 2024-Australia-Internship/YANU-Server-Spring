@@ -18,5 +18,4 @@ public class ReviewImageEntity {
     private ReviewEntity review;
 
     private String url;
-
 }

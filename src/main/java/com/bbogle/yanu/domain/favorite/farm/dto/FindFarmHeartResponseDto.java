@@ -22,7 +22,7 @@ public class FindFarmHeartResponseDto {
     private List<Product> products;
 
     public FindFarmHeartResponseDto(FavoriteFarmEntity heart, List<ReviewEntity> reviews, List<ProductEntity> productEntities, boolean checkIsHeart){
-        this.user_id = heart.getUser().getId();
+        this.user_id = heart.getFarm().getUser().getId();
         this.farm_id = heart.getFarm().getId();
         this.farmName = heart.getFarm().getFarm_name();
         this.businessName = heart.getFarm().getBusinessName();

@@ -75,8 +75,7 @@ public class S3UploadService {
     }
 
     public void deleteImage(String imageUrl) {
-        String fileName = imageUrl.substring(imageUrl.lastIndexOf("/") + 1);
-        amazonS3.deleteObject(bucketName, fileName);
+        amazonS3.deleteObject(bucketName, imageUrl);
     }
 
 }
