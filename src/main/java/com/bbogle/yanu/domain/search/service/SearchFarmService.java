@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -41,10 +42,13 @@ public class SearchFarmService {
         List<ProductEntity> products = productRepository.findByFarmIdIn(farmIds);
 
         return searchResult.stream()
-                .map(farm -> new SearchFarmResponseDto(farm,
-                        filterReviewsForFarm(reviews, farm.getId()),
-                        filterProductsForFarm(products, farm.getId()),
-                        checkIsHeart(farm, userId)))
+                .map(farm -> {
+                    List<ReviewEntity> farmReviews = filterReviewsForFarm(reviews, farm.getId());
+                    double averageStarRating = calculateAverageStarRating(farmReviews);
+                    List<ProductEntity> farmProducts = filterProductsForFarm(products, farm.getId());
+                    boolean isHeart = checkIsHeart(farm, userId);
+                    return new SearchFarmResponseDto(farm, farmReviews, farmProducts, isHeart, averageStarRating);
+                })
                 .collect(Collectors.toList());
     }
 
@@ -58,6 +62,13 @@ public class SearchFarmService {
         return products.stream()
                 .filter(product -> product.getFarm().getId().equals(farmId))
                 .collect(Collectors.toList());
+    }
+
+    private double calculateAverageStarRating(List<ReviewEntity> reviews) {
+        OptionalDouble average = reviews.stream()
+                .mapToDouble(ReviewEntity::getStarraing)
+                .average();
+        return average.isPresent() ? average.getAsDouble() : 0.0;
     }
 
     private boolean checkIsHeart(FarmEntity farm, Long userId){
