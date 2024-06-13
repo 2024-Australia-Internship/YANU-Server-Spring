@@ -1,6 +1,7 @@
 package com.bbogle.yanu.domain.favorite.farm.service;
 
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
+import com.bbogle.yanu.domain.farm.dto.Product;
 import com.bbogle.yanu.domain.favorite.farm.domain.FavoriteFarmEntity;
 import com.bbogle.yanu.domain.favorite.farm.dto.FindFarmHeartResponseDto;
 import com.bbogle.yanu.domain.favorite.farm.repository.FavoriteFarmRepository;
@@ -40,16 +41,19 @@ public class FindFarmHeartService {
         if(hearts.isEmpty())
             throw new HeartNotFoundException("heart not found", ErrorCode.HEART_NOTFOUND);
 
-        List<Long> userIds = hearts.stream().map(farm -> farm.getUser().getId()).collect(Collectors.toList());
-        List<ReviewEntity> reviews = reviewRepository.findByUserIdIn(userIds);
-
         List<Long> farmIds = hearts.stream().map(farm -> farm.getFarm().getId()).collect(Collectors.toList());
-        List<ProductEntity> products = productRepository.findByFarmIdIn(farmIds);
+        List<Long> productIds = productRepository.findByFarmIdIn(farmIds).stream()
+                .map(ProductEntity::getId)
+                .collect(Collectors.toList());
+
+        List<ReviewEntity> reviews = reviewRepository.findByProductIdIn(productIds);
+        List<ProductEntity> products = productRepository.findByIdIn(productIds); // Fetch ProductEntity objects
 
         return hearts.stream()
-                .map(heart -> new FindFarmHeartResponseDto(heart,
-                        filterReviewsForFarm(reviews, heart.getId()),
-                        filterProductsForFarm(products, heart.getId()),
+                .map(heart -> new FindFarmHeartResponseDto(
+                        heart,
+                        filterReviewsForFarm(reviews, heart.getFarm().getId()),
+                        filterProductsForFarm(products, heart.getFarm().getId()),
                         checkIsHeart(heart, userId)))
                 .collect(Collectors.toList());
 
@@ -67,9 +71,8 @@ public class FindFarmHeartService {
                 .collect(Collectors.toList());
     }
 
-    private boolean checkIsHeart(FavoriteFarmEntity heart, Long userId){
+    private boolean checkIsHeart(FavoriteFarmEntity heart, Long userId) {
         Long farmId = heart.getFarm().getId();
-
         return favoriteFarmRepository.existsByUserIdAndFarmId(userId, farmId);
     }
 

@@ -1,6 +1,5 @@
 package com.bbogle.yanu.domain.favorite.farm.dto;
 
-import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.farm.dto.Product;
 import com.bbogle.yanu.domain.farm.dto.Review;
 import com.bbogle.yanu.domain.favorite.farm.domain.FavoriteFarmEntity;
@@ -21,13 +20,13 @@ public class FindFarmHeartResponseDto {
     private List<Review> reviews;
     private List<Product> products;
 
-    public FindFarmHeartResponseDto(FavoriteFarmEntity heart, List<ReviewEntity> reviews, List<ProductEntity> productEntities, boolean checkIsHeart){
+    public FindFarmHeartResponseDto(FavoriteFarmEntity heart, List<ReviewEntity> reviews, List<ProductEntity> productIds, boolean checkIsHeart) {
         this.user_id = heart.getFarm().getUser().getId();
         this.farm_id = heart.getFarm().getId();
         this.farmName = heart.getFarm().getFarm_name();
         this.businessName = heart.getFarm().getBusinessName();
         this.reviews = reviews.stream().map(Review::new).collect(Collectors.toList());
-        this.products = productEntities.stream().map(Product::new).collect(Collectors.toList());
+        this.products = productIds.stream().map(Product::new).collect(Collectors.toList());
         this.checkIsHeart = checkIsHeart;
     }
 }
