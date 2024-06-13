@@ -35,15 +35,14 @@ public class SearchFarmService {
 
         Long userId = tokenProvider.getUserId(token);
         List<FarmEntity> searchResult = farmRepository.findAllByBusinessNameContaining(keyword);
-        List<Long> userIds = searchResult.stream().map(farm -> farm.getUser().getId()).collect(Collectors.toList());
-        List<ReviewEntity> reviews = reviewRepository.findByUserIdIn(userIds);
-
         List<Long> farmIds = searchResult.stream().map(FarmEntity::getId).collect(Collectors.toList());
         List<ProductEntity> products = productRepository.findByFarmIdIn(farmIds);
+        List<Long> productIds = products.stream().map(ProductEntity::getId).collect(Collectors.toList());
+        List<ReviewEntity> reviews = reviewRepository.findByProductIdIn(productIds);
 
         return searchResult.stream()
                 .map(farm -> {
-                    List<ReviewEntity> farmReviews = filterReviewsForFarm(reviews, farm.getId());
+                    List<ReviewEntity> farmReviews = filterReviewsForFarm(reviews, farm.getId(), products);
                     double averageStarRating = calculateAverageStarRating(farmReviews);
                     List<ProductEntity> farmProducts = filterProductsForFarm(products, farm.getId());
                     boolean isHeart = checkIsHeart(farm, userId);
@@ -52,9 +51,14 @@ public class SearchFarmService {
                 .collect(Collectors.toList());
     }
 
-    private List<ReviewEntity> filterReviewsForFarm(List<ReviewEntity> reviews, Long farmId) {
+    private List<ReviewEntity> filterReviewsForFarm(List<ReviewEntity> reviews, Long farmId, List<ProductEntity> products) {
+        List<Long> farmProductIds = products.stream()
+                .filter(product -> product.getFarm().getId().equals(farmId))
+                .map(ProductEntity::getId)
+                .collect(Collectors.toList());
+
         return reviews.stream()
-                .filter(review -> review.getProduct().getFarm().getId().equals(farmId))
+                .filter(review -> farmProductIds.contains(review.getProduct().getId()))
                 .collect(Collectors.toList());
     }
 
