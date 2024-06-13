@@ -17,7 +17,7 @@ public class SearchFarmResponseDto {
     private String businessName;
     private String farmName;
     private double latitude;
-    private double longtitude;
+    private double longitude;
     private boolean checkIsHeart;
     List<Review> reviews;
     private List<Product> products;
@@ -29,7 +29,7 @@ public class SearchFarmResponseDto {
         this.businessName = farm.getBusinessName();
         this.farmName = farm.getFarm_name();
         this.latitude = farm.getGeography().getX();
-        this.longtitude = farm.getGeography().getY();
+        this.longitude = farm.getGeography().getY();
         this.reviews = reviews.stream().map(Review::new).collect(Collectors.toList());
         this.products = productEntities.stream().map(Product::new).collect(Collectors.toList());
 
