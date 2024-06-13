@@ -64,9 +64,16 @@ public class ProductController {
     }
 
     @PutMapping
-    public ResponseEntity<String> putProduct (@RequestBody PutProductRequestDto request,
-                                              HttpServletRequest httpRequest){
-        putProductService.execute(request, httpRequest);
+    public ResponseEntity<String> putProduct (@RequestParam(value = "image", required = false) List<MultipartFile> files,
+                                              @RequestParam("productId") Long productId,
+                                              @RequestParam("title") String title,
+                                              @RequestParam("category") String category,
+                                              @RequestParam("hashtag") String hashtag,
+                                              @RequestParam("price") int price,
+                                              @RequestParam("unit") String unit,
+                                              @RequestParam("description") String description,
+                                              HttpServletRequest httpRequest) throws IOException {
+        putProductService.execute(files, productId, title, category, hashtag, price, unit, description, httpRequest);
         return ResponseEntity.ok().body("상품 정보 변경에 성공했습니다");
     }
 
