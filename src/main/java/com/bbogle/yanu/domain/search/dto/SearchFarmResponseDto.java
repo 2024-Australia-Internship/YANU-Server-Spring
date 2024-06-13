@@ -30,9 +30,9 @@ public class SearchFarmResponseDto {
         this.farmName = farm.getFarm_name();
         this.latitude = farm.getGeography().getX();
         this.longitude = farm.getGeography().getY();
+        this.checkIsHeart = checkIsHeart;
         this.reviews = reviews.stream().map(Review::new).collect(Collectors.toList());
         this.products = productEntities.stream().map(Product::new).collect(Collectors.toList());
 
-        this.checkIsHeart = checkIsHeart;
     }
 }
