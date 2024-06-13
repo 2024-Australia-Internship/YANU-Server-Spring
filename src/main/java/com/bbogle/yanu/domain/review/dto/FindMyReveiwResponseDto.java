@@ -14,6 +14,7 @@ public class FindMyReveiwResponseDto {
     private Long userId;
     private Long productId;
     private Long farmId;
+    private Long reviewId;
     private int starrating;
     private String content;
     private LocalDate createdAt;
@@ -27,6 +28,7 @@ public class FindMyReveiwResponseDto {
         this.userId = reviewEntity.getUser().getId();
         this.productId = reviewEntity.getProduct().getId();
         this.farmId = reviewEntity.getProduct().getFarm().getId();
+        this.reviewId = reviewEntity.getId();
         this.starrating = reviewEntity.getStarraing();
         this.content = reviewEntity.getContent();
         this.createdAt = reviewEntity.getCreateAt();
