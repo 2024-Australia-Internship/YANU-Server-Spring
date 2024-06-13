@@ -15,6 +15,7 @@ import java.util.stream.Collectors;
 public class FindFarmHeartResponseDto {
     private Long user_id;
     private Long farm_id;
+    private String farmName;
     private String businessName;
     private boolean checkIsHeart;
     private List<Review> reviews;
@@ -23,6 +24,7 @@ public class FindFarmHeartResponseDto {
     public FindFarmHeartResponseDto(FavoriteFarmEntity heart, List<ReviewEntity> reviews, List<ProductEntity> productEntities, boolean checkIsHeart){
         this.user_id = heart.getUser().getId();
         this.farm_id = heart.getFarm().getId();
+        this.farmName = heart.getFarm().getFarm_name();
         this.businessName = heart.getFarm().getBusinessName();
         this.reviews = reviews.stream().map(Review::new).collect(Collectors.toList());
         this.products = productEntities.stream().map(Product::new).collect(Collectors.toList());
