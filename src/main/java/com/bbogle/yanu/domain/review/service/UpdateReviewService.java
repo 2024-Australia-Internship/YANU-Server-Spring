@@ -32,7 +32,7 @@ public class UpdateReviewService {
     private final TokenProvider tokenProvider;
 
     @Transactional
-    public void execute(List<MultipartFile> files, Long productId, int starrating, String content, HttpServletRequest httpRequest) throws IOException {
+    public void execute(Long productId, String removeImage, List<MultipartFile> files, int starrating, String content, HttpServletRequest httpRequest) throws IOException {
         String token = tokenValidator.validateToken(httpRequest);
 
         Long userId = tokenProvider.getUserId(token);
@@ -46,23 +46,24 @@ public class UpdateReviewService {
                 content
         );
 
-        //이미지 S3에서 삭제
-        List<ReviewImageEntity> images = reviewImageRepository.findAllByReviewId(review.getId());
-        for(ReviewImageEntity image : images){
-            s3UploadService.deleteImage(image.getUrl());
-            reviewImageRepository.delete(image);
+        if (!removeImage.isEmpty()) {
+            List<String> deleteImages = List.of(removeImage.split(" "));
+            for (String imageUrl : deleteImages) {
+                s3UploadService.deleteImage(imageUrl);
+                reviewImageRepository.deleteAllByUrl(imageUrl);
+            }
         }
 
-        //이미지 S3 업로드
-        List<String> imageList = s3UploadService.uploadFilesToS3(files, email);
-        for (String imageUrl : imageList) {
-            ReviewImageEntity newImage = ReviewImageEntity.builder()
-                    .url(imageUrl)
-                    .review(review)
-                    .build();
-            reviewImageRepository.save(newImage);
+        if (files != null && !files.isEmpty()) {
+            List<String> imageList = s3UploadService.uploadFilesToS3(files, email);
+            for (String imageUrl : imageList) {
+                ReviewImageEntity newImage = ReviewImageEntity.builder()
+                        .url(imageUrl)
+                        .review(review)
+                        .build();
+                reviewImageRepository.save(newImage);
+            }
         }
-
 
         reviewRepository.save(review);
     }

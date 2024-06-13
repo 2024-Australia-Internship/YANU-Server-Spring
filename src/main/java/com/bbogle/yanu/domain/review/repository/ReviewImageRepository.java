@@ -8,4 +8,5 @@ import java.util.List;
 public interface ReviewImageRepository extends JpaRepository<ReviewImageEntity, Long> {
     List<ReviewImageEntity> findByReviewIdIn(List<Long> reviewIds);
     List<ReviewImageEntity> findAllByReviewId(Long reviewId);
+    void deleteAllByUrl(String imageUrl);
 }

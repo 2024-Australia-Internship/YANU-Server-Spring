@@ -60,13 +60,14 @@ public class ReviewController {
         return findProductReviewService.execute(productId, httpRequest);
     }
 
-    @PutMapping(consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    public ResponseEntity<String> updateReview (@RequestParam(value = "image", required = false) List<MultipartFile> files,
-                                                @RequestParam("productId") Long productId,
+    @PutMapping(value = "/{product_id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> updateReview (@PathVariable("product_id") Long productId ,
+                                                @RequestParam("removeImage") String removeImage,
+                                                @RequestParam("image") List<MultipartFile> images,
                                                 @RequestParam("starrating") int starrating,
                                                 @RequestParam("content") String content,
                                                 HttpServletRequest httpRequest) throws IOException {
-        updateReviewService.execute(files, productId, starrating, content, httpRequest);
+        updateReviewService.execute(productId, removeImage, images, starrating, content, httpRequest);
         return ResponseEntity.ok().body("리뷰 수정에 성공했습니다");
     }
 
