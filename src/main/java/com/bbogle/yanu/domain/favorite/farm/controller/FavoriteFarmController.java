@@ -40,9 +40,6 @@ public class FavoriteFarmController {
 
     @GetMapping
     public List<FindFarmHeartResponseDto> findHeart(HttpServletRequest httpRequest){
-        List<FavoriteFarmEntity> hearts = findFarmHeartService.execute(httpRequest);
-        return hearts.stream()
-                .map(FindFarmHeartResponseDto::new)
-                .collect(Collectors.toList());
+        return findFarmHeartService.execute(httpRequest);
     }
 }

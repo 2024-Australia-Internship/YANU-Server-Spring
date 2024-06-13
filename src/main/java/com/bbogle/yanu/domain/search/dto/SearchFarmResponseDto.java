@@ -19,20 +19,22 @@ public class SearchFarmResponseDto {
     private double latitude;
     private double longitude;
     private boolean checkIsHeart;
+    private double averageStarRating;
     List<Review> reviews;
     private List<Product> products;
 
 
-    public SearchFarmResponseDto(FarmEntity farm, List<ReviewEntity> reviews, List<ProductEntity> productEntities, boolean checkIsHeart){
+    public SearchFarmResponseDto(FarmEntity farm, List<ReviewEntity> reviews, List<ProductEntity> productEntities, boolean checkIsHeart, double averageStarRating){
         this.farmId = farm.getId();
         this.userId = farm.getUser().getId();
         this.businessName = farm.getBusinessName();
         this.farmName = farm.getFarm_name();
         this.latitude = farm.getGeography().getX();
         this.longitude = farm.getGeography().getY();
+        this.checkIsHeart = checkIsHeart;
+        this.averageStarRating = averageStarRating;
         this.reviews = reviews.stream().map(Review::new).collect(Collectors.toList());
         this.products = productEntities.stream().map(Product::new).collect(Collectors.toList());
 
-        this.checkIsHeart = checkIsHeart;
     }
 }
