@@ -47,7 +47,7 @@ public class UpdateReviewService {
         );
 
         if (!removeImage.isEmpty()) {
-            List<String> deleteImages = List.of(removeImage.split(" "));
+            List<String> deleteImages = List.of(removeImage.split(", "));
             for (String imageUrl : deleteImages) {
                 s3UploadService.deleteImage(imageUrl);
                 reviewImageRepository.deleteAllByUrl(imageUrl);
