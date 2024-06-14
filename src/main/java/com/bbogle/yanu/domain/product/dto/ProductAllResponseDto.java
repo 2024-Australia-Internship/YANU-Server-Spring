@@ -20,6 +20,7 @@ public class ProductAllResponseDto {
     private Integer price;
     private String unit;
     private String description;
+    private String farmProfileImage;
     private boolean isHeart;
     private List<String> imageUrls;
 
@@ -34,6 +35,7 @@ public class ProductAllResponseDto {
         this.price = product.getPrice();
         this.unit = product.getUnit();
         this.description = product.getDescription();
+        this.farmProfileImage = product.getFarm().getUser().getProflie_image();
         this.isHeart = isHeart;
         this.imageUrls = images.stream()
                 .filter(image -> image.getProduct().getId().equals(product.getId()))
