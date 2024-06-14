@@ -63,9 +63,10 @@ public class ProductController {
         return ResponseEntity.ok().body(product);
     }
 
-    @PutMapping
-    public ResponseEntity<String> putProduct (@RequestParam(value = "image", required = false) List<MultipartFile> files,
-                                              @RequestParam("productId") Long productId,
+    @PutMapping(value = "/{product_id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<String> putProduct (@PathVariable("product_id") Long productId,
+                                              @RequestParam(value = "image", required = false) List<MultipartFile> files,
+                                              @RequestParam("removeImage") String removeImage,
                                               @RequestParam("title") String title,
                                               @RequestParam("category") String category,
                                               @RequestParam("hashtag") String hashtag,
@@ -73,7 +74,7 @@ public class ProductController {
                                               @RequestParam("unit") String unit,
                                               @RequestParam("description") String description,
                                               HttpServletRequest httpRequest) throws IOException {
-        putProductService.execute(files, productId, title, category, hashtag, price, unit, description, httpRequest);
+        putProductService.execute(productId, files, removeImage, title, category, hashtag, price, unit, description, httpRequest);
         return ResponseEntity.ok().body("상품 정보 변경에 성공했습니다");
     }
 

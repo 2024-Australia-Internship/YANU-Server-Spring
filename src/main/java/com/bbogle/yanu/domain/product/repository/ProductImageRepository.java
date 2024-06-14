@@ -9,4 +9,5 @@ import java.util.List;
 public interface ProductImageRepository extends JpaRepository<ProductImageEntity, Long> {
     List<ProductImageEntity> findAllByProductId(Long productId);
     List<ProductImageEntity> findByProductIdIn(List<Long> productId);
+    void deleteAllByUrl(String imgUrl);
 }
