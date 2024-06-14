@@ -6,6 +6,7 @@ import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.repository.UserRepository;
 import com.bbogle.yanu.global.exception.FarmDuplicateException;
 import com.bbogle.yanu.global.exception.TokenNotFoundException;
+import com.bbogle.yanu.global.exception.UserNotFoundException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
 import com.bbogle.yanu.global.jwt.TokenValidator;
@@ -31,7 +32,8 @@ public class FarmRegisterService {
         }
 
         //farms 테이블에 데이터 저장
-        UserEntity user = userRepository.findUserById(id);
+        UserEntity user = userRepository.findById(id)
+                        .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
         farmRepository.save(request.toEntity(user));
 
         //users 테이블 is_farmer = true로 변경
