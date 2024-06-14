@@ -14,6 +14,7 @@ public class OtherFarmResponseDto {
     private Double latitude;
     private Double longitude;
     private String profile;
+    private String farmProfile;
     private boolean isHeart;
 
     public OtherFarmResponseDto(FarmEntity farmEntity, boolean isHeart) {
@@ -24,6 +25,7 @@ public class OtherFarmResponseDto {
         this.email = farmEntity.getEmail();
         this.address = farmEntity.getAddress();
         this.profile = farmEntity.getUser().getProflie_image();
+        this.farmProfile = farmEntity.getProfile();
         this.isHeart = isHeart;
 
         if(farmEntity.getGeography()!= null){
