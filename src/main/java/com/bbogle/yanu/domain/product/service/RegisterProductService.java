@@ -42,6 +42,6 @@ public class RegisterProductService {
 
         FarmEntity farm = farmRepository.findByUserId(userId);
         ProductEntity savedProduct = productRepository.save(request.toEntity(farm));
-        return new RegisterProductResponseDto(userId, farm.getId());
+        return new RegisterProductResponseDto(userId, savedProduct.getId());
     }
 }
