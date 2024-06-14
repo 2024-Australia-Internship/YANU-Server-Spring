@@ -63,7 +63,7 @@ public class ReviewController {
     @PutMapping(value = "/{product_id}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public ResponseEntity<String> updateReview (@PathVariable("product_id") Long productId ,
                                                 @RequestParam("removeImage") String removeImage,
-                                                @RequestParam("image") List<MultipartFile> images,
+                                                @RequestParam(value = "image", required = false) List<MultipartFile> images,
                                                 @RequestParam("starrating") int starrating,
                                                 @RequestParam("content") String content,
                                                 HttpServletRequest httpRequest) throws IOException {
