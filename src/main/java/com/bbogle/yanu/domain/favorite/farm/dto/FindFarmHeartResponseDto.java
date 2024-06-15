@@ -17,6 +17,7 @@ public class FindFarmHeartResponseDto {
     private String farmName;
     private String businessName;
     private boolean checkIsHeart;
+    private String farmProfile;
     private List<Review> reviews;
     private List<Product> products;
 
@@ -25,8 +26,9 @@ public class FindFarmHeartResponseDto {
         this.farm_id = heart.getFarm().getId();
         this.farmName = heart.getFarm().getFarm_name();
         this.businessName = heart.getFarm().getBusinessName();
+        this.checkIsHeart = checkIsHeart;
+        this.farmProfile = heart.getFarm().getProfile();
         this.reviews = reviews.stream().map(Review::new).collect(Collectors.toList());
         this.products = productIds.stream().map(Product::new).collect(Collectors.toList());
-        this.checkIsHeart = checkIsHeart;
     }
 }
