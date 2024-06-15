@@ -42,6 +42,16 @@ public class S3UploadService {
         return fileName;
     }
 
+    public String uploadFarm(String email, MultipartFile file) throws IOException {
+        if(!userRepository.existsByEmail(email))
+            throw new EmailNotFoundException("email not found", ErrorCode.EMAIL_NOTFOUND);
+
+        String fileName = generateFileName(email);
+
+        uploadFileToS3(fileName, file);
+        return fileName;
+    }
+
     private String generateFileName(String email){
         return UUID.randomUUID().toString() + email;
     }
