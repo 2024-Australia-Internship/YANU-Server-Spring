@@ -15,6 +15,7 @@ public class MyFarmResponseDto {
     private Double latitude;
     private Double longitude;
     private String profile;
+    private String farmProfile;
     public MyFarmResponseDto(FarmEntity farmEntity) {
         this.farmId = farmEntity.getId();
         this.businessName = farmEntity.getBusinessName();
@@ -23,6 +24,7 @@ public class MyFarmResponseDto {
         this.email = farmEntity.getEmail();
         this.address = farmEntity.getAddress();
         this.profile = farmEntity.getUser().getProflie_image();
+        this.farmProfile = farmEntity.getProfile();
 
         if(farmEntity.getGeography()!= null){
             this.latitude = farmEntity.getGeography().getX();

@@ -30,14 +30,14 @@ public class PutProductService {
     private final ProductImageRepository productImageRepository;
     private final S3UploadService s3UploadService;
     private final TokenValidator tokenValidator;
+    private final TokenProvider tokenProvider;
 
     @Transactional
-    public void execute(List<MultipartFile> files, Long productId, String title, String category, String hashtag, int price, String unit, String description, HttpServletRequest httpRequest) throws IOException {
+    public void execute(Long productId, List<MultipartFile> files, String removeImage, String title, String category, String hashtag, int price, String unit, String description, HttpServletRequest httpRequest) throws IOException {
         String token = tokenValidator.validateToken(httpRequest);
-
-        Long id = productId;
-        String email = userRepository.findEmailById(id);
-        ProductEntity product = productRepository.findById(id)
+        Long userId = tokenProvider.getUserId(token);
+        String email = userRepository.findEmailById(userId);
+        ProductEntity product = productRepository.findById(productId)
                 .orElseThrow(() -> new ProductNotFoundException("product not found", ErrorCode.PRODUCT_NOTFOUND));
 
         product.updateProduct(
@@ -50,23 +50,26 @@ public class PutProductService {
         );
 
         //이미지 S3에서 삭제
-        List<ProductImageEntity> images = productImageRepository.findAllByProductId(product.getId());
-        for(ProductImageEntity image : images){
-            s3UploadService.deleteImage(image.getUrl());
-            productImageRepository.delete(image);
+        if(!removeImage.isEmpty()){
+            List<String> deleteImages = List.of(removeImage.split(", "));
+            for(String imageUrl : deleteImages){
+                s3UploadService.deleteImage(imageUrl);
+                productImageRepository.deleteAllByUrl(imageUrl);
+            }
         }
+
 
         //이미지 S3 업로드
-        List<String> imageList = s3UploadService.uploadFilesToS3(files, email);
-
-        for (String imageUrl : imageList) {
-            ProductImageEntity newImage = ProductImageEntity.builder()
-                    .url(imageUrl)
-                    .product(product)
-                    .build();
-            productImageRepository.save(newImage);
+        if(files != null && !files.isEmpty()) {
+            List<String> imageList = s3UploadService.uploadFilesToS3(files, email);
+            for (String imageUrl : imageList) {
+                ProductImageEntity newImage = ProductImageEntity.builder()
+                        .url(imageUrl)
+                        .product(product)
+                        .build();
+                productImageRepository.save(newImage);
+            }
         }
-
 
         productRepository.save(product);
     }

@@ -18,6 +18,7 @@ public class FindListFarmResponseDto {
     private String farmName;
     private float averageStarRating;
     private boolean checkIsHeart;
+    private String profile;
     private List<Review> reviews;
     private List<Product> products;
 
@@ -30,6 +31,7 @@ public class FindListFarmResponseDto {
         this.farmName = farm.getFarm_name();
         this.averageStarRating = averageStarRating;
         this.checkIsHeart = checkIsHeart;
+        this.profile = farm.getProfile();
         this.reviews = reviews.stream().map(Review::new).collect(Collectors.toList());
         this.products = products.stream().map(Product::new).collect(Collectors.toList());
     }
