@@ -3,6 +3,7 @@ package com.bbogle.yanu.domain.farm.controller;
 import com.bbogle.yanu.domain.farm.dto.*;
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
 import com.bbogle.yanu.domain.farm.service.*;
+import com.bbogle.yanu.domain.farm.dto.FindUglypercentResponseDto;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,6 +24,7 @@ public class FarmController {
     private final FindOtherFarmInfoService findOtherFarmInfoService;
     private final FindFarmReviewService findFarmReviewService;
     private final FindListFarmService findListFarmService;
+    private final FindUglypercentService findUglypercentService;
 
     @PostMapping
     public ResponseEntity<String> registerFarm(@RequestBody RegisterFarmRequestDto request,
@@ -61,5 +63,10 @@ public class FarmController {
     @GetMapping("/lists")
     public List<FindListFarmResponseDto> findAllFarm(HttpServletRequest httpRequest){
         return findListFarmService.execute(httpRequest);
+    }
+    @GetMapping("/{userId}/uglypercent")
+    public FindUglypercentResponseDto findUglypercent(@PathVariable("userId") Long userId,
+                                                      HttpServletRequest httpRequest){
+        return findUglypercentService.execute(userId, httpRequest);
     }
 }
