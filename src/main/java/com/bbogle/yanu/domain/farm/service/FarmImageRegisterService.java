@@ -36,7 +36,7 @@ public class FarmImageRegisterService {
                         .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
 
         String email = user.getEmail();
-        String profileUrl = s3UploadService.uploadFarm(email, profile);
+        String profileUrl = s3UploadService.uploadProfile(email, profile);
         FarmEntity farm = farmRepository.findByUserId(userId);
 
         farm.updateProfile(profileUrl);
