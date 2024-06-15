@@ -27,6 +27,7 @@ public class FarmImageRegisterService {
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
 
+    //TODO: 이미지를 업데이트 하는 경우에는 delete 시켜주기
     @Transactional
     public void execute(MultipartFile profile, HttpServletRequest httpRequest) throws IOException {
         String token = tokenValidator.validateToken(httpRequest);
@@ -36,7 +37,7 @@ public class FarmImageRegisterService {
                         .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
 
         String email = user.getEmail();
-        String profileUrl = s3UploadService.uploadProfile(email, profile);
+        String profileUrl = s3UploadService.uploadFarm(email, profile);
         FarmEntity farm = farmRepository.findByUserId(userId);
 
         farm.updateProfile(profileUrl);
