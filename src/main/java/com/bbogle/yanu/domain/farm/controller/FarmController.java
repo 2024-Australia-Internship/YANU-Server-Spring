@@ -56,8 +56,7 @@ public class FarmController {
     @GetMapping("/{farm_id}/reviews")
     public List<FindFarmReviewResponseDto> findFarmReview(@PathVariable("farm_id") Long farmId,
                                                           HttpServletRequest httpRequest){
-        List<FindFarmReviewResponseDto> reviews = findFarmReviewService.execute(farmId, httpRequest);
-        return reviews;
+        return findFarmReviewService.execute(farmId, httpRequest);
     }
 
     @GetMapping("/lists")

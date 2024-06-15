@@ -40,10 +40,7 @@ public class FavoriteProductController {
 
     @GetMapping
     public List<FindProductHeartResponseDto> findHeart(HttpServletRequest httpRequest){
-        List<FavoriteProductEntity> hearts = findProductHeartService.execute(httpRequest);
-        return hearts.stream()
-                .map(FindProductHeartResponseDto::new)
-                .collect(Collectors.toList());
+        return findProductHeartService.execute(httpRequest);
     }
 
 

@@ -41,13 +41,15 @@ public class FindFarmHeartService {
         if(hearts.isEmpty())
             throw new HeartNotFoundException("heart not found", ErrorCode.HEART_NOTFOUND);
 
+        //농장 관련 데이터 불러오기
         List<Long> farmIds = hearts.stream().map(farm -> farm.getFarm().getId()).collect(Collectors.toList());
         List<Long> productIds = productRepository.findByFarmIdIn(farmIds).stream()
                 .map(ProductEntity::getId)
                 .collect(Collectors.toList());
 
+        //상품 관련 데이터 불러오기
         List<ReviewEntity> reviews = reviewRepository.findByProductIdIn(productIds);
-        List<ProductEntity> products = productRepository.findByIdIn(productIds); // Fetch ProductEntity objects
+        List<ProductEntity> products = productRepository.findByIdIn(productIds);
 
         return hearts.stream()
                 .map(heart -> new FindFarmHeartResponseDto(

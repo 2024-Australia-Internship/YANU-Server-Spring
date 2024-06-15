@@ -6,6 +6,8 @@ import com.bbogle.yanu.domain.farm.repository.FarmRepository;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
 import com.bbogle.yanu.domain.review.domain.ReviewEntity;
+import com.bbogle.yanu.domain.review.domain.ReviewImageEntity;
+import com.bbogle.yanu.domain.review.repository.ReviewImageRepository;
 import com.bbogle.yanu.domain.review.repository.ReviewRepository;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.repository.UserRepository;
@@ -18,6 +20,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -25,6 +28,7 @@ import java.util.stream.Collectors;
 public class FindFarmReviewService {
     private final ProductRepository productRepository;
     private final ReviewRepository reviewRepository;
+    private final ReviewImageRepository reviewImageRepository;
     private final TokenValidator tokenValidator;
 
     public List<FindFarmReviewResponseDto> execute(Long farmId, HttpServletRequest httpRequest){
@@ -32,9 +36,19 @@ public class FindFarmReviewService {
 
         List<ProductEntity> products = productRepository.findAllByFarmId(farmId);
         List<ReviewEntity> reviews = reviewRepository.findAllByProductIn(products);
+        List<Long> reviewIds = reviews.stream().map(ReviewEntity::getId).collect(Collectors.toList());
+
+
+        Map<Long, List<ReviewImageEntity>> reviewImageMap = reviewImageRepository.findByReviewIdIn(reviewIds)
+                .stream()
+                .collect(Collectors.groupingBy(image -> image.getReview().getId()));
+
 
         return reviews.stream()
-                .map(FindFarmReviewResponseDto::new)
+                .map(review -> {
+                    List<ReviewImageEntity> images = reviewImageMap.getOrDefault(review.getId(), List.of());
+                    return new FindFarmReviewResponseDto(review, images);
+                })
                 .collect(Collectors.toList());
     }
 }
