@@ -1,7 +1,10 @@
 package com.bbogle.yanu.domain.review.service;
 
 import com.bbogle.yanu.domain.farm.domain.FarmEntity;
+import com.bbogle.yanu.domain.farm.dto.Review;
 import com.bbogle.yanu.domain.farm.repository.FarmRepository;
+import com.bbogle.yanu.domain.order.domain.OrderEntity;
+import com.bbogle.yanu.domain.order.repository.OrderRepository;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.product.repository.ProductRepository;
 import com.bbogle.yanu.domain.review.domain.ReviewEntity;
@@ -21,12 +24,15 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @RequiredArgsConstructor
 @Service
 public class CreateReviewService {
     private final ReviewRepository reviewRepository;
     private final UserRepository userRepository;
     private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
     private final FarmRepository farmRepository;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
@@ -38,10 +44,11 @@ public class CreateReviewService {
         Long userId = tokenProvider.getUserId(token);
         Long productId = request.getProductId().getId();
 
-        boolean exists = reviewRepository.existsByUserIdAndProductId(userId, productId);
-        if(exists){
+        List<ReviewEntity> reviews = reviewRepository.findAllByUserIdAndProductId(userId, productId);
+        List<OrderEntity> orders = orderRepository.findAllByUserIdAndProductId(userId, productId);
+
+        if(reviews.size() == orders.size())
             throw new ReviewDuplicateException("review duplicated", ErrorCode.REVIEW_DUPLICATION);
-        }
 
         UserEntity user = userRepository.findById(userId)
                         .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
