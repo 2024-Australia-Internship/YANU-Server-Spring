@@ -28,7 +28,7 @@ public class S3UploadService {
     @Value("${could.aws.s3.bucket}")
     private String bucketName;
 
-    public void uploadProfile(String email, MultipartFile file) throws IOException {
+    public String uploadProfile(String email, MultipartFile file) throws IOException {
         if(!userRepository.existsByEmail(email))
             throw new EmailNotFoundException("email not found", ErrorCode.EMAIL_NOTFOUND);
 
@@ -39,11 +39,6 @@ public class S3UploadService {
         userRepository.save(user);
 
         uploadFileToS3(fileName, file);
-    }
-
-    public String uploadFarm (String email, MultipartFile file) throws IOException {
-        String fileName = generateFileName(email);
-
         return fileName;
     }
 
