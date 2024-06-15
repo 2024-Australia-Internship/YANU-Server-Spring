@@ -20,20 +20,18 @@ public class FindProductReviewResponseDto {
     private String writerName;
     private String title;
     private String description;
+    private String profile;
 
 
 
-    public FindProductReviewResponseDto (ReviewEntity reviewEntity, List<ReviewImageEntity> images){
+    public FindProductReviewResponseDto (ReviewEntity reviewEntity){
         this.userId = reviewEntity.getUser().getId();
         this.productId = reviewEntity.getProduct().getId();
         this.farmId = reviewEntity.getProduct().getFarm().getId();
         this.starrating = reviewEntity.getStarraing();
         this.content = reviewEntity.getContent();
         this.createdAt = reviewEntity.getCreateAt();
-        this.images = images.stream()
-                .filter(image -> image.getReview().getId().equals(reviewEntity.getId()))
-                .map(ReviewImageEntity::getUrl)
-                .collect(Collectors.toList());
+        this.profile = reviewEntity.getUser().getProflie_image();
         this.writerName = reviewEntity.getUser().getNickname();
         this.title = reviewEntity.getProduct().getTitle();
         this.description = reviewEntity.getProduct().getDescription();

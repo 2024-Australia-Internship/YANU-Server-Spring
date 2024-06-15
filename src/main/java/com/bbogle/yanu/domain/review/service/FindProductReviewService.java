@@ -28,10 +28,9 @@ public class FindProductReviewService {
 
         List<ReviewEntity> reviews = reviewRepository.findAllByProductId(productId);
         List<Long> reviewIds = reviews.stream().map(ReviewEntity::getId).collect(Collectors.toList());
-        List<ReviewImageEntity> images = reviewImageRepository.findByReviewIdIn(reviewIds);
 
         return reviews.stream()
-                .map(review -> new FindProductReviewResponseDto(review, images))
+                .map(review -> new FindProductReviewResponseDto(review))
                 .collect(Collectors.toList());
     }
 }
