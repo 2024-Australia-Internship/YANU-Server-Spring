@@ -43,10 +43,7 @@ public class CartController {
 
     @GetMapping
     public List<FindCartResponseDto> findCart(HttpServletRequest httpRequest){
-        List<CartEntity> carts = findCartService.execute(httpRequest);
-        return carts.stream()
-                .map(FindCartResponseDto::new)
-                .collect(Collectors.toList());
+        return findCartService.execute(httpRequest);
     }
 
     @PutMapping("/quantity")
