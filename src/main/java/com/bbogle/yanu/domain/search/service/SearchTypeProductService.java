@@ -1,7 +1,9 @@
 package com.bbogle.yanu.domain.search.service;
 
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
+import com.bbogle.yanu.domain.product.domain.ProductImageEntity;
 import com.bbogle.yanu.domain.product.facade.ProductFacade;
+import com.bbogle.yanu.domain.product.repository.ProductImageRepository;
 import com.bbogle.yanu.domain.search.dto.SearchProductResponseDto;
 import com.bbogle.yanu.domain.search.dto.SearchResponseDto;
 import com.bbogle.yanu.domain.search.dto.SearchTypeResponseDto;
@@ -22,6 +24,7 @@ import java.util.stream.Collectors;
 @Service
 public class SearchTypeProductService {
     private final SearchRepository searchRepository;
+    private final ProductImageRepository productImageRepository;
     private final ProductFacade productFacade;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
@@ -32,11 +35,16 @@ public class SearchTypeProductService {
         Long userId = tokenProvider.getUserId(token);
 
         List<ProductEntity> searchResult = searchRepository.findAllByTitleContainingAndCategory(keyword, type);
+
+        List<Long> productsIds = searchResult.stream().map(ProductEntity::getId).collect(Collectors.toList());
+        List<ProductImageEntity> images = productImageRepository.findByProductIdIn(productsIds);
+
         if (searchResult.isEmpty()) {
             throw new ProductNotFoundException("product not found", ErrorCode.PRODUCT_NOTFOUND);
         }
         return searchResult.stream()
-                .map(result -> new SearchResponseDto(result, productFacade.checkIsHeart(result, userId)))
+                .map(result ->
+                        new SearchResponseDto(result, productFacade.checkIsHeart(result, userId), images))
                 .collect(Collectors.toList());
     }
 }
