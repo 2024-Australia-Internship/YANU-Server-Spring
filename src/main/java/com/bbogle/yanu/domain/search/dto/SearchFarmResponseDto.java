@@ -20,6 +20,7 @@ public class SearchFarmResponseDto {
     private double longitude;
     private boolean checkIsHeart;
     private double averageStarRating;
+    private String farmImage;
     List<Review> reviews;
     private List<Product> products;
 
@@ -33,6 +34,7 @@ public class SearchFarmResponseDto {
         this.longitude = farm.getGeography().getY();
         this.checkIsHeart = checkIsHeart;
         this.averageStarRating = averageStarRating;
+        this.farmImage = farm.getProfile();
         this.reviews = reviews.stream().map(Review::new).collect(Collectors.toList());
         this.products = productEntities.stream().map(Product::new).collect(Collectors.toList());
 
