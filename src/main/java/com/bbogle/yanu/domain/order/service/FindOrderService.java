@@ -4,6 +4,8 @@ import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.order.dto.FindOrderResponseDto;
 import com.bbogle.yanu.domain.order.facade.OrderFacade;
 import com.bbogle.yanu.domain.order.repository.OrderRepository;
+import com.bbogle.yanu.domain.product.domain.ProductImageEntity;
+import com.bbogle.yanu.domain.product.repository.ProductImageRepository;
 import com.bbogle.yanu.global.jwt.TokenProvider;
 import com.bbogle.yanu.global.jwt.TokenValidator;
 import jakarta.servlet.http.HttpServletRequest;
@@ -18,6 +20,7 @@ import java.util.stream.Collectors;
 @Service
 public class FindOrderService {
     private final OrderRepository orderRepository;
+    private final ProductImageRepository productImageRepository;
     private final OrderFacade orderFacade;
     private final TokenValidator tokenValidator;
     private final TokenProvider tokenProvider;
@@ -30,7 +33,11 @@ public class FindOrderService {
         List<OrderEntity> orderList = orderRepository.findAllByUserId(userId);
 
         return orderList.stream()
-                .map(order -> new FindOrderResponseDto(order, orderFacade.checkIsReview(order.getProduct(), userId)))
+                .map(order -> {
+                    List<ProductImageEntity> images = productImageRepository.findAllByProductId(order.getProduct().getId());
+                    boolean isReviewed = orderFacade.checkIsReview(order.getProduct(), userId);
+                    return new FindOrderResponseDto(order, isReviewed, images);
+                })
                 .collect(Collectors.toList());
     }
 }

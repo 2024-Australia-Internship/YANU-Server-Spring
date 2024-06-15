@@ -1,9 +1,12 @@
 package com.bbogle.yanu.domain.order.dto;
 
 import com.bbogle.yanu.domain.order.domain.OrderEntity;
+import com.bbogle.yanu.domain.product.domain.ProductImageEntity;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 public class FindOrderResponseDto {
@@ -18,8 +21,9 @@ public class FindOrderResponseDto {
     private int price;
     private String unit;
     private boolean isReview;
+    private List<String> productImages;
 
-    public FindOrderResponseDto(OrderEntity orderEntity, boolean isReview){
+    public FindOrderResponseDto(OrderEntity orderEntity, boolean isReview, List<ProductImageEntity> images){
         this.userId = orderEntity.getUser().getId();
         this.farmId = orderEntity.getProduct().getFarm().getId();
         this.productId = orderEntity.getProduct().getId();
@@ -31,5 +35,8 @@ public class FindOrderResponseDto {
         this.price = orderEntity.getProduct().getPrice();
         this.unit = orderEntity.getProduct().getUnit();
         this.isReview = isReview;
+        this.productImages = images.stream()
+                .map(ProductImageEntity::getUrl)
+                .collect(Collectors.toList());
     }
 }
