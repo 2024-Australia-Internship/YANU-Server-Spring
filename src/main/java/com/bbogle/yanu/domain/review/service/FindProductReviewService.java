@@ -27,7 +27,6 @@ public class FindProductReviewService {
         String token = tokenValidator.validateToken(httpRequest);
 
         List<ReviewEntity> reviews = reviewRepository.findAllByProductId(productId);
-        List<Long> reviewIds = reviews.stream().map(ReviewEntity::getId).collect(Collectors.toList());
 
         return reviews.stream()
                 .map(review -> new FindProductReviewResponseDto(review))

@@ -16,7 +16,6 @@ public class FindProductReviewResponseDto {
     private int starrating;
     private String content;
     private LocalDate createdAt;
-    private List<String> images;
     private String writerName;
     private String title;
     private String description;
@@ -31,9 +30,9 @@ public class FindProductReviewResponseDto {
         this.starrating = reviewEntity.getStarraing();
         this.content = reviewEntity.getContent();
         this.createdAt = reviewEntity.getCreateAt();
-        this.profile = reviewEntity.getUser().getProflie_image();
         this.writerName = reviewEntity.getUser().getNickname();
         this.title = reviewEntity.getProduct().getTitle();
         this.description = reviewEntity.getProduct().getDescription();
+        this.profile = reviewEntity.getUser().getProflie_image();
     }
 }
