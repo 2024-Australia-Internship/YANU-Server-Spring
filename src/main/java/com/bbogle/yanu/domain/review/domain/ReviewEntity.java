@@ -1,5 +1,6 @@
 package com.bbogle.yanu.domain.review.domain;
 
+import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -27,6 +28,10 @@ public class ReviewEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
     private ProductEntity product;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id")
+    private OrderEntity order;
 
     @Column
     private int starraing;
