@@ -9,6 +9,7 @@ import lombok.Getter;
 @Getter
 public class CreateReviewRequestDto {
     private ProductEntity productId;
+    private OrderEntity orderId;
     private int starrating;
     private String content;
 
