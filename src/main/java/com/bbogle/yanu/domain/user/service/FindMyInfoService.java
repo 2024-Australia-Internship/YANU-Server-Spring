@@ -12,6 +12,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.antlr.v4.runtime.Token;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -20,6 +21,7 @@ public class FindMyInfoService {
     private final TokenProvider tokenProvider;
     private final TokenValidator tokenValidator;
 
+    @Transactional(readOnly = true)
     public UserEntity execute(HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 

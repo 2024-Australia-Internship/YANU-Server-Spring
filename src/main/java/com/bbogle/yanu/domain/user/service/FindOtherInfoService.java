@@ -10,6 +10,7 @@ import com.bbogle.yanu.global.jwt.TokenValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -17,6 +18,7 @@ public class FindOtherInfoService {
     private final UserRepository userRepository;
     private final TokenValidator tokenValidator;
 
+    @Transactional(readOnly = true)
     public UserEntity execute(Long id, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 

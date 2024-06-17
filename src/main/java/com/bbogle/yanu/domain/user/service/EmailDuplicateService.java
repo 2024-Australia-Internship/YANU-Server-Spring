@@ -6,12 +6,14 @@ import com.bbogle.yanu.global.exception.EmailDuplicateException;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
 public class EmailDuplicateService {
     private final UserRepository userRepository;
 
+    @Transactional(readOnly = true)
     public void execute(EmailDuplicateRequestDto request){
         String email = request.getEmail();
 
