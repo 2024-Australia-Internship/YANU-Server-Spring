@@ -12,10 +12,7 @@ import com.bbogle.yanu.domain.review.dto.CreateReviewRequestDto;
 import com.bbogle.yanu.domain.review.repository.ReviewRepository;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.bbogle.yanu.domain.user.repository.UserRepository;
-import com.bbogle.yanu.global.exception.FarmNotFoundException;
-import com.bbogle.yanu.global.exception.ProductNotFoundException;
-import com.bbogle.yanu.global.exception.ReviewDuplicateException;
-import com.bbogle.yanu.global.exception.UserNotFoundException;
+import com.bbogle.yanu.global.exception.*;
 import com.bbogle.yanu.global.exception.error.ErrorCode;
 import com.bbogle.yanu.global.jwt.TokenProvider;
 import com.bbogle.yanu.global.jwt.TokenValidator;
@@ -40,15 +37,16 @@ public class CreateReviewService {
     @Transactional
     public Long execute(CreateReviewRequestDto request, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
-
         Long userId = tokenProvider.getUserId(token);
+
         Long productId = request.getProductId().getId();
+        Long orderId = request.getOrderId().getId();
 
-        List<ReviewEntity> reviews = reviewRepository.findAllByUserIdAndProductId(userId, productId);
-        List<OrderEntity> orders = orderRepository.findAllByUserIdAndProductId(userId, productId);
+        OrderEntity order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("order not found", ErrorCode.ORDER_NOTFOUND));
 
-        if(reviews.size() == orders.size())
-            throw new ReviewDuplicateException("review duplicated", ErrorCode.REVIEW_DUPLICATION);
+        if(order.getReview() != null)
+            throw new ReviewDuplicateException("revew duplicated", ErrorCode.REVIEW_DUPLICATION);
 
         UserEntity user = userRepository.findById(userId)
                         .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));
@@ -57,6 +55,9 @@ public class CreateReviewService {
                 .orElseThrow(() -> new ProductNotFoundException("product not found", ErrorCode.PRODUCT_NOTFOUND));
 
         ReviewEntity review = reviewRepository.save(request.toEntity(user, product));
+
+        order.updateReview(review);
+        orderRepository.save(order);
 
         //ugly_percent update
         int starrating = request.getStarrating();

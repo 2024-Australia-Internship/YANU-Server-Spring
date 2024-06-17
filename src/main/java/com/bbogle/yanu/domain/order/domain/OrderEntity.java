@@ -1,6 +1,7 @@
 package com.bbogle.yanu.domain.order.domain;
 
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
+import com.bbogle.yanu.domain.review.domain.ReviewEntity;
 import com.bbogle.yanu.domain.sale.domain.SaleEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -29,6 +30,10 @@ public class OrderEntity {
     @JoinColumn(name="product_id")
     private ProductEntity product;
 
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(name = "review_id")
+    private ReviewEntity review;
+
     @Column
     private int quantity;
 
@@ -40,4 +45,7 @@ public class OrderEntity {
     @OneToOne(mappedBy = "order",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private SaleEntity saleEntity;
 
+    public void updateReview(ReviewEntity reviewId){
+        this.review = reviewId;
+    }
 }

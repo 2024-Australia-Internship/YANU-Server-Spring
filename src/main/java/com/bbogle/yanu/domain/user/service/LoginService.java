@@ -12,6 +12,7 @@ import com.bbogle.yanu.global.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Duration;
 
@@ -22,7 +23,7 @@ public class LoginService {
     private final TokenProvider tokenProvider;
     private final UserFacade userFacade;
 
-
+    @Transactional(readOnly = true)
     public String execute(LoginRequestDto request){
         String email = request.getEmail();
         String password = request.getPassword();

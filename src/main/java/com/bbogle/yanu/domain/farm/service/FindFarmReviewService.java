@@ -18,6 +18,7 @@ import com.bbogle.yanu.global.jwt.TokenValidator;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ public class FindFarmReviewService {
     private final ReviewImageRepository reviewImageRepository;
     private final TokenValidator tokenValidator;
 
+    @Transactional(readOnly = true)
     public List<FindFarmReviewResponseDto> execute(Long farmId, HttpServletRequest httpRequest){
         String token = tokenValidator.validateToken(httpRequest);
 

@@ -1,5 +1,6 @@
 package com.bbogle.yanu.domain.review.domain;
 
+import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -41,6 +42,10 @@ public class ReviewEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "review",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<ReviewImageEntity> reviewImageEntity;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "review",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private OrderEntity orderEntity;
 
     public void updateReview(int starraing, String content){
         this.starraing = starraing;
