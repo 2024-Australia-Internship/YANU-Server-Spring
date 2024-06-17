@@ -37,7 +37,7 @@ public class FindOrderService {
         return orderList.stream()
                 .map(order -> {
                     List<ProductImageEntity> images = productImageRepository.findAllByProductId(order.getProduct().getId());
-                    boolean isReviewed = orderFacade.checkIsReview(order.getProduct(), userId);
+                    boolean isReviewed = orderFacade.checkIsReview(order.getReview());
                     return new FindOrderResponseDto(order, isReviewed, images);
                 })
                 .collect(Collectors.toList());
