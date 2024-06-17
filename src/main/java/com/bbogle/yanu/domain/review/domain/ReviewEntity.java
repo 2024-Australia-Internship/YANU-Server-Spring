@@ -29,10 +29,6 @@ public class ReviewEntity {
     @JoinColumn(name = "product_id")
     private ProductEntity product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "order_id")
-    private OrderEntity order;
-
     @Column
     private int starraing;
 
@@ -46,6 +42,10 @@ public class ReviewEntity {
     @JsonIgnore
     @OneToMany(mappedBy = "review",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private List<ReviewImageEntity> reviewImageEntity;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "review",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
+    private OrderEntity orderEntity;
 
     public void updateReview(int starraing, String content){
         this.starraing = starraing;

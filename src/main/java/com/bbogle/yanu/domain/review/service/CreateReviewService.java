@@ -44,11 +44,6 @@ public class CreateReviewService {
         Long userId = tokenProvider.getUserId(token);
         Long productId = request.getProductId().getId();
 
-        List<ReviewEntity> reviews = reviewRepository.findAllByUserIdAndProductId(userId, productId);
-        List<OrderEntity> orders = orderRepository.findAllByUserIdAndProductId(userId, productId);
-
-        if(reviews.size() == orders.size())
-            throw new ReviewDuplicateException("review duplicated", ErrorCode.REVIEW_DUPLICATION);
 
         UserEntity user = userRepository.findById(userId)
                         .orElseThrow(() -> new UserNotFoundException("user not found", ErrorCode.USER_NOTFOUND));

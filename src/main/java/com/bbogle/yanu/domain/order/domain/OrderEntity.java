@@ -30,6 +30,10 @@ public class OrderEntity {
     @JoinColumn(name="product_id")
     private ProductEntity product;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "review_id")
+    private ReviewEntity review;
+
     @Column
     private int quantity;
 
@@ -41,7 +45,4 @@ public class OrderEntity {
     @OneToOne(mappedBy = "order",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
     private SaleEntity saleEntity;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "order",  cascade = {CascadeType.REFRESH, CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST}, orphanRemoval = true)
-    private ReviewEntity reviewEntity;
 }

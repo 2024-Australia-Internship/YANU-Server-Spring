@@ -1,5 +1,6 @@
 package com.bbogle.yanu.domain.review.dto;
 
+import com.bbogle.yanu.domain.order.domain.OrderEntity;
 import com.bbogle.yanu.domain.product.domain.ProductEntity;
 import com.bbogle.yanu.domain.review.domain.ReviewEntity;
 import com.bbogle.yanu.domain.user.domain.UserEntity;
